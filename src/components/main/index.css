@@ -1,4 +1,17 @@
-.Main{
+.main{
   flex-grow: 1;
   background-color: white;
+
+  display: flex;
+  flex-direction: row;
+}
+.center {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.c-bottom {
+  flex-grow: 1;
+
 }
