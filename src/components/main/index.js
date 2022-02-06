@@ -5,7 +5,7 @@ import { useRef, useEffect, useSpring, useState, useMemo } from "react";
 import {useInterval} from '../../utils/useInterval';
 
 import { ScatterPlot } from '../../plots/scatterPlot';
-
+import { parseData, parseCsv } from "../../utils/fetchData";
 
 export const Main = () => {
   //setup for the scatter plot 
@@ -20,18 +20,40 @@ export const Main = () => {
     },
     radius: 5,
     color: 'blue',
-    xVar: "percbelowpoverty",
-    yVar: "percollege"
+    xVar: {
+      idx: 9,
+      name: "Release Season"
+    }, 
+    yVar: {
+      idx: 8,
+      name: "Rating"
+    }
   }
+  // get data
+  let [rawData, setRawData] = useState();
+  useEffect(() => {
+    parseData((result) => {
+    // onsole.log(result.data);
+      setRawData(processData(result.data));
+    })
+  }, []);
+  
   return (
     <div className="main">
       <div className="left w-1/5"> Filter </div>
       <div className="center">      
-        <ScatterPlot settings={settings}/>
-        <div className="c-bottom bg-gray-200"> information </div>
+        {rawData && <ScatterPlot settings={settings} rawData={rawData}/>}
+        <div className="c-bottom bg-gray-200">  Information </div>
 
       </div>
       <div className="right w-1/5"> Details ? rank? </div>
     </div>
   )
+}
+
+const processData = (data) => {
+  // Here maybe add other filters 
+  // call this function whenever add new filter
+  let returnData = data.filter(row => row[8] > 4);
+  return returnData;
 }
