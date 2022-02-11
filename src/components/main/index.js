@@ -5,7 +5,7 @@ import { useRef, useEffect, useSpring, useState, useMemo } from "react";
 import {useInterval} from '../../utils/useInterval';
 
 import { ScatterPlot } from '../../plots/scatterPlot';
-import { parseData, parseCsv } from "../../utils/fetchData";
+import { parseData } from "../../utils/fetchData";
 
 export const Main = () => {
   //setup for the scatter plot 
