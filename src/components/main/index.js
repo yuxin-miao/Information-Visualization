@@ -2,12 +2,15 @@ import React from "react";
 import './index.css';
 import * as d3 from "d3";
 import { useRef, useEffect, useSpring, useState, useMemo } from "react";
-import {useInterval} from '../../utils/useInterval';
+import { useInterval } from '../../utils/useInterval';
 
 import { ScatterPlot } from '../../plots/scatterPlot';
 import { parseData, parseCsv } from "../../utils/fetchData";
 
+import { SearchBox } from '../searchbox'
+
 export const Main = () => {
+
   //setup for the scatter plot 
   const settings = {
     width: 850,
@@ -23,7 +26,7 @@ export const Main = () => {
     xVar: {
       idx: 9,
       name: "Release Season"
-    }, 
+    },
     yVar: {
       idx: 8,
       name: "Rating"
@@ -33,20 +36,24 @@ export const Main = () => {
   let [rawData, setRawData] = useState();
   useEffect(() => {
     parseData((result) => {
-    // onsole.log(result.data);
+      // onsole.log(result.data);
       setRawData(processData(result.data));
     })
   }, []);
-  
-  return (
-    <div className="main">
-      <div className="left w-1/5"> Filter </div>
-      <div className="center">      
-        {rawData && <ScatterPlot settings={settings} rawData={rawData}/>}
-        <div className="c-bottom bg-gray-200">  Information </div>
 
+  const onSearchBoxSubmit = (event) => {
+    event.preventDefault()
+    console.log(event.target[0].value)
+  }
+
+  return (
+    <div>
+      <div className="w-100 flex flex-col">
+          <SearchBox onSubmit={onSearchBoxSubmit} />
+        <div className="bg-gray-100">
+          {rawData && <ScatterPlot settings={settings} rawData={rawData} />}
+        </div>
       </div>
-      <div className="right w-1/5"> Details ? rank? </div>
     </div>
   )
 }

@@ -1,13 +1,12 @@
 import './App.css';
-import { Header } from '../components/header';
 import { Main } from '../components/main';
-import { Footer } from '../components/footer';
+import { Sidebar } from '../components/sidebar';
+
 function App() {
   return (
-    <div className="App">
-      <Header/>
-      <Main/>
-      <Footer/>
+    <div className="h-screen w-screen bg-main flex">
+      <Sidebar />
+      <Main />
     </div>
   );
 }
