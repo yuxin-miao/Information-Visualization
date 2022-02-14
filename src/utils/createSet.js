@@ -9,7 +9,7 @@ function createSet(inputList) {
   return removeSpaces([...new Set(inputList)].filter(x => x !== undefined && x !== null));
 }
 
-function extractColumn(array, colNum) {
+export function extractColumn(array, colNum) {
   return array.map(x => x[colNum]);
 }
 

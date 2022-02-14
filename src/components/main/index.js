@@ -5,8 +5,8 @@ import { useRef, useEffect, useSpring, useState, useMemo } from "react";
 import { useInterval } from '../../utils/useInterval';
 
 import { ScatterPlot } from '../../plots/scatterPlot';
-import { parseData } from "../../utils/fetchData";
-
+import { parseData, parseSetData } from "../../utils/fetchData";
+import{extractColumn} from "../../utils/createSet"
 import { SearchBox } from '../searchbox'
 
 export const Main = () => {
@@ -32,14 +32,25 @@ export const Main = () => {
       name: "Rating"
     }
   }
+  let [constRawData,setConstRawData] = useState();
   // get data
-  let [rawData, setRawData] = useState();
+  let [rawData, setRawData] = useState(); // used for display 
   useEffect(() => {
     parseData((result) => {
       // onsole.log(result.data);
+      setConstRawData(result.data);
       setRawData(processData(result.data));
     })
   }, []);
+
+  // When other components need data, import it 
+  // So no need to papaparse everytime
+  let [rawSetData, setRawSetData] = useState();
+  useEffect(() => {
+    parseSetData((result) => {
+      setRawSetData(result.data);
+    })
+  }, [])
 
   const onSearchBoxSubmit = (event) => {
     event.preventDefault()
@@ -49,7 +60,7 @@ export const Main = () => {
   return (
     <div>
       <div className="w-100 flex flex-col">
-          <SearchBox onSubmit={onSearchBoxSubmit} />
+          {rawData &&<SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)}/>}
         <div className="bg-gray-100">
           {rawData && <ScatterPlot settings={settings} rawData={rawData} />}
         </div>
