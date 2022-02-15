@@ -1,18 +1,7 @@
-.main{
-  flex-grow: 1;
-  background-color: white;
-
-  display: flex;
-  flex-direction: row;
-}
-.center {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-
-}
-
-.c-bottom {
-  flex-grow: 1;
-
+.main-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: 0.2fr 0.65fr 2fr 1fr;
+  grid-column-gap: 1.5vw;
+  grid-row-gap: 1.5vh;
 }

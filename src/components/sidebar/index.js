@@ -1,8 +1,8 @@
 import '../../index.css'
 
-export const Sidebar = () => {
+export const Sidebar = (props) => {
     return (
-        <div className="h-screen w-1/5 dotted-spaced right">
+        <div className={`${props.className ? props.className : ''} dotted-spaced right`}>
             
         </div>
     )

@@ -8,29 +8,23 @@ import './index.css'
  */
 export const SearchBox = (props) => {
     const [value, setValue] = useState('')
-    const inputRef = useRef(null)
 
     const SearchIconStyle = {
         backgroundImage: `url(${SearchIcon})`,
         backgroundRepeat: `no-repeat`,
         backgroundPosition: `center`,
-        backgroundSize: `auto 3vh`,
-        width: `4vh`,
-        height: `4vh`
-    }
-    const SearchBoxContainerStyle = {
-        maxHeight: `4vh`
+        backgroundSize: `auto 55%`,
+        width: `6vh`,
+        height: `100%`
     }
 
     return (
-        <div className="flex gap-4 p-2">
-            <div className="w-auto h-full" style={SearchBoxContainerStyle}>
-                <div className="" style={SearchIconStyle}></div>
-            </div>
-            <form className="w-96 rounded-lg focus:bg-red-200" onSubmit={props.onSubmit}>
+        <div className={`${props.className ? props.className : ''} w-full flex gap-4 p-2`}>
+            <div style={SearchIconStyle}></div>
+            <form className="w-full" onSubmit={props.onSubmit}>
                 <input
-                    ref={inputRef}
                     className="px-3 w-full h-full bg-transparent text-white"
+                    style={{ fontFamily: "SourceSansPro" }}
                     placeholder="Search for the anime, studio or voice actor"
                     type="text"
                     value={value}
