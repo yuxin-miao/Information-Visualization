@@ -21,6 +21,10 @@ code {
     monospace;
 }
 
+.font-ssp {
+  font-family: 'SourceSansPro';
+}
+
 .right.dotted-spaced {
   background-image: linear-gradient(to bottom, #010033 80%, #00BEDB 0%);
   background-position: right;

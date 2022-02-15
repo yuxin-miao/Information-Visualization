@@ -51,14 +51,14 @@ export const Main = (props) => {
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
       <SearchBox onSubmit={onSearchBoxSubmit} className="col-span-4" />
-      <ContainerBox className="row-start-2 col-span-3" />
-      <ContainerBox className="row-start-2 col-start-4 col-span-full" />
+      <ContainerBox title="Tags" className="row-start-2 col-span-3" />
+      <ContainerBox title="Filters" className="row-start-2 col-start-4 col-span-full" />
       <div className="bg-gray-100 row-start-3 col-span-5">
         {rawData && <ScatterPlot settings={settings} rawData={rawData} />}
       </div>
-      <ContainerBox className="row-start-3 col-start-6 col-span-3" />
-      <ContainerBox className="row-start-4 col-span-5" />
-      <ContainerBox className="row-start-4 col-start-6 col-span-full" />
+      <ContainerBox title="Info" className="row-start-3 col-start-6 col-span-3" />
+      <ContainerBox title="Range" className="row-start-4 col-span-5" />
+      <ContainerBox title="Related" className="row-start-4 col-start-6 col-span-full" />
     </div>
     // <div>
     //   <div className="ml-4 w-100 flex flex-col gap-4">
