@@ -8,29 +8,6 @@ import DemoIcon from "../../assets/demoicon.png"
 import AnimeGirl from "../../assets/animegirl.png"
 
 export const Sidebar = (props) => {
-    const LogoStyle = {
-        backgroundImage: `url(${Logo})`,
-        backgroundRepeat: `no-repeat`,
-        backgroundPosition: `center`,
-        backgroundSize: `auto`,
-        width: `100%`,
-        height: `50%`
-    }
-    const AnimeGirlStyle = {
-        backgroundImage: `url(${AnimeGirl})`,
-        backgroundRepeat: `no-repeat`,
-        backgroundPosition: `center`,
-        backgroundSize: `auto`,
-        width: `100%`,
-        height: `auto`
-    }
-    const IconStyle = {
-        backgroundRepeat: `no-repeat`,
-        backgroundPosition: `center`,
-        backgroundSize: `auto`,
-        width: `100%`,
-        height: `100%`
-    }
 
     return (
         <div className={`${props.className ? props.className : ''} dotted-spaced right side-grid relative pt-4`}>

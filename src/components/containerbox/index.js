@@ -6,6 +6,7 @@ export const ContainerBox = (props) => {
             <p className="text-white absolute font-ssp font-bold" style={{ top: '-10px', left: '40px' }}>
                 { props.title || 'Title' }
             </p>
+            {props.children}
         </div>
     )
 }
