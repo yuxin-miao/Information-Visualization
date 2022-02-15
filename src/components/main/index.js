@@ -32,7 +32,8 @@ export const Main = () => {
       name: "Rating"
     }
   }
-  let [constRawData,setConstRawData] = useState();
+  let [constRawData, setConstRawData] = useState();
+  const [selectSuggestion, setSelectSuggestion] = useState('')
   // get data
   let [rawData, setRawData] = useState(); // used for display 
   useEffect(() => {
@@ -53,14 +54,18 @@ export const Main = () => {
   }, [])
 
   const onSearchBoxSubmit = (event) => {
-    event.preventDefault()
     console.log(event.target[0].value)
+  }
+
+  const clickSuggestion = (suggestion) => {
+    console.log(suggestion)
   }
 
   return (
     <div>
       <div className="w-100 flex flex-col">
-          {rawData &&<SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)}/>}
+          {rawData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)} 
+                      handleClickSuggestion={clickSuggestion}/>}
         <div className="bg-gray-100">
           {rawData && <ScatterPlot settings={settings} rawData={rawData} />}
         </div>
