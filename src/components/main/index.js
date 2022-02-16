@@ -10,6 +10,7 @@ import { parseData, parseCsv } from "../../utils/fetchData";
 
 import { SearchBox } from '../searchbox'
 import { ContainerBox } from "../containerbox";
+import { RangeSelection } from "../rangeselect";
 
 
 // Provide an onChange function on a Dropdown component to process the updated data.
@@ -60,8 +61,8 @@ export const Main = (props) => {
 
   //setup for the scatter plot 
   const settings = {
-    width: 850,
-    height: 500,
+    width: 650,
+    height: 300,
     margin: {
       top: 20,
       right: 10,
@@ -81,10 +82,16 @@ export const Main = (props) => {
   }
   // get data
   let [rawData, setRawData] = useState();
+  // const rawData, delete the first row 
+  let [constRawData, setConstRawData] = useState()
+
   useEffect(() => {
     parseData((result) => {
       // onsole.log(result.data);
       setRawData(processData(result.data));
+      result.data.shift()
+      setConstRawData(result.data)
+
     })
   }, []);
 
@@ -156,7 +163,9 @@ export const Main = (props) => {
         {rawData && <ScatterPlot settings={settings} rawData={rawData} />}
       </div>
       <ContainerBox title="Info" className="row-start-3 col-start-6 col-span-3" />
-      <ContainerBox title="Range" className="row-start-4 col-span-5" />
+      <ContainerBox title="Range" className="row-start-4 col-span-5" >
+        {rawData && constRawData && <RangeSelection activeAnime={rawData.length} allAnime={constRawData} />}
+      </ContainerBox>
       <ContainerBox title="Related" className="row-start-4 col-start-6 col-span-full" />
     </div>
   )
