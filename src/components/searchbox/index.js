@@ -96,14 +96,15 @@ export const SearchBox = ({onSubmit, rawSetData, animeData, handleClickSuggestio
   }
 
   return (
-    <div className={`${props.className ? props.className : ''} w-full flex gap-4 p-2`}>
-      <img src={SearchIcon} />
+    <div className="flex gap-4 p-2">
+      <div className="w-auto h-full" style={SearchBoxContainerStyle}>
+        <div className="" style={SearchIconStyle}></div>
+      </div>
       <div className="flex-row flex justify-center">
-        <form className="w-full" onSubmit={props.onSubmit}>
+        <form className="w-96 rounded-lg focus:bg-red-200" onSubmit={onSubmit}>
           <input
             ref={inputRef}
             className="px-3 w-full h-full bg-transparent text-white"
-            style={{ fontFamily: "SourceSansPro" }}
             placeholder="Search for the anime, studio or voice actor"
             type="text"
             value={query}
