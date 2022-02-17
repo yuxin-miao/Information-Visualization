@@ -8,9 +8,12 @@ module.exports = {
       colors: {
         'transparent': 'transparent',
         'main': '#010033',
-        'highlight-blue': '#00BEDB'
+        'highlight-blue': '#00BEDB',
+        'pink': '#FF38ED',
+        'light-gray': '#F5F5F5'
       }
     },
   },
   plugins: [],
 }
+

@@ -6,11 +6,13 @@ import { useRef, useEffect, useSpring, useState, useMemo } from "react";
 import { useInterval } from '../../utils/useInterval';
 
 import { ScatterPlot } from '../../plots/scatterPlot';
-import { parseData, parseCsv } from "../../utils/fetchData";
-
+import { parseData, parseSetData } from "../../utils/fetchData";
+import{extractColumn} from "../../utils/createSet"
 import { SearchBox } from '../searchbox'
 import { ContainerBox } from "../containerbox";
 import { tags } from "../tags/tags";
+import { RangeSelection } from "../rangeselect";
+
 
 
 // Provide an onChange function on a Dropdown component to process the updated data.
@@ -60,8 +62,8 @@ export const Main = (props) => {
 
   //setup for the scatter plot 
   const settings = {
-    width: 850,
-    height: 500,
+    width: 650,
+    height: 300,
     margin: {
       top: 20,
       right: 10,
@@ -79,21 +81,39 @@ export const Main = (props) => {
       name: "Rating"
     }
   }
+  const [selectSuggestion, setSelectSuggestion] = useState('')
   // get data
-  let [rawData, setRawData] = useState();
+
+  // const rawData, delete the first row 
+  let [constRawData, setConstRawData] = useState()
+
+  let [rawData, setRawData] = useState(); // used for display 
   useEffect(() => {
     parseData((result) => {
       // onsole.log(result.data);
+      setConstRawData(result.data);
       setRawData(processData(result.data));
+      result.data.shift()
+      setConstRawData(result.data)
+
     })
   }, []);
 
 
+  // When other components need data, import it 
+  // So no need to papaparse everytime
+  let [rawSetData, setRawSetData] = useState();
+  useEffect(() => {
+    parseSetData((result) => {
+      setRawSetData(result.data);
+    })
+  }, [])
+
 
   const onSearchBoxSubmit = (event) => {
-    event.preventDefault()
     console.log(event.target[0].value)
   }
+
 
   const [tagsCheckedState, setTagsCheckedState] = useState(
     new Array(tags.length).fill(true)
@@ -131,9 +151,15 @@ export const Main = (props) => {
 
   };
 
+  const clickSuggestion = (suggestion) => {
+    console.log(suggestion)
+  }
+
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
-      <SearchBox onSubmit={onSearchBoxSubmit} className="col-span-4" />
+
+      {rawData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)} 
+                  handleClickSuggestion={clickSuggestion} className="col-span-4" />}
       <ContainerBox title="Tags" style={{height:500}} className="row-start-2 col-start-1 col-span-3 ">
         <div className="row-start-1 col-span-full" style={{overflowY: 'scroll',height:300}}>
         <ul className="tags-list">
@@ -153,8 +179,6 @@ export const Main = (props) => {
         </div>
 
       </ContainerBox>
-
-
       <ContainerBox title="Filters" className="row-start-2 col-start-4 col-span-full filter-grid p-5">
         <Dropdown
           label="X - Axis"
@@ -209,17 +233,23 @@ export const Main = (props) => {
           <Checkbox name="autumn" label="Autumn" />
           <Checkbox name="winter" label="Winter" />
         </div>
-      </ContainerBox>
+    </ContainerBox>
+
       <div className="bg-gray-100 row-start-3 col-span-5">
         {rawData && <ScatterPlot settings={settings} rawData={rawData} />}
       </div>
-      <ContainerBox title="Info" className="row-start-3 col-start-6 col-span-3" >
+
+            <ContainerBox title="Info" className="row-start-3 col-start-6 col-span-3" >
       <div className="col-start-6 row-start-3 row-span-2 text-white">
         <p id="animeName" className="text-m justify-self-center text-center font-bold">Name</p>        
         <img id="animePoster" className="align-self-center justify-self-center" src="https://cdn.anime-planet.com/anime/primary/fairy-tail-1.jpg" />
       </div>
       </ContainerBox>
-      <ContainerBox title="Range" className="row-start-4 col-span-5" />
+      <ContainerBox title="Range" className="row-start-4 col-span-5" >
+        {rawData && constRawData && <RangeSelection activeAnime={rawData.length} allAnime={constRawData} />}
+      </ContainerBox>
+
+
       <ContainerBox title="Related" className="row-start-4 col-start-6 col-span-full" />
     </div>
     

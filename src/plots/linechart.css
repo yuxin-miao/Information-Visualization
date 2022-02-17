@@ -1,0 +1,11 @@
+axisStyle line{
+  stroke: white;
+}
+
+.axisStyle path{
+  stroke: #d0d0d0;
+}
+
+.axisStyle text{
+  fill: white;
+}

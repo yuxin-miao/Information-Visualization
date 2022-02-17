@@ -39,7 +39,7 @@ export const ScatterPlot = ({settings, rawData}) => {
   
     let yScale = d3.scaleLinear()
         .range([0, drawHeight])
-        .domain([yMax, yMin]);
+        .domain([yMax, yMin]); // reverse to make the y begins at the origin
   
     // define axis 
     let xAxis = d3.axisBottom(xScale);
