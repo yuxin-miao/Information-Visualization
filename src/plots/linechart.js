@@ -28,7 +28,6 @@ export const LineChart = ({settings, data, color}) => {
     const x = d3.scaleLinear()
         .domain(d3.extent(data, d => d.xVal))
         .range([0, drawWidth])
-        
     const y = d3.scaleLinear()
         .domain(d3.extent(data, d => d.yVal).reverse()) // reverse() to make the y begins at the origin
         .range([0, drawHeight])
