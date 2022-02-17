@@ -6,8 +6,8 @@ import { useRef, useEffect, useSpring, useState, useMemo } from "react";
 import { useInterval } from '../../utils/useInterval';
 
 import { ScatterPlot } from '../../plots/scatterPlot';
-import { parseData, parseCsv } from "../../utils/fetchData";
-
+import { parseData, parseSetData } from "../../utils/fetchData";
+import{extractColumn} from "../../utils/createSet"
 import { SearchBox } from '../searchbox'
 import { ContainerBox } from "../containerbox";
 
@@ -79,23 +79,39 @@ export const Main = (props) => {
       name: "Rating"
     }
   }
+  let [constRawData, setConstRawData] = useState();
+  const [selectSuggestion, setSelectSuggestion] = useState('')
   // get data
-  let [rawData, setRawData] = useState();
+  let [rawData, setRawData] = useState(); // used for display 
   useEffect(() => {
     parseData((result) => {
       // onsole.log(result.data);
+      setConstRawData(result.data);
       setRawData(processData(result.data));
     })
   }, []);
 
+  // When other components need data, import it 
+  // So no need to papaparse everytime
+  let [rawSetData, setRawSetData] = useState();
+  useEffect(() => {
+    parseSetData((result) => {
+      setRawSetData(result.data);
+    })
+  }, [])
+
   const onSearchBoxSubmit = (event) => {
-    event.preventDefault()
     console.log(event.target[0].value)
+  }
+
+  const clickSuggestion = (suggestion) => {
+    console.log(suggestion)
   }
 
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
-      <SearchBox onSubmit={onSearchBoxSubmit} className="col-span-4" />
+      { rawData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)} 
+                      handleClickSuggestion={clickSuggestion} className="col-span-4" /> }
       <ContainerBox title="Tags" className="row-start-2 col-span-3" />
       <ContainerBox title="Filters" className="row-start-2 col-start-4 col-span-full filter-grid p-5">
         <Dropdown
