@@ -13,6 +13,7 @@ import { ContainerBox } from "../containerbox";
 import { RangeSelection } from "../rangeselect";
 
 
+
 // Provide an onChange function on a Dropdown component to process the updated data.
 const Dropdown = (props) => {
   const [value, setValue] = useState(props.options ? props.options[0].value : "")
@@ -117,8 +118,13 @@ export const Main = (props) => {
 
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
+
       {rawData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)} 
                   handleClickSuggestion={clickSuggestion}/>}
+
+      { rawData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)} 
+                      handleClickSuggestion={clickSuggestion} className="col-span-4" /> }
+
       <ContainerBox title="Tags" className="row-start-2 col-span-3" />
       <ContainerBox title="Filters" className="row-start-2 col-start-4 col-span-full filter-grid p-5">
         <Dropdown
@@ -183,6 +189,7 @@ export const Main = (props) => {
       <ContainerBox title="Range" className="row-start-4 col-span-5" >
         {rawData && constRawData && <RangeSelection activeAnime={rawData.length} allAnime={constRawData} />}
       </ContainerBox>
+
       <ContainerBox title="Related" className="row-start-4 col-start-6 col-span-full" />
     </div>
   )
