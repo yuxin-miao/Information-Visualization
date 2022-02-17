@@ -90,7 +90,7 @@ export const ScatterPlot = ({settings, rawData}) => {
         .merge(circles)
         .transition().duration(500)
         .attr('cx', (d) => xScale(d.x))
-        .attr('cy', (d) => yScale(d.y));
+        .attr('cy', (d) => yScale(d.y))
     circles.exit().remove();
 
   }, []);
