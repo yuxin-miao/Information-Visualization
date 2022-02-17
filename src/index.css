@@ -15,3 +15,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.right.dotted-spaced {
+  background-image: linear-gradient(to bottom, #010033 80%, #00BEDB 0%);
+  background-position: right;
+  background-size: 1px 8px;
+  background-repeat: repeat-y;
+}
