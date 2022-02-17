@@ -3,7 +3,7 @@ import './linechart.css';
 import React from "react";
 import { useRef, useEffect } from "react";
 
-export const LineChart = ({settings, data}) => {
+export const LineChart = ({settings, data, color}) => {
 
   const {width, height, margin} = settings;
 
@@ -45,7 +45,7 @@ export const LineChart = ({settings, data}) => {
     var bounds = d3.extent(data, d => d.xVal);
     var interval = bounds[1]-bounds[0];
     var gradientColor = (p) => {
-      return d3.interpolateHslLong("red", "blue")((p[0].xVal-bounds[0])/interval);
+      return d3.interpolateHslLong(color[0], color[1])((p[0].xVal-bounds[0])/interval);
     };
     // draw the line 
     var newline = d3.line()

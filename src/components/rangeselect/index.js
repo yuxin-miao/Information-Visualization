@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react"
 import { LineChart } from "../../plots/linechart"
-import { countBy, toNumber, isNaN, isNumber } from "lodash-es"
+import { countBy, toNumber, isNaN } from "lodash-es"
 /**
  * 
  * @param activeAnime: number of animes displayed
@@ -10,10 +10,11 @@ export const RangeSelection = (props) => {
   const gridRef = useRef()
   const [draw, setDraw] = useState(false)
   const [settings, setSettings] = useState({
-    height: 80,
+    height: 100,
     width: 300,
-    margin: {top: 0, right: 10, bottom: 50, left: 10}
+    margin: {top: 0, right: 10, bottom: 50, left: 10},
   })
+
   let eposideCounter = countBy(props.allAnime, o => o[4])
   let yearCounter = countBy(props.allAnime, o => o[9])
   let rateCounter = countBy(props.allAnime, o => o[8])
@@ -27,27 +28,31 @@ export const RangeSelection = (props) => {
     if (gridRef && gridRef.current) {
       setSettings({
         ...settings,
-        width: gridRef.current.offsetWidth
+        width: gridRef.current.offsetWidth * 0.8
       })
       setDraw(true)
     }
   }, [gridRef]);
 
   return (
-    <div className="rangle-select px-7 py-4">
-      <div className="px-5 text-white text-sm font-ssp">  Current number of animes displayed: <span className="text-pink">{props.activeAnime} </span>/ 18000</div>
-      <div className="grid grid-cols-2 grid-rows-2 gap-0">
-        <div className="rank m-0 col-span-1" ref={gridRef}>   
-          { draw &&  <LineChart settings={settings} data={rankData}/>}
+    <div className="rangle-select text-sm px-7 py-4">
+      <div className="px-5 text-white font-ssp">  Current number of animes displayed: <span className="text-pink">{props.activeAnime} </span>/ 18000</div>
+      <div className="grid grid-cols-2 grid-rows-2 gap-x-10">
+        <div className="m-0 col-span-1 grid grid-cols-10" ref={gridRef}>
+          <div className="place-self-center text-white col-span-2 justify-self-end">Rank</div>   
+          <div className="col-span-8"> { draw && <LineChart settings={settings} data={rankData} color={['yellow', 'green']}/>}</div>
         </div>
-        <div className="eposide m-0 col-span-1">      
-          { draw &&<LineChart settings={settings} data={eposideData}/> }
+        <div className="m-0 col-span-1 grid grid-cols-10">      
+          <div className="place-self-center text-white col-span-2 justify-self-end">Eposides</div>   
+          <div className="col-span-8"> { draw &&<LineChart settings={settings} data={eposideData} color={['red', 'green']}/> }</div>
         </div>
-        <div className="year m-0 col-span-1">      
-          { draw &&<LineChart settings={settings} data={yearData}/>}
+        <div className="m-0 col-span-1 grid grid-cols-10">  
+          <div className="place-self-center text-white col-span-2 justify-self-end">Year</div>  
+          <div className=" col-span-8"> { draw &&<LineChart settings={settings} data={yearData} color={['yellow', 'pink']}/>}</div>
         </div>
-        <div className="rate m-0 col-span-1">      
-          { draw &&<LineChart settings={settings} data={rateData}/>}
+        <div className="m-0 col-span-1 grid grid-cols-10">   
+          <div className="place-self-center text-white col-span-2 justify-self-end">Rates</div>   
+          <div className=" col-span-8"> { draw &&<LineChart settings={settings} data={rateData} color={['blue', 'purple']}/>}</div>
         </div>
       </div>
     </div>
