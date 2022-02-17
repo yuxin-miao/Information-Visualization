@@ -46,6 +46,7 @@ export const Sidebar = (props) => {
                     <a href='#' className='text-white font-ssp text-xl h-max'>Demo</a>
                 </div>
             </div>
+
             <img className='h-3/5 self-end justify-self-center object-cover' src={AnimeGirl} />
         </div>
     )
