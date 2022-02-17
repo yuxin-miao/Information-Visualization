@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import React from "react";
 import { useRef, useEffect } from "react";
+import { Main,refreshInfo } from "../components/main";
 
 export const ScatterPlot = ({settings, rawData}) => {
   // Chart width and height - accounting for margins
@@ -12,10 +13,10 @@ export const ScatterPlot = ({settings, rawData}) => {
     return {
       x: +item[xVar.idx],
       y: +item[yVar.idx],
-      label: +item[1] // anime name
+      label: item[1] // anime name
     }
   })
-
+  //console.log(data);
   const ref = useRef();
   useEffect(() => {
     /**
@@ -85,15 +86,33 @@ export const ScatterPlot = ({settings, rawData}) => {
     circles.enter().append('circle')
         .attr('r', (d) => radius)
         .attr('fill', (d) => color)
-        .attr('label', (d) => d.label)
+        .attr('label', (d)=>d.label)
         .style('fill-opacity', 0.3)
         .merge(circles)
-        .transition().duration(500)
         .attr('cx', (d) => xScale(d.x))
         .attr('cy', (d) => yScale(d.y))
+        .on("click", function(d) {
+        //alert("on click get data" + d3.select(this).attr("label"));
+            refreshInfo(d3.select(this).attr("label"))
+            d3.select(this).attr("stroke","white").attr("stroke-width",2)
+
+        //Main.refreshInfo(d3.select(this).attr("label"));
+        //console.log(Main);
+        
+        //console.log(d3.select(this).attr("label"));
+        })        
+        .on("mouseover", function(d){
+            //tip.show(d);
+            d3.select(this).attr("stroke","white").attr("stroke-width",1)
+        }).on("mouseout", function(d){
+            //tip.hide(d);
+            d3.select(this).attr("stroke", "none")
+        });
+
+    circles.transition().duration(500);
     circles.exit().remove();
 
-  }, []);
+  },[]);
 
 
 
