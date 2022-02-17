@@ -4,9 +4,9 @@ import { Sidebar } from '../components/sidebar';
 
 function App() {
   return (
-    <div className="h-screen w-screen bg-main flex">
-      <Sidebar />
-      <Main />
+    <div className="h-screen w-screen bg-main grid gap-4 grid-cols-12 grid-rows-1">
+      <Sidebar className="col-span-2" />
+      <Main className="col-start-3" />
     </div>
   );
 }
