@@ -8,7 +8,7 @@ import { useEffect } from "react"
  * @returns a searchbox that accepts one onSubmit prop. onSubmit should be a function that has one parameter event to access the value of the searchbox.
  */
 
-export const SearchBox = ({onSubmit, rawSetData, animeData, handleClickSuggestion}) => {
+export const SearchBox = ({ className, onSubmit, rawSetData, animeData, handleClickSuggestion}) => {
   const [query, setQuery] = useState('')
  
   const inputRef = useRef(null)
@@ -96,16 +96,15 @@ export const SearchBox = ({onSubmit, rawSetData, animeData, handleClickSuggestio
   }
 
   return (
-    <div className="flex gap-4 p-2">
-      <div className="w-auto h-full" style={SearchBoxContainerStyle}>
-        <div className="" style={SearchIconStyle}></div>
-      </div>
-      <div className="flex-row flex justify-center">
-        <form className="w-96 rounded-lg focus:bg-red-200" onSubmit={onSubmit}>
+    <div className={`${className ? className : ''} w-full flex gap-4 p-2`}>
+      <img src={SearchIcon} />
+      <div className="flex-row flex justify-center w-full">
+        <form className="w-full" onSubmit={onSubmit}>
           <input
             ref={inputRef}
             className="px-3 w-full h-full bg-transparent text-white"
             placeholder="Search for the anime, studio or voice actor"
+            style={{ fontFamily: "SourceSansPro" }}
             type="text"
             value={query}
             onChange={handleChange}
