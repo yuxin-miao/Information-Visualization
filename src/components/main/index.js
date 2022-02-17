@@ -121,10 +121,6 @@ export const Main = (props) => {
 
       {rawData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)} 
                   handleClickSuggestion={clickSuggestion}/>}
-
-      { rawData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)} 
-                      handleClickSuggestion={clickSuggestion} className="col-span-4" /> }
-
       <ContainerBox title="Tags" className="row-start-2 col-span-3" />
       <ContainerBox title="Filters" className="row-start-2 col-start-4 col-span-full filter-grid p-5">
         <Dropdown
