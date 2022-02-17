@@ -93,17 +93,26 @@ export const ScatterPlot = ({settings, rawData}) => {
         .attr('cy', (d) => yScale(d.y))
         .on("click", function(d) {
         //alert("on click get data" + d3.select(this).attr("label"));
-        refreshInfo(d3.select(this).attr("label"));
+            refreshInfo(d3.select(this).attr("label"))
+            d3.select(this).attr("stroke","white").attr("stroke-width",2)
+
         //Main.refreshInfo(d3.select(this).attr("label"));
         //console.log(Main);
         
         //console.log(d3.select(this).attr("label"));
-    });
+        })        
+        .on("mouseover", function(d){
+            //tip.show(d);
+            d3.select(this).attr("stroke","white").attr("stroke-width",1)
+        }).on("mouseout", function(d){
+            //tip.hide(d);
+            d3.select(this).attr("stroke", "none")
+        });
 
     circles.transition().duration(500);
     circles.exit().remove();
 
-  }, []);
+  },[]);
 
 
 

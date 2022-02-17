@@ -96,7 +96,7 @@ export const Main = (props) => {
   }
 
   const [tagsCheckedState, setTagsCheckedState] = useState(
-    new Array(tags.length).fill(false)
+    new Array(tags.length).fill(true)
   );
   const handleTagsOnChange = (position) => {
     const updatedCheckedState = tagsCheckedState.map((item, index) =>
@@ -118,8 +118,10 @@ export const Main = (props) => {
       console.log(tagsSelected);
         parseData((result) => {
           // onsole.log(result.data);
-        console.log(processData(result.data));
+        //console.log(processData(result.data));
         setRawData(processData(result.data));//how to refresh?
+        console.log(rawData);
+
         
         })
      
@@ -209,7 +211,7 @@ export const Main = (props) => {
         </div>
       </ContainerBox>
       <div className="bg-gray-100 row-start-3 col-span-5">
-        {rawData && <ScatterPlot id="scatterPlot" settings={settings} rawData={rawData} />}
+        {rawData && <ScatterPlot settings={settings} rawData={rawData} />}
       </div>
       <ContainerBox title="Info" className="row-start-3 col-start-6 col-span-3" >
       <div className="col-start-6 row-start-3 row-span-2 text-white">
