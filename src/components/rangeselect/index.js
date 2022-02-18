@@ -36,23 +36,23 @@ export const RangeSelection = (props) => {
 
   return (
     <div className="rangle-select text-sm px-7 py-4">
-      <div className="px-5 text-white font-ssp">  Current number of animes displayed: <span className="text-pink">{props.activeAnime} </span>/ 18000</div>
+      <div className="px-5 text-white font-ssp">  Current number of animes displayed: <span className="text-pink">{props.activeAnime} </span>/ {props.allAnime.length}</div>
       <div className="grid grid-cols-2 grid-rows-2 gap-x-10">
         <div className="m-0 col-span-1 grid grid-cols-10" ref={gridRef}>
           <div className="place-self-center text-white col-span-2 justify-self-end">Rank</div>   
-          <div className="col-span-8"> { draw && <LineChart settings={settings} data={rankData} color={['yellow', 'green']}/>}</div>
+          <div className="col-span-8"> { draw && <LineChart settings={settings} data={rankData} customized={['yellow', 'green', 5]}/>}</div>
         </div>
         <div className="m-0 col-span-1 grid grid-cols-10">      
-          <div className="place-self-center text-white col-span-2 justify-self-end">Eposides</div>   
-          <div className="col-span-8"> { draw &&<LineChart settings={settings} data={eposideData} color={['red', 'green']}/> }</div>
+          <div className="place-self-center text-white col-span-2 justify-self-end">Episodes</div>   
+          <div className="col-span-8"> { draw &&<LineChart settings={settings} data={eposideData} customized={['red', 'green', 6]}/> }</div>
         </div>
         <div className="m-0 col-span-1 grid grid-cols-10">  
           <div className="place-self-center text-white col-span-2 justify-self-end">Year</div>  
-          <div className=" col-span-8"> { draw &&<LineChart settings={settings} data={yearData} color={['yellow', 'pink']}/>}</div>
+          <div className=" col-span-8"> { draw &&<LineChart settings={settings} data={yearData} customized={['yellow', 'pink', 5]}/>}</div>
         </div>
         <div className="m-0 col-span-1 grid grid-cols-10">   
           <div className="place-self-center text-white col-span-2 justify-self-end">Rates</div>   
-          <div className=" col-span-8"> { draw &&<LineChart settings={settings} data={rateData} color={['blue', 'purple']}/>}</div>
+          <div className=" col-span-8"> { draw &&<LineChart settings={settings} data={rateData} customized={['blue', 'purple', 8]}/>}</div>
         </div>
       </div>
     </div>
