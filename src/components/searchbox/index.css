@@ -21,3 +21,13 @@ input:focus, textarea:focus, select:focus{
 .input-area {
     height: 4vh;
 }
+
+.circle-text {
+
+    color: #00BEDB;
+}
+
+.circle-text-tmp {
+    border-radius: 50%;
+    background-color: #00BEDB;
+}

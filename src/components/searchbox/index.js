@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 import SearchIcon from "../../assets/searchicon.png"
 import './index.css'
 import { useEffect } from "react"
@@ -10,47 +10,51 @@ import { useEffect } from "react"
 
 export const SearchBox = ({ className, onSubmit, rawSetData, animeData, handleClickSuggestion}) => {
   const [query, setQuery] = useState('')
- 
+
+  // suggestion format: [{val: '', type: ''}, {val: '', type: ''}, ...]
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [suggestionList, setSuggestionList] = useState([])
   const [submitSearch, setSubmitSearch] = useState(false)
-
+  // set the list of string to be filtered 
   useEffect(() => {
     let itemList = []
-    let tempList = animeData.slice(1)
-    tempList.forEach(element => {
-      itemList.push(String(element))
-    })
 
+    // add AnimeData
+    let tempList = animeData
+    tempList.forEach(element => {
+      itemList.push({val: String(element), type: 'anime'})
+    })
+    // add VA data 
     tempList = rawSetData[4].slice(1)
     tempList.forEach(element => {
-      itemList.push(String(element))
+      itemList.push({val: String(element), type: 'voice actor'})
     });
-
+    // add studio data 
     tempList = rawSetData[1].slice(1)
     tempList.forEach(element => {
-      itemList.push(String(element))
+      itemList.push({val: String(element), type: 'studio'})
     })
+    // set the final result 
     setSuggestionList(itemList)
   }, [])
-
+  // handle the input change 
   const handleChange = (event) => {
     setQuery(event.target.value)
     setSubmitSearch(false)
     if (event.target.value) setFilteredSuggestions(availableSuggestoins(event.target.value))
     else setFilteredSuggestions([])
   }
-
+  // filter the suggestions matching user's current search 
   const availableSuggestoins = (searchValue) =>{
     let tmpList = []
     for (let i = 0; i < suggestionList.length; i++) {
-      if (suggestionList[i].toLowerCase().includes(searchValue.toLowerCase()))
+      if (suggestionList[i].val.toLowerCase().includes(searchValue.toLowerCase()))
         tmpList.push(suggestionList[i])
       if (tmpList.length === 5) break
     }
     return tmpList
   }
-
+  // render the suggestion list 
   const renderSuggestionList = () => {
     if (query === undefined || query === '' || submitSearch) return null;
     return (
@@ -58,10 +62,11 @@ export const SearchBox = ({ className, onSubmit, rawSetData, animeData, handleCl
         {filteredSuggestions && filteredSuggestions.length > 0 ?
           (filteredSuggestions.map((suggestion, index) => {
             return (
-              <li className="py-2 px-4 text-sm text-gray-100 hover:text-main hover:bg-gray-50" 
+              <li className="flex justify-between py-2 px-4 text-sm text-gray-100 hover:text-main hover:bg-gray-50" 
                   key={index} 
                   onClick={() => handleClick(suggestion)}>
-                {suggestion}
+                <div>{suggestion.val}</div>  
+                <div className="circle-text px-2"> {suggestion.type}</div>
               </li>
             );
           })) : 
@@ -72,9 +77,9 @@ export const SearchBox = ({ className, onSubmit, rawSetData, animeData, handleCl
       </ul>
     );
   }
-
+  // handle the event when use click one suggestion in the suggestion list 
   const handleClick = (suggestion) => {
-    setQuery(suggestion)
+    setQuery(suggestion.val)
     setFilteredSuggestions([])
     handleClickSuggestion(suggestion)
     setSubmitSearch(true)
