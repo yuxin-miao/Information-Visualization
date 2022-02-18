@@ -82,19 +82,19 @@ export const Main = (props) => {
     }
   }
   const [selectSuggestion, setSelectSuggestion] = useState('')
-  // get data
 
+  /******************** Data Prepare ****************/
   // const rawData, delete the first row 
   let [constRawData, setConstRawData] = useState()
-
-  let [rawData, setRawData] = useState(); // used for display 
+  // data used for display
+  let [displayData, setDisplayData] = useState(); 
+  // download the data only when first mount 
+  // when need to filter the displaydata, set it again, no need to parse it again
   useEffect(() => {
     parseData((result) => {
-      // onsole.log(result.data);
+      result.data.shift() // first row is header, delete it here 
       setConstRawData(result.data);
-      setRawData(processData(result.data));
-      result.data.shift()
-      setConstRawData(result.data)
+      setDisplayData(result.data);
 
     })
   }, []);
@@ -109,7 +109,7 @@ export const Main = (props) => {
     })
   }, [])
 
-
+  /******************** Data Filter ****************/
   const onSearchBoxSubmit = (event) => {
     console.log(event.target[0].value)
   }
@@ -136,14 +136,17 @@ export const Main = (props) => {
       //console.log(tags[position].tagName);
       newTagSelected(tags[position].tagName);
       console.log(tagsSelected);
-        parseData((result) => {
-          // onsole.log(result.data);
-        //console.log(processData(result.data));
-        setRawData(processData(result.data));//how to refresh?
-        console.log(rawData);
+
+      // Here the input is set to be the original data, not the current display data 
+      setDisplayData(processData(constRawData))
+      //   parseData((result) => {
+      //     // onsole.log(result.data);
+      //   //console.log(processData(result.data));
+      //   setRawData(processData(result.data));//how to refresh?
+      //   console.log(rawData);
 
         
-        })
+      //   })
      
       
     }
@@ -158,7 +161,7 @@ export const Main = (props) => {
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
 
-      {rawData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)} 
+      {displayData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)} 
                   handleClickSuggestion={clickSuggestion} className="col-span-4" />}
       <ContainerBox title="Tags" style={{height:500}} className="row-start-2 col-start-1 col-span-3 ">
         <div className="row-start-1 col-span-full" style={{overflowY: 'scroll',height:300}}>
@@ -236,7 +239,7 @@ export const Main = (props) => {
     </ContainerBox>
 
       <div className="bg-gray-100 row-start-3 col-span-5">
-        {rawData && <ScatterPlot settings={settings} rawData={rawData} />}
+        {displayData && <ScatterPlot settings={settings} rawData={displayData} />}
       </div>
 
             <ContainerBox title="Info" className="row-start-3 col-start-6 col-span-3" >
@@ -246,7 +249,7 @@ export const Main = (props) => {
       </div>
       </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-5" >
-        {rawData && constRawData && <RangeSelection activeAnime={rawData.length} allAnime={constRawData} />}
+        {displayData && constRawData && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} />}
       </ContainerBox>
 
 
