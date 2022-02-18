@@ -1,3 +1,23 @@
 input:focus, textarea:focus, select:focus{
     outline: none;
 }
+
+.search-icon {
+    width: 4vh;
+    height: 4vh
+
+}
+.icon {
+    display: block;
+    margin: auto;
+    width: 80%;
+}
+.input-box {
+    display: absolute;
+    top: 0;
+    left: 4vh;
+}
+
+.input-area {
+    height: 4vh;
+}

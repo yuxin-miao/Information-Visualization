@@ -11,7 +11,6 @@ import { useEffect } from "react"
 export const SearchBox = ({ className, onSubmit, rawSetData, animeData, handleClickSuggestion}) => {
   const [query, setQuery] = useState('')
  
-  const inputRef = useRef(null)
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [suggestionList, setSuggestionList] = useState([])
   const [submitSearch, setSubmitSearch] = useState(false)
@@ -35,18 +34,6 @@ export const SearchBox = ({ className, onSubmit, rawSetData, animeData, handleCl
     setSuggestionList(itemList)
   }, [])
 
-  const SearchIconStyle = {
-    backgroundImage: `url(${SearchIcon})`,
-    backgroundRepeat: `no-repeat`,
-    backgroundPosition: `center`,
-    backgroundSize: `auto 3vh`,
-    width: `4vh`,
-    height: `4vh`
-  }
-  const SearchBoxContainerStyle = {
-    maxHeight: `4vh`
-  }
-
   const handleChange = (event) => {
     setQuery(event.target.value)
     setSubmitSearch(false)
@@ -67,22 +54,20 @@ export const SearchBox = ({ className, onSubmit, rawSetData, animeData, handleCl
   const renderSuggestionList = () => {
     if (query === undefined || query === '' || submitSearch) return null;
     return (
-
-      <ul className="suggestions absolute top-10 bg-main">
+      <ul className="suggestions bg-main w-1/2 absolute inline-block z-10">
         {filteredSuggestions && filteredSuggestions.length > 0 ?
           (filteredSuggestions.map((suggestion, index) => {
             return (
-              <li className="block py-2 px-4 text-sm text-gray-100 hover:text-main hover:bg-gray-50" 
+              <li className="py-2 px-4 text-sm text-gray-100 hover:text-main hover:bg-gray-50" 
                   key={index} 
                   onClick={() => handleClick(suggestion)}>
                 {suggestion}
               </li>
             );
           })) : 
-            <li className="block py-2 px-4 text-sm text-gray-100">
+            <li className="py-2 px-4 text-sm text-gray-100">
               there are not related things
             </li>
-
         }
       </ul>
     );
@@ -96,12 +81,12 @@ export const SearchBox = ({ className, onSubmit, rawSetData, animeData, handleCl
   }
 
   return (
-    <div className={`${className ? className : ''} w-full flex gap-4 p-2`}>
-      <img src={SearchIcon} />
-      <div className="flex-row flex justify-center w-full">
-        <form className="w-full" onSubmit={onSubmit}>
+    <div className={`${className ? className : ''} w-full flex gap-4 p-2 pt-0`}>
+      <div className="search-icon flex align-center justify-center"> <img alt={''} src={SearchIcon} className="icon"/> </div>
+      
+      <div className="input-box justify-center w-full">
+        <form className="input-area w-ful" onSubmit={onSubmit}>
           <input
-            ref={inputRef}
             className="px-3 w-full h-full bg-transparent text-white"
             placeholder="Search for the anime, studio or voice actor"
             style={{ fontFamily: "SourceSansPro" }}
