@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import React from "react";
 import { useRef, useEffect } from "react";
 import { Main,refreshInfo } from "../components/main";
+import './scatterPlot.css';
 
 export const ScatterPlot = ({settings, rawData}) => {
   // Chart width and height - accounting for margins
@@ -26,7 +27,7 @@ export const ScatterPlot = ({settings, rawData}) => {
     const svgElement = d3.select(ref.current)
         .attr('width', width)
         .attr('height', height)
-        .style("border", "1px solid black")
+        .style("background-color", '#010033')
     // define scale 
     let xMax = d3.max(data, (d) => d.x);
     let xMin = d3.min(data, (d) => d.x);
@@ -48,30 +49,26 @@ export const ScatterPlot = ({settings, rawData}) => {
     // render the axis
     svgElement.append('g')
         .attr('transform', 'translate(' + margin.left + ',' + (drawHeight + margin.top) + ')')
-        .attr('class', 'axis')
+        .attr('class', 'axis-style')
         .call(xAxis);
     svgElement.append('g')
         .attr('transform', 'translate(' + margin.left + ',' + (margin.top) + ')')
-        .attr('class', 'axis')
+        .attr('class', 'axis-style')
         .call(yAxis);
-    // render text of title, axis label
-    svgElement.append('text')
-        .attr('transform', `translate(${drawWidth/2},15)`)
-        .text("Test ScatterPlot");
-
+    // render axis label
     svgElement.append('text')
         .attr('transform', `translate(${(drawWidth / 2)}, ${(height - margin.bottom + 40)})`)
-        .attr('class', 'axis-label')
+        .style('fill', 'white')
         .text(xVar.name);
 
     svgElement.append('text')
         .attr('transform', `translate( ${(margin.left - 30)},${(margin.top + drawHeight / 2)}) rotate(-90)`)
-        .attr('class', 'axis-label')
+        .style('fill', 'white')
         .text(yVar.name);
     
-
     // tool tip
-
+    const tooltip = d3.select('#tooltip')
+        .attr("class", "tooltip")
 
     /**
      * Draw the circles 
@@ -101,12 +98,14 @@ export const ScatterPlot = ({settings, rawData}) => {
         
         //console.log(d3.select(this).attr("label"));
         })        
-        .on("mouseover", function(d){
-            //tip.show(d);
+        .on("mouseover", function(event, d){
+            const posX = d3.select(this).attr("cx")
+            const posY = d3.select(this).attr("cy")
+            tooltip.style('transform', `translate(${posX}px, ${posY}px)`).style("opacity", 1).text(`(${d.x}, ${d.y})`)
             d3.select(this).attr("stroke","white").attr("stroke-width",1)
         }).on("mouseout", function(d){
-            //tip.hide(d);
             d3.select(this).attr("stroke", "none")
+            tooltip.style('opacity', 0)
         });
 
     circles.transition().duration(500);
@@ -117,9 +116,11 @@ export const ScatterPlot = ({settings, rawData}) => {
 
 
   return (
-      <svg 
-        ref = {ref}
-      />
+    <>    
+        <div id="tooltip"></div>
+        <svg ref = {ref}/>
+    </>
+
   )
 
 }
