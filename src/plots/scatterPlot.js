@@ -110,7 +110,9 @@ export const ScatterPlot = ({settings, displayData, infoDispatch}) => {
         .on("mouseover", function(event, d){
             const posX = d3.select(this).attr("cx")
             const posY = d3.select(this).attr("cy")
-            tooltip.style('transform', `translate(${posX}px, ${posY}px)`).style("opacity", 1).text(`${d.label}(${d.x}, ${d.y})`)
+            tooltip.style('transform', `translate(${posX}px, ${posY}px)`)
+            .style("opacity", 1)
+            .text(`${d.label}(${d.x}, ${d.y})`)
             d3.select(this).attr("stroke","white").attr("stroke-width",1)
         }).on("mouseout", function(d){
             d3.select(this).attr("stroke", "none")

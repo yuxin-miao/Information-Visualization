@@ -366,5 +366,7 @@ export const refreshInfo = (data, infoDispatch) => {
 
   infoDispatch(setUrl("https://cdn.anime-planet.com/anime/primary/" + posterUrl + "-1.jpg"))
   infoDispatch(setTitle(animeName))
-  infoDispatch(setDescription(data.description))
+
+  var descriptionCleansed=data.description.replaceAll("\\xa0",' ')
+  infoDispatch(setDescription(descriptionCleansed))
 }
