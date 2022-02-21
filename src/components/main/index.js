@@ -181,8 +181,10 @@ export const Main = (props) => {
   const clickSuggestion = (suggestion) => {
     console.log(suggestion)
   }
+
   useEffect(() => {
-    console.log(rangeSelect)
+    console.log('change range select', rangeSelect)
+    setDisplayData(filterByRange(rangeSelect, displayData))
   }, [rangeSelect])
 
   return (
@@ -269,12 +271,6 @@ export const Main = (props) => {
         {displayData && drawPlot && <ScatterPlot settings={plotSetting} rawData={displayData} />}
       </div>
 
-            <ContainerBox title="Info" className="row-start-3 col-start-6 col-span-3" >
-      <div className="col-start-6 row-start-3 row-span-2 text-white">
-        <p id="animeName" className="text-m justify-self-center text-center font-bold">Name</p>        
-        <img id="animePoster" className="align-self-center justify-self-center" src="https://cdn.anime-planet.com/anime/primary/fairy-tail-1.jpg" />
-      </div>
-      </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-5" >
         { displayData && constRawData 
             && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} />
@@ -327,6 +323,20 @@ export const refreshInfo = (name) => {
 
 }
 
-const filterByRange = (rangeSelect) => {
-  
+
+const filterByRange = (rangeSelect, data) => {
+  let returnData = data
+  if(rangeSelect.rank.length !== 0) {
+    returnData = returnData.filter(row => row[0] >= rangeSelect.rank[0] && row[0] <= rangeSelect.rank[1]);
+  }
+  if(rangeSelect.year.length !== 0) {
+    returnData = returnData.filter(row => row[9] >= rangeSelect.year[0] && row[9] <= rangeSelect.year[1]);
+  }
+  if(rangeSelect.episodes.length !== 0) {
+    returnData = returnData.filter(row => row[4] >= rangeSelect.episodes[0] && row[4] <= rangeSelect.episodes[1]);
+  }
+  if(rangeSelect.rates.length !== 0) {
+    returnData = returnData.filter(row => row[8] >= rangeSelect.rates[0] && row[8] <= rangeSelect.rates[1]);
+  }
+  return returnData
 }

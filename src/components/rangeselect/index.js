@@ -48,19 +48,19 @@ export const RangeSelection = (props) => {
    * @returns when brush event end, set the corresponding selected value 
    */
   function handleEndBrush(type) {
-    return (event) => {
+    return (xStart, xEnd) => {
       switch (type) {
         case 'year': 
-          setYear(event.selection)
+          setYear([toNumber(xStart), toNumber(xEnd)])
           break
         case 'episodes':
-          setEpisodes(event.selection)
+          setEpisodes([toNumber(xStart), toNumber(xEnd)])
           break
         case 'rank':
-          setRank(event.selection)
+          setRank([toNumber(xStart), toNumber(xEnd)])
           break
         case 'rates':
-          setRates(event.selection)
+          setRates([toNumber(xStart), toNumber(xEnd)])
           break
         default: 
           console.log("ERROR in RANGE SELECTION")
@@ -78,6 +78,7 @@ export const RangeSelection = (props) => {
       rates: rates,
     })
   }
+
 
   return (
     <div className="rangle-select text-sm px-7 py-4">

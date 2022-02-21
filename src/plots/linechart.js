@@ -80,8 +80,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush}) => {
       d3.brushX()  
         .extent( [ [0,0], [width,drawHeight] ] )
         .on("start brush", handleOnBrush)     
-        .on("end", handleEndBrush) 
-
+        .on("end", (event) => handleEndBrush(convertToXVal(event.selection[0]).toFixed(1), convertToXVal(event.selection[1]).toFixed(1))) 
     )
     function handleOnBrush(event) {
       const selection = event.selection
