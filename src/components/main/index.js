@@ -160,7 +160,7 @@ export const Main = (props) => {
       console.log(tagsSelected);
 
       // Here the input is set to be the original data, not the current display data 
-      //setDisplayData(processData(constRawData))
+      setDisplayData(processData(constRawData))
     }
 
   };
@@ -286,17 +286,37 @@ const processData = (data) => {
   let returnData = data.filter(row => row[8] > 4);
   returnData=returnData.filter(function (row){
     if(row[7]!==null)
-    {return filterWithTags(row[7])}
+    {
+      return filterWithTags(row[7])
+    }
     else
-    {return false}
+    {
+      return false
+    }
   })
+  console.log(returnData)
   return returnData;
 }
 const filterWithTags=(tagString)=>{
-  console.log(document.getElementById("select-tagSelection").value) 
-  return tagsSelected.every(function (tag){
-    return tagString.includes(tag)
-  });
+  //console.log(document.getElementById("select-tagSelection").value+"!") 
+  var selectMethod=document.getElementById("select-tagSelection").value;
+  if(selectMethod==0)
+  {
+    return tagsSelected.every(function (tag){
+      return tagString.includes(tag)
+    });
+  }
+  else if(selectMethod==1)
+  {
+    return tagsSelected.some(function (tag){
+      return tagString.includes(tag)
+    });
+  }
+  else
+  {
+
+  }
+
 }
 const newTagSelected=(tag)=>{
   tagsSelected.push(tag);

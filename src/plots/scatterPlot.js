@@ -92,11 +92,6 @@ export const ScatterPlot = ({settings, rawData}) => {
         //alert("on click get data" + d3.select(this).attr("label"));
             refreshInfo(d3.select(this).attr("label"))
             d3.select(this).attr("stroke","white").attr("stroke-width",2)
-
-        //Main.refreshInfo(d3.select(this).attr("label"));
-        //console.log(Main);
-        
-        //console.log(d3.select(this).attr("label"));
         })        
         .on("mouseover", function(event, d){
             const posX = d3.select(this).attr("cx")
