@@ -1,7 +1,8 @@
 import * as d3 from "d3";
 import './linechart.css'; 
-import React from "react";
+import React, { useState } from "react";
 import { useRef, useEffect } from "react";
+import RefreshIcon from "../assets/refresh.png";
 
 /***
  * @param settings: width, height, margin for the plot 
@@ -63,7 +64,6 @@ export const LineChart = ({settings, data, customized, handleEndBrush}) => {
   }, [])
 
   const rangeId = "rangetip".concat(customized[3])
-
   /************* brush over line chart, would update if other filters change ************/ 
   useEffect(() => {
     // tool tip
@@ -74,7 +74,8 @@ export const LineChart = ({settings, data, customized, handleEndBrush}) => {
     const svgElement = d3.select(ref.current)
       .attr('width', width)
       .attr('height', height)
-    const brush = svgElement.append("g")
+    const brush = svgElement.append("g").attr("class", "brush")
+
 
     brush.call( 
       d3.brushX()  
@@ -86,6 +87,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush}) => {
           }
         }) 
     )
+
     function handleOnBrush(event) {
       const selection = event.selection
       let xStart = convertToXVal(selection[0]).toFixed(1)
@@ -98,11 +100,21 @@ export const LineChart = ({settings, data, customized, handleEndBrush}) => {
       return number / drawWidth * xMax
     }
 
+
   }, [])
+  //TODO use remove instead of opacity 
+  const handleOnRefresh = () => {
+    d3.select("#".concat(rangeId)).remove()
+    d3.select(".brush").style("opacity", 0)
+    handleEndBrush(-1,-1)
+  }
   return (
     <>    
       <div id={rangeId}></div>
-      <svg ref = {ref}/>
+      <div className="flex">
+        <svg ref = {ref}/>
+        <img onClick={handleOnRefresh} className="w-4 h-4 self-center ml-1" src={RefreshIcon}/>     
+      </div>
     </>
 
   )

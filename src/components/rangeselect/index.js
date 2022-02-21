@@ -49,19 +49,22 @@ export const RangeSelection = (props) => {
    */
   function handleEndBrush(type) {
     return (xStart, xEnd) => {
-      console.log(xStart, xEnd)
       switch (type) {
         case 'year': 
-          setYear([toNumber(xStart), toNumber(xEnd)])
+          if (xStart === -1) setYear([])
+          else setYear([toNumber(xStart), toNumber(xEnd)])
           break
         case 'episodes':
-          setEpisodes([toNumber(xStart), toNumber(xEnd)])
+          if (xStart === -1) setEpisodes([])
+          else setEpisodes([toNumber(xStart), toNumber(xEnd)])
           break
         case 'rank':
-          setRank([toNumber(xStart), toNumber(xEnd)])
+          if (xStart === -1) setRank([])
+          else setRank([toNumber(xStart), toNumber(xEnd)])
           break
         case 'rates':
-          setRates([toNumber(xStart), toNumber(xEnd)])
+          if (xStart === -1) setRates([])
+          else setRates([toNumber(xStart), toNumber(xEnd)])
           break
         default: 
           console.log("ERROR in RANGE SELECTION")
@@ -85,7 +88,7 @@ export const RangeSelection = (props) => {
     <div className="rangle-select text-sm px-7 py-4">
       <div className="flex justify-between">
         <span className="px-5 text-white font-ssp">  Current number of animes displayed: <span className="text-pink">{props.activeAnime} </span>/ {props.allAnime.length}</span>
-        <button className="px-5 text-white font-ssp z-10" onClick={onSubmit}>Apply Selection</button>
+        <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" onClick={onSubmit}>Apply Selection</button>
       </div>
       <div className="grid grid-cols-2 grid-rows-2 gap-x-10">
         <div className="m-0 col-span-1 grid grid-cols-10" ref={gridRef}>
