@@ -49,6 +49,7 @@ export const RangeSelection = (props) => {
    */
   function handleEndBrush(type) {
     return (xStart, xEnd) => {
+      console.log(xStart, xEnd)
       switch (type) {
         case 'year': 
           setYear([toNumber(xStart), toNumber(xEnd)])

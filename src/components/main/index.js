@@ -183,8 +183,9 @@ export const Main = (props) => {
   }
 
   useEffect(() => {
-    console.log('change range select', rangeSelect)
-    setDisplayData(filterByRange(rangeSelect, displayData))
+    // console.log('change range select', rangeSelect)
+    let res = filterByRange(rangeSelect, displayData)
+    setDisplayData(res)
   }, [rangeSelect])
 
   return (
@@ -270,7 +271,12 @@ export const Main = (props) => {
       <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-5">
         {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} />}
       </div>
-
+      <ContainerBox title="Info" className="row-start-3 col-start-6 col-span-3" >
+      <div className="col-start-6 row-start-3 row-span-2 text-white">
+        <p id="animeName" className="text-m justify-self-center text-center font-bold">Name</p>        
+        <img id="animePoster" className="align-self-center justify-self-center" src="https://cdn.anime-planet.com/anime/primary/fairy-tail-1.jpg" />
+      </div>
+      </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-5" >
         { displayData && constRawData 
             && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} />
