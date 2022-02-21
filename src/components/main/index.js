@@ -7,7 +7,7 @@ import { useInterval } from '../../utils/useInterval';
 
 import { ScatterPlot } from '../../plots/scatterPlot';
 import { parseData, parseSetData } from "../../utils/fetchData";
-import{extractColumn} from "../../utils/createSet"
+import { extractColumn } from "../../utils/createSet"
 import { SearchBox } from '../searchbox'
 import { ContainerBox } from "../containerbox";
 import { tags } from "../tags/tags";
@@ -16,10 +16,10 @@ import { RangeSelection } from "../rangeselect";
 
 
 // Provide an onChange function on a Dropdown component to process the updated data.
-const Dropdown = forwardRef((props,ref) => {
+const Dropdown = forwardRef((props, ref) => {
   const [value, setValue] = useState(props.options ? props.options[0].value : "")
-  useImperativeHandle(ref,()=>({
-    onChange (event)  {
+  useImperativeHandle(ref, () => ({
+    onChange(event) {
       setValue(event.target.value)
       //console.log(event)
     }
@@ -29,7 +29,7 @@ const Dropdown = forwardRef((props,ref) => {
   return (
     <div className={`${props.className ? props.className : ''} grid grid-cols-5 gap-2 text-xs`} >
       <p className="text-white font-ssp font-bold self-center col-span-2">{props.label}</p>
-      <select onChange={props.onChange ? props.onChange : function(event){setValue(event.target.value)}} value={value} className="col-start-3 col-span-full rounded text-center bg-gray-200" name={props.value} id={`select-${props.value}`}>
+      <select onChange={props.onChange ? props.onChange : function (event) { setValue(event.target.value) }} value={value} className="col-start-3 col-span-full rounded text-center bg-gray-200" name={props.value} id={`select-${props.value}`}>
         {props.options ? props.options.map(val => <option key={`${props.value}-${val.value}`} value={val.value}>{val.label}</option>) : <option value="">No Selection</option>}
       </select>
     </div>
@@ -109,7 +109,7 @@ export const Main = (props) => {
   // const rawData, delete the first row 
   let [constRawData, setConstRawData] = useState()
   // data used for display
-  let [displayData, setDisplayData] = useState(); 
+  let [displayData, setDisplayData] = useState();
   // download the data only when first mount 
   // when need to filter the displaydata, set it again, no need to parse it again
   useEffect(() => {
@@ -145,17 +145,15 @@ export const Main = (props) => {
     const updatedCheckedState = tagsCheckedState.map((item, index) =>
       index === position ? !item : item
     );
-    
+
     setTagsCheckedState(updatedCheckedState);
     console.log(tagsCheckedState);
-    if(updatedCheckedState[position]===true)
-    {
+    if (updatedCheckedState[position] === true) {
       newTagSelected(tags[position].tagName);
       // Here the input is set to be the original data, not the current display data 
       setDisplayData(processData(constRawData))
     }
-    else
-    {
+    else {
       tagRemoved(tags[position].tagName);
       setDisplayData(processData(constRawData))
     }
@@ -165,52 +163,49 @@ export const Main = (props) => {
   const clickSuggestion = (suggestion) => {
     console.log(suggestion)
   }
-  const dropDownRef=useRef()//dropdown ref for tag selection
+  const dropDownRef = useRef()//dropdown ref for tag selection
+
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
 
-      {displayData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)} 
-                  handleClickSuggestion={clickSuggestion} className="col-span-4" />}
-      <ContainerBox title="Tags" style={{height:500}} className="row-start-2 col-start-1 col-span-3 ">
-        <div className="row-start-1 col-span-full" >
-        <ul className="tags-list grid p-5">
-        {tags.map(({ tagName }, index) => {
+      {displayData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)}
+        handleClickSuggestion={clickSuggestion} className="col-span-4" />}
+      <ContainerBox title="Tags" className="row-start-2 col-start-1 col-span-3 ">
+
+        <ul className="tags-list h-full w-full grid grid-cols-5 grid-rows-6 gap-2 p-5">
+          {tags.map(({ tagName }, index) => {
 
             return (
-              <li key={index} className={`col-start-${index%5+1} m-2 row-start-${Math.floor(index/5)+1}`}>
-                <div className="tags-list-item text-white">
-                  <Checkbox name={tagName} label={tagName} onChange={()=>handleTagsOnChange(index)} />
-                </div>
+              <li key={index} className={`text-white font-ssp self-center col-start-${index % 5 + 1} row-start-${Math.floor(index / 5) + 1}`}>
+                <Checkbox name={tagName} label={tagName} onChange={() => handleTagsOnChange(index)} />
               </li>
-            );          
-        })}
-        <li className="col-start-4 row-start-6 m-2">
-          <button type="button" className="text-white" onClick={
-            function(){
+            );
+          })}
+          <button type="button"
+          className="text-white text-xs col-start-3 row-start-6 self-center font-ssp bg-gray-900 rounded-lg outline outline-offset-2 outline-highlight-blue"
+          onClick={
+            function () {
               tags.forEach(element => {
-                document.getElementById("checkbox-"+element.tagName).checked=false;
+                document.getElementById("checkbox-" + element.tagName).checked = false;
               })
-              tagsSelected=[]
+              tagsSelected = []
               console.log(tagsCheckedState)
               setDisplayData(processData(constRawData))
             }
-          }>clear</button>
-        </li>
-        <li className="col-start-5 row-start-6 m-2">  
+          }>Clear</button>
           <Dropdown
-          ref={dropDownRef}           
-          onChange={function(event){
-            dropDownRef.current.onChange(event)
-            setDisplayData(processData(constRawData))
-            console.log(event.target[event.target.value].text)
-          }}
-          label="Tag Selection"
-          value="tagSelection"
-          options={[{ value: 0, label: 'Intersection' }, { value: 1, label: 'Union' }]}>
+            ref={dropDownRef}
+            onChange={function (event) {
+              dropDownRef.current.onChange(event)
+              setDisplayData(processData(constRawData))
+              console.log(event.target[event.target.value].text)
+            }}
+            label="Tag Selection"
+            value="tagSelection"
+            className="col-start-4 col-span-2 row-start-6 font-ssp self-center px-2 text-xs"
+            options={[{ value: 0, label: 'Intersection' }, { value: 1, label: 'Union' }]}>
           </Dropdown>
-        </li>
         </ul>
-        </div>
 
       </ContainerBox>
       <ContainerBox title="Filters" className="row-start-2 col-start-4 col-span-full filter-grid p-5">
@@ -267,17 +262,17 @@ export const Main = (props) => {
           <Checkbox name="autumn" label="Autumn" />
           <Checkbox name="winter" label="Winter" />
         </div>
-    </ContainerBox>
+      </ContainerBox>
 
       <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-5">
         {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} />}
       </div>
 
-            <ContainerBox title="Info" className="row-start-3 col-start-6 col-span-3" >
-      <div className="col-start-6 row-start-3 row-span-2 text-white">
-        <p id="animeName" className="text-m justify-self-center text-center font-bold">Name</p>        
-        <img id="animePoster" className="align-self-center justify-self-center" src="https://cdn.anime-planet.com/anime/primary/fairy-tail-1.jpg" />
-      </div>
+      <ContainerBox url="https://cdn.anime-planet.com/anime/primary/fairy-tail-1.jpg" title="Info" className="row-start-3 col-start-6 col-span-3" >
+        {/* <div className="col-start-6 row-start-3 row-span-2 text-white">
+          <p id="animeName" className="text-m justify-self-center text-center font-bold">Name</p>
+          <img id="animePoster" className="align-self-center justify-self-center" src="https://cdn.anime-planet.com/anime/primary/fairy-tail-1.jpg" />
+        </div> */}
       </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-5" >
         {displayData && constRawData && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} />}
@@ -286,79 +281,74 @@ export const Main = (props) => {
 
       <ContainerBox title="Related" className="row-start-4 col-start-6 col-span-full" />
     </div>
-    
+
   )
 }
-var tagsSelected=[]
+
+var tagsSelected = []
 const processData = (data) => {
   // Here maybe add other filters 
   // call this function whenever add new filter
   let returnData = data.filter(row => row[8] > 1);
-  returnData=returnData.filter(function (row){
-    if(row[7]!==null)
-    {
+  returnData = returnData.filter(function (row) {
+    if (row[7] !== null) {
       return filterWithTags(row[7])
     }
-    else
-    {
+    else {
       return false
     }
   })
   console.log(returnData)
   return returnData;
 }
-const filterWithTags=(tagString)=>{
+
+const filterWithTags = (tagString) => {
   //console.log(document.getElementById("select-tagSelection").value+"!") 
-  var selectMethod=document.getElementById("select-tagSelection").value;
-  if(selectMethod==0)
-  {
-    if(tagsSelected.length!=0)
-    {
-      return tagsSelected.every(function (tag){
+  var selectMethod = document.getElementById("select-tagSelection").value;
+  if (selectMethod == 0) {
+    if (tagsSelected.length != 0) {
+      return tagsSelected.every(function (tag) {
         return tagString.includes(tag)
       });
     }
-    else
-    {
+    else {
       return true;
     }
 
   }
-  else if(selectMethod==1)
-  {
-    if(tagsSelected.length!=0)
-    {
-      return tagsSelected.some(function (tag){
+  else if (selectMethod == 1) {
+    if (tagsSelected.length != 0) {
+      return tagsSelected.some(function (tag) {
         return tagString.includes(tag)
       });
     }
-    else
-    {
+    else {
       return true;
     }
 
   }
-  else
-  {
+  else {
     console.log("wrong entry");
   }
 
 }
-const newTagSelected=(tag)=>{
+
+const newTagSelected = (tag) => {
   tagsSelected.push(tag);
 }
-const tagRemoved=(tag)=>{
-  if(tagsSelected.includes(tag))
-  {
-    var tempTags=[];
+
+const tagRemoved = (tag) => {
+  if (tagsSelected.includes(tag)) {
+    var tempTags = [];
     tagsSelected.forEach(element => {
-      if(element!=tag)
-      tempTags.push(element);
+      if (element != tag)
+        tempTags.push(element);
 
     });
-    tagsSelected=tempTags;
+    tagsSelected = tempTags;
   }
 }
+
 //change the name and the poster
 export const refreshInfo = (name) => {
 
