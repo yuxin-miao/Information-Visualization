@@ -6,7 +6,7 @@ import { useRef, useEffect, useSpring, useState, useMemo } from "react";
 import { useInterval } from '../../utils/useInterval';
 
 import { useSelector, useDispatch } from "react-redux";
-import { setUrl, setTitle } from "../../utils/infoSlice";
+import { setUrl, setTitle, setDescription } from "../../utils/infoSlice";
 
 import { ScatterPlot } from '../../plots/scatterPlot';
 import { parseData, parseSetData } from "../../utils/fetchData";
@@ -169,10 +169,10 @@ export const Main = (props) => {
   }
   const dropDownRef = useRef()//dropdown ref for tag selection
 
-
   const InfoDispatch = useDispatch()
   const infoUrl = useSelector(state => state.info.url)
   const infoTitle = useSelector(state => state.info.title)
+  const infoDescription = useSelector(state => state.info.description)
 
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
@@ -278,7 +278,7 @@ export const Main = (props) => {
       </div>
 
       <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-6 col-span-3" >
-        <InfoPanel animeTitle={infoTitle} />
+        <InfoPanel animeTitle={infoTitle} animeDescription={infoDescription} />
       </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-5" >
         {displayData && constRawData && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} />}
@@ -356,8 +356,8 @@ const tagRemoved = (tag) => {
 }
 
 //change the name and the poster
-export const refreshInfo = (name, infoDispatch, infoUrl) => {
-  const animeName = name;
+export const refreshInfo = (data, infoDispatch) => {
+  const animeName = data.label;
 
   var posterUrl = animeName.replace('\'', '').replace(/[^\u2018-\u2019\u4e00-\u9fa5a-zA-Z0-9]/g, '-').replaceAll("---", '-').replaceAll("--", '-').toLowerCase();
   if (posterUrl[posterUrl.length - 1] == '-') {
@@ -366,4 +366,5 @@ export const refreshInfo = (name, infoDispatch, infoUrl) => {
 
   infoDispatch(setUrl("https://cdn.anime-planet.com/anime/primary/" + posterUrl + "-1.jpg"))
   infoDispatch(setTitle(animeName))
+  infoDispatch(setDescription(data.description))
 }

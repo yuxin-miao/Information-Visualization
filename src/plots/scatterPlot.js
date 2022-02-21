@@ -16,6 +16,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch}) => {
       x: +item[xVar.idx],
       y: +item[yVar.idx],
       label: item[1], // anime name
+      description: item[11],
       rating: item[8]
     }
   })
@@ -98,7 +99,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch}) => {
         .attr('cy', (d) => yScale(d.y))
         .on("click", function(d) {
         //alert("on click get data" + d3.select(this).attr("label"));
-            refreshInfo(d3.select(this).attr("label"), infoDispatch)
+            refreshInfo(d.srcElement.__data__, infoDispatch)
             d3.select(this).attr("stroke","white").attr("stroke-width",2)
 
         //Main.refreshInfo(d3.select(this).attr("label"));

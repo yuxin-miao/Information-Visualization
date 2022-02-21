@@ -4,7 +4,8 @@ export const infoSlice = createSlice({
     name: 'info',
     initialState: {
         url: 'https://cdn.anime-planet.com/anime/primary/fairy-tail-1.jpg',
-        title: 'No anime selected.'
+        title: 'No anime selected.',
+        description: ''
     },
     reducers: {
         setUrl: (state, action) => {
@@ -12,10 +13,13 @@ export const infoSlice = createSlice({
         },
         setTitle: (state, action) => {
             state.title = action.payload
+        },
+        setDescription: (state, action) => {
+            state.description = action.payload
         }
     }
 })
 
-export const { setUrl, setTitle } = infoSlice.actions
+export const { setUrl, setTitle, setDescription } = infoSlice.actions
 
 export default infoSlice.reducer

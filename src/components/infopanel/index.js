@@ -7,6 +7,9 @@ export const InfoPanel = (props) => {
             <div className='col-start-2 col-span-3 row-span-2 flex h-min justify-center self-center text-center font-bold' style={{ fontSize: '1.5vw' }}>
                 <p>{props.animeTitle}</p>
             </div>
+            <div className='row-start-3'>
+                <p>{props.animeDescription}</p>
+            </div>
         </div>
     )
 }
