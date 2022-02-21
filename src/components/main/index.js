@@ -120,6 +120,7 @@ export const Main = (props) => {
 
   // When other components need data, import it 
   // So no need to papaparse everytime
+  // Test
   let [rawSetData, setRawSetData] = useState();
   useEffect(() => {
     parseSetData((result) => {
