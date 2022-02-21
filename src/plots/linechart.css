@@ -9,3 +9,14 @@ axisStyle line{
 .axisStyle text{
   fill: white;
 }
+
+.rangetip {
+  opacity: 0;
+  position: absolute;
+  background: gray;
+  z-index: 100;
+  padding: 1px;
+  pointer-events: none;
+  font-size: 10px;
+  color: white;
+}

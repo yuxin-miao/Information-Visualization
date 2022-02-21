@@ -6,7 +6,7 @@ import { useRef, useEffect } from "react";
 /***
  * @param settings: width, height, margin for the plot 
  * @param data: data used to draw, format: [{xVal: ... , yVal: ... }, ...]
- * @param customized: customized settings [startColor, endColor, numberofTicks]
+ * @param customized: customized settings [startColor, endColor, numberofTicks, id]
  * @return svg node, line chart draw
  */
 export const LineChart = ({settings, data, customized}) => {
@@ -62,21 +62,33 @@ export const LineChart = ({settings, data, customized}) => {
 
   }, [])
 
+  const rangeId = "rangetip".concat(customized[3])
+
   /************* brush over line chart, would update if other filters change ************/ 
   useEffect(() => {
+    // tool tip
+    const tooltip = d3.select("#".concat(rangeId))
+    .attr("class", "rangetip")
+    console.log(rangeId)
+
+    console.log(tooltip)
+
     const svgElement = d3.select(ref.current)
       .attr('width', width)
       .attr('height', height)
     const brush = svgElement.append("g")
 
     brush.call( 
-          d3.brushX()  
-            .extent( [ [0,0], [width,drawHeight] ] )
-            .on("start brush", updateChart)       
-          )
-    function updateChart(event){
+      d3.brushX()  
+        .extent( [ [0,0], [width,drawHeight] ] )
+        .on("start brush", handleOnBrush)      
+    )
+    function handleOnBrush(event){
       const selection = event.selection
-      convertToXVal(selection[0])
+      let xStart = convertToXVal(selection[0]).toFixed(1)
+      let xEnd = convertToXVal(selection[1]).toFixed(1)
+      tooltip.style('transform', `translate(${selection[1]}px, ${drawHeight/2}px)`).style("opacity", 1).text(`(${xStart}, ${xEnd})`)
+
       console.log(convertToXVal(selection[0]), convertToXVal(selection[1]))
     }
     function convertToXVal(number) {
@@ -86,7 +98,11 @@ export const LineChart = ({settings, data, customized}) => {
 
   }, [])
   return (
-    <svg ref={ref}/>
+    <>    
+        <div id={rangeId}></div>
+        <svg ref = {ref}/>
+    </>
+
   )
 }
 
