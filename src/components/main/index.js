@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef, useImperativeHandle } from "react";
 import './index.css';
 import '../../index.css'
 import * as d3 from "d3";
@@ -16,21 +16,25 @@ import { RangeSelection } from "../rangeselect";
 
 
 // Provide an onChange function on a Dropdown component to process the updated data.
-const Dropdown = (props) => {
+const Dropdown = forwardRef((props,ref) => {
   const [value, setValue] = useState(props.options ? props.options[0].value : "")
-  const onChange = (event) => {
-    setValue(event.target.value)
-  }
+  useImperativeHandle(ref,()=>({
+    onChange (event)  {
+      setValue(event.target.value)
+      //console.log(event)
+    }
+  }))
+
 
   return (
     <div className={`${props.className ? props.className : ''} grid grid-cols-5 gap-2 text-xs`} >
       <p className="text-white font-ssp font-bold self-center col-span-2">{props.label}</p>
-      <select onChange={props.onChange ? props.onChange : onChange} value={value} className="col-start-3 col-span-full rounded text-center bg-gray-200" name={props.value} id={`select-${props.value}`}>
+      <select onChange={props.onChange ? props.onChange : function(event){setValue(event.target.value)}} value={value} className="col-start-3 col-span-full rounded text-center bg-gray-200" name={props.value} id={`select-${props.value}`}>
         {props.options ? props.options.map(val => <option key={`${props.value}-${val.value}`} value={val.value}>{val.label}</option>) : <option value="">No Selection</option>}
       </select>
     </div>
   )
-}
+})
 
 // Provide an onSubmit prop on the Range component to process the input data.
 const Range = (props) => {
@@ -135,7 +139,7 @@ export const Main = (props) => {
 
 
   const [tagsCheckedState, setTagsCheckedState] = useState(
-    new Array(tags.length).fill(true)
+    new Array(tags.length).fill(false)
   );
   const handleTagsOnChange = (position) => {
     const updatedCheckedState = tagsCheckedState.map((item, index) =>
@@ -143,7 +147,6 @@ export const Main = (props) => {
     );
 
     setTagsCheckedState(updatedCheckedState);
-
     /*updatedCheckedState.reduce((currentState, index)=>{
       if(currentState===true)
       {
@@ -157,46 +160,45 @@ export const Main = (props) => {
       console.log(tagsSelected);
 
       // Here the input is set to be the original data, not the current display data 
-      setDisplayData(processData(constRawData))
-      //   parseData((result) => {
-      //     // onsole.log(result.data);
-      //   //console.log(processData(result.data));
-      //   setRawData(processData(result.data));//how to refresh?
-      //   console.log(rawData);
-
-        
-      //   })
-     
-      
+      //setDisplayData(processData(constRawData))
     }
-    //console.log();    
 
   };
 
   const clickSuggestion = (suggestion) => {
     console.log(suggestion)
   }
-
+  const dropDownRef=useRef()//dropdown ref for tag selection
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
 
       {displayData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)} 
                   handleClickSuggestion={clickSuggestion} className="col-span-4" />}
       <ContainerBox title="Tags" style={{height:500}} className="row-start-2 col-start-1 col-span-3 ">
-        <div className="row-start-1 col-span-full" style={{overflowY: 'scroll',height:300}}>
-        <ul className="tags-list">
+        <div className="row-start-1 col-span-full" >
+        <ul className="tags-list grid p-5">
         {tags.map(({ tagName }, index) => {
 
             return (
-              <li key={index}>
+              <li key={index} className={`col-start-${index%5+1} m-2 row-start-${Math.floor(index/5)+1}`}>
                 <div className="tags-list-item text-white">
                   <Checkbox name={tagName} label={tagName} onChange={()=>handleTagsOnChange(index)} />
                 </div>
               </li>
-            );
-
-          
+            );          
         })}
+        <li className="col-start-5 row-start-6 m-2">  
+          <Dropdown
+          ref={dropDownRef}           
+          onChange={function(event){
+            dropDownRef.current.onChange(event)
+            console.log(event.target[event.target.value].text)
+          }}
+          label="Tag Selection"
+          value="tagSelection"
+          options={[{ value: 0, label: 'Intersection' }, { value: 1, label: 'Union' }]}>
+          </Dropdown>
+        </li>
         </ul>
         </div>
 
@@ -291,7 +293,7 @@ const processData = (data) => {
   return returnData;
 }
 const filterWithTags=(tagString)=>{
-  
+  console.log(document.getElementById("select-tagSelection").value) 
   return tagsSelected.every(function (tag){
     return tagString.includes(tag)
   });
@@ -314,5 +316,4 @@ export const refreshInfo = (name) => {
   document.getElementById("animePoster").src = "https://cdn.anime-planet.com/anime/primary/" + posterUrl + "-1.jpg";
   console.log(animeName);
   console.log(posterUrl);
-
 }
