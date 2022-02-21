@@ -4,7 +4,8 @@ import { useRef, useEffect } from "react";
 import { Main,refreshInfo } from "../components/main";
 import './scatterPlot.css';
 import { _interpolateColor,h2r,r2h } from "../utils/colorUtils";
-export const ScatterPlot = ({settings, displayData}) => {
+
+export const ScatterPlot = ({settings, displayData, infoDispatch}) => {
   // Chart width and height - accounting for margins
   const {width, height, margin, radius, color, xVar, yVar} = settings;
   let drawWidth = width - margin.left - margin.right;
@@ -97,7 +98,7 @@ export const ScatterPlot = ({settings, displayData}) => {
         .attr('cy', (d) => yScale(d.y))
         .on("click", function(d) {
         //alert("on click get data" + d3.select(this).attr("label"));
-            refreshInfo(d3.select(this).attr("label"))
+            refreshInfo(d3.select(this).attr("label"), infoDispatch)
             d3.select(this).attr("stroke","white").attr("stroke-width",2)
 
         //Main.refreshInfo(d3.select(this).attr("label"));

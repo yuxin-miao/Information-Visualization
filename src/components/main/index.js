@@ -5,6 +5,9 @@ import * as d3 from "d3";
 import { useRef, useEffect, useSpring, useState, useMemo } from "react";
 import { useInterval } from '../../utils/useInterval';
 
+import { useSelector, useDispatch } from "react-redux";
+import { setUrl, setTitle } from "../../utils/infoSlice";
+
 import { ScatterPlot } from '../../plots/scatterPlot';
 import { parseData, parseSetData } from "../../utils/fetchData";
 import { extractColumn } from "../../utils/createSet"
@@ -12,6 +15,7 @@ import { SearchBox } from '../searchbox'
 import { ContainerBox } from "../containerbox";
 import { tags } from "../tags/tags";
 import { RangeSelection } from "../rangeselect";
+import { InfoPanel } from "../infopanel";
 
 
 
@@ -165,6 +169,11 @@ export const Main = (props) => {
   }
   const dropDownRef = useRef()//dropdown ref for tag selection
 
+
+  const InfoDispatch = useDispatch()
+  const infoUrl = useSelector(state => state.info.url)
+  const infoTitle = useSelector(state => state.info.title)
+
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
 
@@ -265,14 +274,11 @@ export const Main = (props) => {
       </ContainerBox>
 
       <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-5">
-        {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} />}
+        {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} />}
       </div>
 
-      <ContainerBox url="https://cdn.anime-planet.com/anime/primary/fairy-tail-1.jpg" title="Info" className="row-start-3 col-start-6 col-span-3" >
-        {/* <div className="col-start-6 row-start-3 row-span-2 text-white">
-          <p id="animeName" className="text-m justify-self-center text-center font-bold">Name</p>
-          <img id="animePoster" className="align-self-center justify-self-center" src="https://cdn.anime-planet.com/anime/primary/fairy-tail-1.jpg" />
-        </div> */}
+      <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-6 col-span-3" >
+        <InfoPanel animeTitle={infoTitle} />
       </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-5" >
         {displayData && constRawData && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} />}
@@ -350,18 +356,14 @@ const tagRemoved = (tag) => {
 }
 
 //change the name and the poster
-export const refreshInfo = (name) => {
-
+export const refreshInfo = (name, infoDispatch, infoUrl) => {
   const animeName = name;
-  document.getElementById("animeName").textContent = animeName;
-  //var posterUrl=animeName.replace('Conan (.*?):','');
+
   var posterUrl = animeName.replace('\'', '').replace(/[^\u2018-\u2019\u4e00-\u9fa5a-zA-Z0-9]/g, '-').replaceAll("---", '-').replaceAll("--", '-').toLowerCase();
-  console.log(posterUrl[posterUrl.length - 1]);
   if (posterUrl[posterUrl.length - 1] == '-') {
     posterUrl = posterUrl.slice(0, posterUrl.length - 1);
   }
 
-  document.getElementById("animePoster").src = "https://cdn.anime-planet.com/anime/primary/" + posterUrl + "-1.jpg";
-  console.log(animeName);
-  console.log(posterUrl);
+  infoDispatch(setUrl("https://cdn.anime-planet.com/anime/primary/" + posterUrl + "-1.jpg"))
+  infoDispatch(setTitle(animeName))
 }
