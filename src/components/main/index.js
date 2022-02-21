@@ -60,8 +60,9 @@ const Checkbox = (props) => {
 }
 export const Main = (props) => {
 
-  //setup for the scatter plot 
-  const settings = {
+  /****** setup for the scatter plot ******/
+  // plot settings 
+  const [plotSetting, setPlotSetting] = useState({
     width: 650,
     height: 300,
     margin: {
@@ -80,7 +81,24 @@ export const Main = (props) => {
       idx: 8,
       name: "Rating"
     }
-  }
+  })
+  // boolean value for whether draw the scatterplot 
+  const [drawPlot, setDrawPlot] = useState(false)
+  // ref for the wrapper of scatterplot 
+  const plotRef = useRef()
+  // set up the width and height of svg when first draw 
+  useEffect(() => {
+    if (plotRef && plotRef.current) {
+      setPlotSetting({
+        ...plotSetting,
+        width: plotRef.current.offsetWidth,
+        height: plotRef.current.offsetHeight
+      })
+      setDrawPlot(true)
+    }
+  }, [plotRef]);
+
+
   const [selectSuggestion, setSelectSuggestion] = useState('')
 
   /******************** Data Prepare ****************/
@@ -94,7 +112,7 @@ export const Main = (props) => {
     parseData((result) => {
       result.data.shift() // first row is header, delete it here 
       setConstRawData(result.data);
-      setDisplayData(result.data);
+      setDisplayData(processData(result.data));
 
     })
   }, []);
@@ -238,8 +256,8 @@ export const Main = (props) => {
         </div>
     </ContainerBox>
 
-      <div className="bg-gray-100 row-start-3 col-span-5">
-        {displayData && <ScatterPlot settings={settings} rawData={displayData} />}
+      <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-5">
+        {displayData && drawPlot && <ScatterPlot settings={plotSetting} rawData={displayData} />}
       </div>
 
             <ContainerBox title="Info" className="row-start-3 col-start-6 col-span-3" >

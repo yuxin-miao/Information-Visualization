@@ -1,0 +1,22 @@
+axis-style line{
+  stroke: white;
+}
+
+.axis-style path{
+  stroke: #d0d0d0;
+}
+
+.axis-style text{
+  fill: white;
+}
+
+.tooltip {
+  opacity: 0;
+  position: absolute;
+  background: gray;
+  z-index: 100;
+  padding: 1px;
+  pointer-events: none;
+  font-size: 10px;
+  color: white;
+}
