@@ -4,13 +4,13 @@ import { useRef, useEffect } from "react";
 import { Main,refreshInfo } from "../components/main";
 import './scatterPlot.css';
 
-export const ScatterPlot = ({settings, rawData}) => {
+export const ScatterPlot = ({settings, displayData}) => {
   // Chart width and height - accounting for margins
   const {width, height, margin, radius, color, xVar, yVar} = settings;
   let drawWidth = width - margin.left - margin.right;
   let drawHeight = height - margin.top - margin.bottom;
   // Prepare data
-  let data = rawData.map((item) => {
+  let data = displayData.map((item) => {
     return {
       x: +item[xVar.idx],
       y: +item[yVar.idx],
@@ -28,6 +28,8 @@ export const ScatterPlot = ({settings, rawData}) => {
         .attr('width', width)
         .attr('height', height)
         .style("background-color", '#010033')
+    svgElement.selectAll("*").remove();
+
     // define scale 
     let xMax = d3.max(data, (d) => d.x);
     let xMin = d3.min(data, (d) => d.x);
@@ -92,6 +94,11 @@ export const ScatterPlot = ({settings, rawData}) => {
         //alert("on click get data" + d3.select(this).attr("label"));
             refreshInfo(d3.select(this).attr("label"))
             d3.select(this).attr("stroke","white").attr("stroke-width",2)
+
+        //Main.refreshInfo(d3.select(this).attr("label"));
+        //console.log(Main);
+        
+        //console.log(d3.select(this).attr("label"));
         })        
         .on("mouseover", function(event, d){
             const posX = d3.select(this).attr("cx")
@@ -106,7 +113,7 @@ export const ScatterPlot = ({settings, rawData}) => {
     circles.transition().duration(500);
     circles.exit().remove();
 
-  },[]);
+  },[displayData]);
 
 
 

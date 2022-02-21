@@ -138,28 +138,25 @@ export const Main = (props) => {
   }
 
 
-  const [tagsCheckedState, setTagsCheckedState] = useState(
+  let [tagsCheckedState, setTagsCheckedState] = useState(
     new Array(tags.length).fill(false)
   );
   const handleTagsOnChange = (position) => {
     const updatedCheckedState = tagsCheckedState.map((item, index) =>
       index === position ? !item : item
     );
-
+    
     setTagsCheckedState(updatedCheckedState);
-    /*updatedCheckedState.reduce((currentState, index)=>{
-      if(currentState===true)
-      {
-        console.log(tags[index].tagName);
-      }
-    });*/
+    console.log(tagsCheckedState);
     if(updatedCheckedState[position]===true)
     {
-      //console.log(tags[position].tagName);
       newTagSelected(tags[position].tagName);
-      console.log(tagsSelected);
-
       // Here the input is set to be the original data, not the current display data 
+      setDisplayData(processData(constRawData))
+    }
+    else
+    {
+      tagRemoved(tags[position].tagName);
       setDisplayData(processData(constRawData))
     }
 
@@ -187,11 +184,24 @@ export const Main = (props) => {
               </li>
             );          
         })}
+        <li className="col-start-4 row-start-6 m-2">
+          <button type="button" className="text-white" onClick={
+            function(){
+              tags.forEach(element => {
+                document.getElementById("checkbox-"+element.tagName).checked=false;
+              })
+              tagsSelected=[]
+              console.log(tagsCheckedState)
+              setDisplayData(processData(constRawData))
+            }
+          }>clear</button>
+        </li>
         <li className="col-start-5 row-start-6 m-2">  
           <Dropdown
           ref={dropDownRef}           
           onChange={function(event){
             dropDownRef.current.onChange(event)
+            setDisplayData(processData(constRawData))
             console.log(event.target[event.target.value].text)
           }}
           label="Tag Selection"
@@ -260,7 +270,7 @@ export const Main = (props) => {
     </ContainerBox>
 
       <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-5">
-        {displayData && drawPlot && <ScatterPlot settings={plotSetting} rawData={displayData} />}
+        {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} />}
       </div>
 
             <ContainerBox title="Info" className="row-start-3 col-start-6 col-span-3" >
@@ -279,7 +289,7 @@ export const Main = (props) => {
     
   )
 }
-const tagsSelected=[]
+var tagsSelected=[]
 const processData = (data) => {
   // Here maybe add other filters 
   // call this function whenever add new filter
@@ -302,24 +312,52 @@ const filterWithTags=(tagString)=>{
   var selectMethod=document.getElementById("select-tagSelection").value;
   if(selectMethod==0)
   {
-    return tagsSelected.every(function (tag){
-      return tagString.includes(tag)
-    });
+    if(tagsSelected.length!=0)
+    {
+      return tagsSelected.every(function (tag){
+        return tagString.includes(tag)
+      });
+    }
+    else
+    {
+      return true;
+    }
+
   }
   else if(selectMethod==1)
   {
-    return tagsSelected.some(function (tag){
-      return tagString.includes(tag)
-    });
+    if(tagsSelected.length!=0)
+    {
+      return tagsSelected.some(function (tag){
+        return tagString.includes(tag)
+      });
+    }
+    else
+    {
+      return true;
+    }
+
   }
   else
   {
-
+    console.log("wrong entry");
   }
 
 }
 const newTagSelected=(tag)=>{
   tagsSelected.push(tag);
+}
+const tagRemoved=(tag)=>{
+  if(tagsSelected.includes(tag))
+  {
+    var tempTags=[];
+    tagsSelected.forEach(element => {
+      if(element!=tag)
+      tempTags.push(element);
+
+    });
+    tagsSelected=tempTags;
+  }
 }
 //change the name and the poster
 export const refreshInfo = (name) => {
