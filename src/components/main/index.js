@@ -293,7 +293,7 @@ var tagsSelected=[]
 const processData = (data) => {
   // Here maybe add other filters 
   // call this function whenever add new filter
-  let returnData = data.filter(row => row[8] > 4);
+  let returnData = data.filter(row => row[8] > 1);
   returnData=returnData.filter(function (row){
     if(row[7]!==null)
     {
