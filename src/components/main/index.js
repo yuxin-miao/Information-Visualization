@@ -257,7 +257,7 @@ export const Main = (props) => {
     </ContainerBox>
 
       <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-5">
-        {displayData && drawPlot && <ScatterPlot settings={plotSetting} rawData={displayData} />}
+        {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} />}
       </div>
 
             <ContainerBox title="Info" className="row-start-3 col-start-6 col-span-3" >
