@@ -128,10 +128,16 @@ export const Main = (props) => {
   }, [])
 
   /******************** Data Filter ****************/
+  // data used by range selection 
+  const [rangeSelect, setRangeSelect] = useState({
+    rank: [],
+    episodes: [],
+    year: [],
+    rates: [],
+  })
   const onSearchBoxSubmit = (event) => {
     console.log(event.target[0].value)
   }
-
 
   const [tagsCheckedState, setTagsCheckedState] = useState(
     new Array(tags.length).fill(true)
@@ -175,6 +181,9 @@ export const Main = (props) => {
   const clickSuggestion = (suggestion) => {
     console.log(suggestion)
   }
+  useEffect(() => {
+    console.log(rangeSelect)
+  }, [rangeSelect])
 
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
@@ -267,7 +276,9 @@ export const Main = (props) => {
       </div>
       </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-5" >
-        {displayData && constRawData && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} />}
+        { displayData && constRawData 
+            && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} />
+        }
       </ContainerBox>
 
 
@@ -314,4 +325,8 @@ export const refreshInfo = (name) => {
   console.log(animeName);
   console.log(posterUrl);
 
+}
+
+const filterByRange = (rangeSelect) => {
+  
 }

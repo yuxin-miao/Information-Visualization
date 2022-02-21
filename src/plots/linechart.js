@@ -9,7 +9,7 @@ import { useRef, useEffect } from "react";
  * @param customized: customized settings [startColor, endColor, numberofTicks, id]
  * @return svg node, line chart draw
  */
-export const LineChart = ({settings, data, customized}) => {
+export const LineChart = ({settings, data, customized, handleEndBrush}) => {
 
   const {width, height, margin} = settings;
 
@@ -69,9 +69,7 @@ export const LineChart = ({settings, data, customized}) => {
     // tool tip
     const tooltip = d3.select("#".concat(rangeId))
     .attr("class", "rangetip")
-    console.log(rangeId)
 
-    console.log(tooltip)
 
     const svgElement = d3.select(ref.current)
       .attr('width', width)
@@ -81,16 +79,17 @@ export const LineChart = ({settings, data, customized}) => {
     brush.call( 
       d3.brushX()  
         .extent( [ [0,0], [width,drawHeight] ] )
-        .on("start brush", handleOnBrush)      
+        .on("start brush", handleOnBrush)     
+        .on("end", handleEndBrush) 
+
     )
-    function handleOnBrush(event){
+    function handleOnBrush(event) {
       const selection = event.selection
       let xStart = convertToXVal(selection[0]).toFixed(1)
       let xEnd = convertToXVal(selection[1]).toFixed(1)
       tooltip.style('transform', `translate(${selection[1]}px, ${drawHeight/2}px)`).style("opacity", 1).text(`(${xStart}, ${xEnd})`)
-
-      console.log(convertToXVal(selection[0]), convertToXVal(selection[1]))
     }
+
     function convertToXVal(number) {
       const xMax = d3.max(data, d => d.xVal)
       return number / drawWidth * xMax
@@ -99,8 +98,8 @@ export const LineChart = ({settings, data, customized}) => {
   }, [])
   return (
     <>    
-        <div id={rangeId}></div>
-        <svg ref = {ref}/>
+      <div id={rangeId}></div>
+      <svg ref = {ref}/>
     </>
 
   )
