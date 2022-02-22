@@ -10,6 +10,11 @@ axis-style line{
   fill: white;
 }
 
+.highlight-attr {
+  stroke: white;
+  stroke-width: 2;
+}
+
 .tooltip {
   opacity: 0;
   position: absolute;

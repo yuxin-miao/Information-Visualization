@@ -106,8 +106,7 @@ export const Main = (props) => {
     }
   }, [plotRef]);
 
-
-  const [selectSuggestion, setSelectSuggestion] = useState('')
+  const [selectSuggestion, setSelectSuggestion] = useState([])
 
   /******************** Data Prepare ****************/
   // const rawData, delete the first row 
@@ -144,11 +143,6 @@ export const Main = (props) => {
     year: [],
     rates: [],
   })
-  const onSearchBoxSubmit = (event) => {
-    console.log(event.target[0].value)
-  }
-
-
 
   let [tagsCheckedState, setTagsCheckedState] = useState(
     new Array(tags.length).fill(false)
@@ -172,10 +166,23 @@ export const Main = (props) => {
     }
 
   };
-
+  // When user click one suggestion from the search box suggestion
+  // should also clear all current selection 
   const clickSuggestion = (suggestion) => {
-    console.log(suggestion)
+    const suggestionArray = []
+    if (suggestion.type === "anime") {
+      suggestionArray.push(String(suggestion.val))
+    } else if (suggestion.type === "voice actor") {
+      constRawData.forEach(row => {
+        if (row[15] && row[15].includes(suggestion.val)) {
+          suggestionArray.push(String(row[1]))
+        }
+      })
+    }
+    setSelectSuggestion(suggestionArray)
+
   }
+
   const dropDownRef = useRef()//dropdown ref for tag selection
 
   const InfoDispatch = useDispatch()
@@ -191,6 +198,7 @@ export const Main = (props) => {
 
   useEffect(() => {
     // console.log('change range select', rangeSelect)
+    // let tmpData = processData(displayData)
     let res = filterByRange(rangeSelect, displayData)
     setDisplayData(res)
   }, [rangeSelect])
@@ -198,7 +206,7 @@ export const Main = (props) => {
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
 
-      {displayData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)}
+      {displayData && <SearchBox rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)}
         handleClickSuggestion={clickSuggestion} className="col-span-4" />}
       <ContainerBox title="Tags" className="row-start-2 col-start-1 col-span-3 ">
 
@@ -295,7 +303,7 @@ export const Main = (props) => {
       </ContainerBox>
 
       <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-6">
-        {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} />}
+        {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion}/>}
       </div>
 
       <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-7 col-span-2" >
@@ -316,7 +324,6 @@ export const Main = (props) => {
         }
       </ContainerBox>
 
-
       <ContainerBox title="Related" className="row-start-4 col-start-6 col-span-full" />
     </div>
 
@@ -336,7 +343,6 @@ const processData = (data) => {
       return false
     }
   })
-  console.log(returnData)
   return returnData;
 }
 

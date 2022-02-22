@@ -74,7 +74,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush}) => {
     const svgElement = d3.select(ref.current)
       .attr('width', width)
       .attr('height', height)
-    const brush = svgElement.append("g").attr("class", "brush")
+    const brush = svgElement.append("g").attr("class", "brush".concat(rangeId))
 
 
     brush.call( 
@@ -89,6 +89,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush}) => {
     )
 
     function handleOnBrush(event) {
+      brush.style("opacity", 1)
       const selection = event.selection
       let xStart = convertToXVal(selection[0]).toFixed(1)
       let xEnd = convertToXVal(selection[1]).toFixed(1)
@@ -104,8 +105,8 @@ export const LineChart = ({settings, data, customized, handleEndBrush}) => {
   }, [])
   //TODO use remove instead of opacity 
   const handleOnRefresh = () => {
-    d3.select("#".concat(rangeId)).remove()
-    d3.select(".brush").style("opacity", 0)
+    d3.select("#".concat(rangeId)).style("opacity", 0)
+    d3.select(".brush".concat(rangeId)).style("opacity", 0)
     handleEndBrush(-1,-1)
   }
   return (
