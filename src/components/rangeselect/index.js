@@ -10,7 +10,7 @@ export const RangeSelection = (props) => {
   const gridRef = useRef()
   const [draw, setDraw] = useState(false)
   const [settings, setSettings] = useState({
-    height: 100,
+    height: window.innerHeight * 0.09,
     width: 300,
     margin: {top: 0, right: 10, bottom: 50, left: 10},
   })

@@ -71,8 +71,8 @@ export const Main = (props) => {
   /****** setup for the scatter plot ******/
   // plot settings 
   const [plotSetting, setPlotSetting] = useState({
-    width: 650,
-    height: 300,
+    width: window.innerWidth * 0.5,
+    height: window.innerHeight * 0.5,
     margin: {
       top: 20,
       right: 10,
@@ -197,11 +197,11 @@ export const Main = (props) => {
 
   // Initial commit
   return (
-    <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
+    <div className={`${props.className ? props.className : ''} col-span-full main-grid`}>
 
       {displayData && <SearchBox onSubmit={onSearchBoxSubmit} rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)}
-        handleClickSuggestion={clickSuggestion} className="col-span-4" />}
-      <ContainerBox title="Tags" className="row-start-2 col-start-1 col-span-3 ">
+        handleClickSuggestion={clickSuggestion} className="col-span-4 m-2" />}
+      <ContainerBox title="Tags" className="row-start-2 col-start-1 col-span-4 m-2">
 
         <ul className="tags-list h-full w-full grid grid-cols-5 grid-rows-6 gap-2 p-5">
           {tags.map(({ tagName }, index) => {
@@ -239,7 +239,7 @@ export const Main = (props) => {
         </ul>
 
       </ContainerBox>
-      <ContainerBox title="Filters" className="row-start-2 col-start-4 col-span-full filter-grid p-5">
+      <ContainerBox title="Filters" className="row-start-2 col-start-5 col-span-full filter-grid m-2 p-5">
         <Dropdown
           label="X - Axis"
           value="x-axis"
@@ -295,11 +295,11 @@ export const Main = (props) => {
         </div>
       </ContainerBox>
 
-      <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-6">
+      <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-7 m-2">
         {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} />}
       </div>
 
-      <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-7 col-span-2" >
+      <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-8 col-span-full m-2" >
         <InfoPanel
           animeTitle={infoTitle}
           animeDescription={infoDescription}
@@ -311,14 +311,14 @@ export const Main = (props) => {
           animeRating={infoRating}
         />
       </ContainerBox>
-      <ContainerBox title="Range" className="row-start-4 col-span-5" >
+      <ContainerBox title="Range" className="row-start-4 col-span-7 m-2" >
         { displayData && constRawData 
             && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} />
         }
       </ContainerBox>
 
 
-      <ContainerBox title="Related" className="row-start-4 col-start-6 col-span-full" />
+      <ContainerBox title="Related" className="row-start-4 col-start-8 col-span-full m-2" />
     </div>
 
   )
