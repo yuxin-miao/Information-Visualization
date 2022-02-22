@@ -137,13 +137,22 @@ export const Main = (props) => {
   }, [])
 
   /******************** Data Filter ****************/
+  // data used by range selection 
+  const [rangeSelect, setRangeSelect] = useState({
+    rank: [],
+    episodes: [],
+    year: [],
+    rates: [],
+  })
   const onSearchBoxSubmit = (event) => {
     console.log(event.target[0].value)
   }
 
 
+
   let [tagsCheckedState, setTagsCheckedState] = useState(
     new Array(tags.length).fill(false)
+
   );
   const handleTagsOnChange = (position) => {
     const updatedCheckedState = tagsCheckedState.map((item, index) =>
@@ -179,6 +188,12 @@ export const Main = (props) => {
   const infoSeason = useSelector(state => state.info.season)
   const infoRank = useSelector(state => state.info.rank)
   const infoRating = useSelector(state => state.info.rating)
+
+  useEffect(() => {
+    // console.log('change range select', rangeSelect)
+    let res = filterByRange(rangeSelect, displayData)
+    setDisplayData(res)
+  }, [rangeSelect])
 
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
@@ -296,7 +311,9 @@ export const Main = (props) => {
         />
       </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-5" >
-        {displayData && constRawData && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} />}
+        { displayData && constRawData 
+            && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} />
+        }
       </ContainerBox>
 
 
@@ -388,4 +405,22 @@ export const refreshInfo = (data, infoDispatch) => {
   infoDispatch(setSeason(data.season))
   infoDispatch(setRank(data.rank))
   infoDispatch(setRating(data.rating))
+}
+
+
+const filterByRange = (rangeSelect, data) => {
+  let returnData = data
+  if(rangeSelect.rank.length !== 0) {
+    returnData = returnData.filter(row => row[0] >= rangeSelect.rank[0] && row[0] <= rangeSelect.rank[1]);
+  }
+  if(rangeSelect.year.length !== 0) {
+    returnData = returnData.filter(row => row[9] >= rangeSelect.year[0] && row[9] <= rangeSelect.year[1]);
+  }
+  if(rangeSelect.episodes.length !== 0) {
+    returnData = returnData.filter(row => row[4] >= rangeSelect.episodes[0] && row[4] <= rangeSelect.episodes[1]);
+  }
+  if(rangeSelect.rates.length !== 0) {
+    returnData = returnData.filter(row => row[8] >= rangeSelect.rates[0] && row[8] <= rangeSelect.rates[1]);
+  }
+  return returnData
 }

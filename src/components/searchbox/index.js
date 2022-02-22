@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 import SearchIcon from "../../assets/searchicon.png"
 import './index.css'
 import { useEffect } from "react"
@@ -10,98 +10,88 @@ import { useEffect } from "react"
 
 export const SearchBox = ({ className, onSubmit, rawSetData, animeData, handleClickSuggestion}) => {
   const [query, setQuery] = useState('')
- 
-  const inputRef = useRef(null)
+
+  // suggestion format: [{val: '', type: ''}, {val: '', type: ''}, ...]
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [suggestionList, setSuggestionList] = useState([])
   const [submitSearch, setSubmitSearch] = useState(false)
-
+  // set the list of string to be filtered 
   useEffect(() => {
     let itemList = []
-    let tempList = animeData.slice(1)
-    tempList.forEach(element => {
-      itemList.push(String(element))
-    })
 
+    // add AnimeData
+    let tempList = animeData
+    tempList.forEach(element => {
+      itemList.push({val: String(element), type: 'anime'})
+    })
+    // add VA data 
     tempList = rawSetData[4].slice(1)
     tempList.forEach(element => {
-      itemList.push(String(element))
+      itemList.push({val: String(element), type: 'voice actor'})
     });
-
+    // add studio data 
     tempList = rawSetData[1].slice(1)
     tempList.forEach(element => {
-      itemList.push(String(element))
+      itemList.push({val: String(element), type: 'studio'})
     })
+    // set the final result 
     setSuggestionList(itemList)
   }, [])
-
-  const SearchIconStyle = {
-    backgroundImage: `url(${SearchIcon})`,
-    backgroundRepeat: `no-repeat`,
-    backgroundPosition: `center`,
-    backgroundSize: `auto 3vh`,
-    width: `4vh`,
-    height: `4vh`
-  }
-  const SearchBoxContainerStyle = {
-    maxHeight: `4vh`
-  }
-
+  // handle the input change 
   const handleChange = (event) => {
     setQuery(event.target.value)
     setSubmitSearch(false)
     if (event.target.value) setFilteredSuggestions(availableSuggestoins(event.target.value))
     else setFilteredSuggestions([])
   }
-
+  // filter the suggestions matching user's current search 
   const availableSuggestoins = (searchValue) =>{
     let tmpList = []
     for (let i = 0; i < suggestionList.length; i++) {
-      if (suggestionList[i].toLowerCase().includes(searchValue.toLowerCase()))
+      if (suggestionList[i].val.toLowerCase().includes(searchValue.toLowerCase()))
         tmpList.push(suggestionList[i])
       if (tmpList.length === 5) break
     }
     return tmpList
   }
-
+  // render the suggestion list 
   const renderSuggestionList = () => {
     if (query === undefined || query === '' || submitSearch) return null;
     return (
-
-      <ul className="suggestions absolute top-10 bg-main">
+      <ul className="suggestions bg-main w-1/2 absolute inline-block z-10">
         {filteredSuggestions && filteredSuggestions.length > 0 ?
           (filteredSuggestions.map((suggestion, index) => {
             return (
-              <li className="block py-2 px-4 text-sm text-gray-100 hover:text-main hover:bg-gray-50" 
+              <li className="flex justify-between py-2 px-4 text-sm text-gray-100 hover:text-main hover:bg-gray-50" 
                   key={index} 
                   onClick={() => handleClick(suggestion)}>
-                {suggestion}
+                <div>{suggestion.val}</div>  
+                <div className="circle-text px-2"> {suggestion.type}</div>
               </li>
             );
           })) : 
-            <li className="block py-2 px-4 text-sm text-gray-100">
+            <li className="py-2 px-4 text-sm text-gray-100">
               there are not related things
             </li>
-
         }
       </ul>
     );
   }
-
+  // handle the event when use click one suggestion in the suggestion list 
   const handleClick = (suggestion) => {
-    setQuery(suggestion)
+    setQuery(suggestion.val)
     setFilteredSuggestions([])
     handleClickSuggestion(suggestion)
     setSubmitSearch(true)
   }
 
   return (
-    <div className={`${className ? className : ''} w-full flex gap-4 p-2`}>
-      <img src={SearchIcon} />
-      <div className="flex-row flex justify-center w-full">
-        <form className="w-full" onSubmit={onSubmit}>
+    <div className={`${className ? className : ''} w-full flex gap-4 p-2 pt-0`}>
+      <div className="search-icon flex align-center justify-center"> <img alt={''} src={SearchIcon} className="icon"/> </div>
+      
+      <div className="input-box justify-center w-full">
+        <form className="input-area w-ful" onSubmit={onSubmit}>
           <input
-            ref={inputRef}
             className="px-3 w-full h-full bg-transparent text-white"
             placeholder="Search for the anime, studio or voice actor"
             style={{ fontFamily: "SourceSansPro" }}

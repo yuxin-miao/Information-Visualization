@@ -19,7 +19,7 @@ export function parseData(complete) {
  * @param {function} complete: a callback function that would be called after download success 
  */
 export function parseSetData(complete) {
-  Papa.parse('https://raw.githubusercontent.com/yuxin-miao/silver-doodles/main/setOfData.csv', { 
+  Papa.parse('https://raw.githubusercontent.com/yuxin-miao/silver-doodles/data-store/setOfData.csv', { 
       download: true,
       dynamicTyping: true,
       complete: complete

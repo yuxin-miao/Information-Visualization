@@ -41,13 +41,19 @@ function createSetAllData() {
     let rawData = result.data;
 
     // voice actor: only keep the name, all content after /n is deleted
-    let rawVoiceActors = setFromArrayOfStrings(extractColumn(rawData, 15)); 
+    let rawVoiceActors = setFromArrayOfStrings(extractColumn(rawData, 15));
+    rawVoiceActors = rawVoiceActors.map(item => item.split('\n')[0])
+    rawVoiceActors = rawVoiceActors.map(item => {
+      if (item.includes(':')) return item.split(':')[1]
+      else return item
+    })
+
     const rows = [
       createSet(extractColumn(rawData, 3)), // types
       createSet(extractColumn(rawData, 5)), // studios
       setFromArrayOfStrings(extractColumn(rawData, 7)), // tags
       setFromArrayOfStrings(extractColumn(rawData, 12)), // content warnings
-      rawVoiceActors.map(item => item.split('\n')[0]), // voice actors
+      createSet(rawVoiceActors), // voice actors
     ]
 
     let csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
