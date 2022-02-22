@@ -22,11 +22,11 @@ export const InfoPanel = (props) => {
             </div>
             <div className='row-start-3 col-start-3 col-span-3 self-center justify-self-center flex gap-2'>
                 <img src={CalendarIcon} className='h-min w-auto' />
-                <p>{`${props.animeReleaseYear} ${props.animeSeason}`}</p>
+                <p>{props.animeSeason ? `${props.animeReleaseYear} ${props.animeSeason}` : props.animeReleaseYear}</p>
             </div>
             <div className='row-start-3 col-start-6 col-span-full self-center justify-self-center flex gap-2'>
                 <img src={StudioIcon} className='h-min w-auto' />
-                <p>{`${props.animeStudio}`}</p>
+                <p>{props.animeStudio ? props.animeStudio : ''}</p>
             </div>
             <div className='row-start-4 col-span-full px-5 text-justify' style={{ overflowY: "scroll" }}>
                 <p>{props.animeDescription}</p>
