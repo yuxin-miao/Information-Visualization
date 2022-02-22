@@ -279,11 +279,11 @@ export const Main = (props) => {
         </div>
       </ContainerBox>
 
-      <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-5">
+      <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-6">
         {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} />}
       </div>
 
-      <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-6 col-span-3" >
+      <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-7 col-span-2" >
         <InfoPanel
           animeTitle={infoTitle}
           animeDescription={infoDescription}
