@@ -10,10 +10,10 @@ export const InfoPanel = (props) => {
             <div className='col-start-2 col-span-5 row-span-2 flex h-min justify-center self-center text-center font-bold' style={{ fontSize: '1.5vw' }}>
                 <p>{props.animeTitle}</p>
             </div>
-            <div className='col-start-1 row-start-1 self-center justify-self-center font-extrabold' style={{ fontSize: '1.3vw' }}>
+            <div className='col-start-1 row-start-1 row-span-2 self-center justify-self-center font-extrabold' style={{ fontSize: '1.3vw' }}>
                 <p>{props.animeRank ? `# ${props.animeRank}` : ''}</p>
             </div>
-            <div className='col-start-7 row-start-1 self-center justify-self-center text-red-400 font-extrabold' style={{ fontSize: '1.5vw' }}>
+            <div className='col-start-7 row-start-1 row-span-2 self-center justify-self-center text-red-400 font-extrabold' style={{ fontSize: '1.5vw' }}>
                 <p>{props.animeRating}</p>
             </div>
             <div className='row-start-3 self-center justify-self-center flex gap-2'>
