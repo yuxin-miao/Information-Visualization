@@ -3,8 +3,9 @@ import React from "react";
 import { useRef, useEffect } from "react";
 import { Main,refreshInfo } from "../components/main";
 import './scatterPlot.css';
+import { _interpolateColor,h2r,r2h } from "../utils/colorUtils";
 
-export const ScatterPlot = ({settings, displayData}) => {
+export const ScatterPlot = ({settings, displayData, infoDispatch}) => {
   // Chart width and height - accounting for margins
   const {width, height, margin, radius, color, xVar, yVar} = settings;
   let drawWidth = width - margin.left - margin.right;
@@ -14,7 +15,14 @@ export const ScatterPlot = ({settings, displayData}) => {
     return {
       x: +item[xVar.idx],
       y: +item[yVar.idx],
-      label: item[1] // anime name
+      label: item[1], // anime name
+      description: item[11],
+      rating: item[8],
+      type: item[3],
+      season: item[6],
+      releaseYear: item[9],
+      studio: item[5],
+      rank: item[0]
     }
   })
   //console.log(data);
@@ -84,15 +92,19 @@ export const ScatterPlot = ({settings, displayData}) => {
 
     circles.enter().append('circle')
         .attr('r', (d) => radius)
-        .attr('fill', (d) => color)
+        .attr('fill', function(d){//color interpolation
+           //console.log(_interpolateColor([0.5,1,0],[1,1,0],0.5))
+           var interpolationFactor=(d.rating-1)<0?0:(d.rating-1)/4;
+           return r2h(_interpolateColor(h2r("#40e0d0"),h2r("#ff0080"),interpolationFactor)) 
+        })
         .attr('label', (d)=>d.label)
-        .style('fill-opacity', 0.3)
+        .style('fill-opacity', 1)
         .merge(circles)
         .attr('cx', (d) => xScale(d.x))
         .attr('cy', (d) => yScale(d.y))
         .on("click", function(d) {
         //alert("on click get data" + d3.select(this).attr("label"));
-            refreshInfo(d3.select(this).attr("label"))
+            refreshInfo(d.srcElement.__data__, infoDispatch)
             d3.select(this).attr("stroke","white").attr("stroke-width",2)
 
         //Main.refreshInfo(d3.select(this).attr("label"));
@@ -103,7 +115,7 @@ export const ScatterPlot = ({settings, displayData}) => {
         .on("mouseover", function(event, d){
             const posX = d3.select(this).attr("cx")
             const posY = d3.select(this).attr("cy")
-            tooltip.style('transform', `translate(${posX}px, ${posY}px)`).style("opacity", 1).text(`(${d.x}, ${d.y})`)
+            tooltip.style('transform', `translate(${posX}px, ${posY}px)`).style("opacity", 1).text(`${d.label}(${d.x}, ${d.y})`)
             d3.select(this).attr("stroke","white").attr("stroke-width",1)
         }).on("mouseout", function(d){
             d3.select(this).attr("stroke", "none")

@@ -1,7 +1,7 @@
 .main-grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: 0.2fr 0.65fr 2fr 1fr;
+  grid-template-rows: 5vh 20vh 50vh 25vh;
   grid-column-gap: 1.5vw;
   grid-row-gap: 1.5vh;
 }
