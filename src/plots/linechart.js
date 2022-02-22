@@ -10,7 +10,7 @@ import RefreshIcon from "../assets/refresh.png";
  * @param customized: customized settings [startColor, endColor, numberofTicks, id]
  * @return svg node, line chart draw
  */
-export const LineChart = ({settings, data, customized, handleEndBrush}) => {
+export const LineChart = ({settings, data, customized, handleEndBrush, reset}) => {
 
   const {width, height, margin} = settings;
 
@@ -109,6 +109,9 @@ export const LineChart = ({settings, data, customized, handleEndBrush}) => {
     d3.select(".brush".concat(rangeId)).style("opacity", 0)
     handleEndBrush(-1,-1)
   }
+  useEffect(() => {
+    if (reset) handleOnRefresh()
+  }, [reset]) 
   return (
     <>    
       <div id={rangeId}></div>

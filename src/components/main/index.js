@@ -83,7 +83,7 @@ export const Main = (props) => {
     color: 'blue',
     xVar: {
       idx: 4,
-      name: "Release Season"
+      name: "Episodes"
     },
     yVar: {
       idx: 8,
@@ -203,6 +203,16 @@ export const Main = (props) => {
     setDisplayData(res)
   }, [rangeSelect])
 
+  // global reset indicator 
+  const [reset, setReset] = useState(false)
+  // function executed when user click clear all, would clear all the data filters 
+  const handleClearAll = () => {
+    setReset(true)
+    setDisplayData(constRawData)
+
+
+  }
+
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
 
@@ -306,6 +316,8 @@ export const Main = (props) => {
         {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion}/>}
       </div>
 
+      <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" onClick={handleClearAll}>Clear All</button>
+
       <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-7 col-span-2" >
         <InfoPanel
           animeTitle={infoTitle}
@@ -320,7 +332,7 @@ export const Main = (props) => {
       </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-5" >
         { displayData && constRawData 
-            && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} />
+            && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} reset={reset} />
         }
       </ContainerBox>
 
