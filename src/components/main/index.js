@@ -195,6 +195,7 @@ export const Main = (props) => {
     setDisplayData(res)
   }, [rangeSelect])
 
+  // Initial commit
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
 
