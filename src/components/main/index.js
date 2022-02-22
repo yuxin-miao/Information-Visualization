@@ -6,7 +6,7 @@ import { useRef, useEffect, useSpring, useState, useMemo } from "react";
 import { useInterval } from '../../utils/useInterval';
 
 import { useSelector, useDispatch } from "react-redux";
-import { setUrl, setTitle, setDescription } from "../../utils/infoSlice";
+import { setUrl, setTitle, setDescription,setRank, setRating,setReleaseSeason,setReleaseYear,setStudio,setType } from "../../utils/infoSlice";
 
 import { ScatterPlot } from '../../plots/scatterPlot';
 import { parseData, parseSetData } from "../../utils/fetchData";
@@ -173,6 +173,13 @@ export const Main = (props) => {
   const infoUrl = useSelector(state => state.info.url)
   const infoTitle = useSelector(state => state.info.title)
   const infoDescription = useSelector(state => state.info.description)
+  const infoRank = useSelector(state => state.info.rank)
+  const infoRating = useSelector(state => state.info.rating)
+  const infoReleaseYear = useSelector(state => state.info.releaseYear)
+  const infoReleaseSeason = useSelector(state => state.info.releaseSeason)
+  const infoStudio = useSelector(state => state.info.studio)
+  const infoType = useSelector(state => state.info.type)
+  
 
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
@@ -278,7 +285,7 @@ export const Main = (props) => {
       </div>
 
       <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-6 col-span-3" >
-        <InfoPanel animeTitle={infoTitle} animeDescription={infoDescription} />
+        <InfoPanel animeTitle={infoTitle} animeDescription={infoDescription} animeRank={infoRank} animeRating={infoRating} animeReleaseSeason={infoReleaseSeason} animeReleaseYear={infoReleaseYear} animeStudio={infoStudio} animeType={infoType} />
       </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-5" >
         {displayData && constRawData && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} />}
@@ -369,4 +376,11 @@ export const refreshInfo = (data, infoDispatch) => {
 
   var descriptionCleansed=data.description.replaceAll("\\xa0",' ')
   infoDispatch(setDescription(descriptionCleansed))
+
+  infoDispatch(setRank(data.rank))
+  infoDispatch(setRating(data.rating))
+  infoDispatch(setReleaseSeason(data.releaseSeason))
+  infoDispatch(setReleaseYear(data.releaseYear))
+  infoDispatch(setStudio(data.studio))
+  infoDispatch(setType(data.type))
 }
