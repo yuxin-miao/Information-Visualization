@@ -6,7 +6,7 @@ import { useRef, useEffect, useSpring, useState, useMemo } from "react";
 import { useInterval } from '../../utils/useInterval';
 
 import { useSelector, useDispatch } from "react-redux";
-import { setUrl, setTitle, setDescription } from "../../utils/infoSlice";
+import { setUrl, setTitle, setDescription, setStudio, setSeason, setReleaseYear, setType, setRank, setRating } from "../../utils/infoSlice";
 
 import { ScatterPlot } from '../../plots/scatterPlot';
 import { parseData, parseSetData } from "../../utils/fetchData";
@@ -173,6 +173,12 @@ export const Main = (props) => {
   const infoUrl = useSelector(state => state.info.url)
   const infoTitle = useSelector(state => state.info.title)
   const infoDescription = useSelector(state => state.info.description)
+  const infoStudio = useSelector(state => state.info.studio)
+  const infoReleaseYear = useSelector(state => state.info.releaseYear)
+  const infoType = useSelector(state => state.info.type)
+  const infoSeason = useSelector(state => state.info.season)
+  const infoRank = useSelector(state => state.info.rank)
+  const infoRating = useSelector(state => state.info.rating)
 
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
@@ -278,7 +284,16 @@ export const Main = (props) => {
       </div>
 
       <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-6 col-span-3" >
-        <InfoPanel animeTitle={infoTitle} animeDescription={infoDescription} />
+        <InfoPanel
+          animeTitle={infoTitle}
+          animeDescription={infoDescription}
+          animeStudio={infoStudio}
+          animeReleaseYear={infoReleaseYear}
+          animeType={infoType}
+          animeSeason={infoSeason}
+          animeRank={infoRank}
+          animeRating={infoRating}
+        />
       </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-5" >
         {displayData && constRawData && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} />}
@@ -367,4 +382,10 @@ export const refreshInfo = (data, infoDispatch) => {
   infoDispatch(setUrl("https://cdn.anime-planet.com/anime/primary/" + posterUrl + "-1.jpg"))
   infoDispatch(setTitle(animeName))
   infoDispatch(setDescription(data.description))
+  infoDispatch(setStudio(data.studio))
+  infoDispatch(setType(data.type))
+  infoDispatch(setReleaseYear(data.releaseYear))
+  infoDispatch(setSeason(data.season))
+  infoDispatch(setRank(data.rank))
+  infoDispatch(setRating(data.rating))
 }

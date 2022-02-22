@@ -17,7 +17,12 @@ export const ScatterPlot = ({settings, displayData, infoDispatch}) => {
       y: +item[yVar.idx],
       label: item[1], // anime name
       description: item[11],
-      rating: item[8]
+      rating: item[8],
+      type: item[3],
+      season: item[6],
+      releaseYear: item[9],
+      studio: item[5],
+      rank: item[0]
     }
   })
   //console.log(data);
