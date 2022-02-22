@@ -82,7 +82,7 @@ export const Main = (props) => {
     radius: 5,
     color: 'blue',
     xVar: {
-      idx: 9,
+      idx: 4,
       name: "Release Season"
     },
     yVar: {
