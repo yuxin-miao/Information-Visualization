@@ -5,7 +5,7 @@ import { Main,refreshInfo } from "../components/main";
 import './scatterPlot.css';
 import { _interpolateColor,h2r,r2h } from "../utils/colorUtils";
 
-export const ScatterPlot = ({settings, displayData, infoDispatch}) => {
+export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) => {
   // Chart width and height - accounting for margins
   const {width, height, margin, radius, color, xVar, yVar} = settings;
   let drawWidth = width - margin.left - margin.right;
@@ -102,6 +102,17 @@ export const ScatterPlot = ({settings, displayData, infoDispatch}) => {
         .merge(circles)
         .attr('cx', (d) => xScale(d.x))
         .attr('cy', (d) => yScale(d.y))
+        .attr("class", function(d) {
+
+            for (let idx = 0; idx < highlight.length; idx++) {
+                if (d.label === highlight[idx]) {
+                    return "highlight-attr"
+
+                }
+              }
+            return ''
+
+        })
         .on("click", function(d) {
         //alert("on click get data" + d3.select(this).attr("label"));
             refreshInfo(d.srcElement.__data__, infoDispatch)
@@ -125,7 +136,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch}) => {
     circles.transition().duration(500);
     circles.exit().remove();
 
-  },[displayData]);
+  },[displayData, highlight]);
 
 
 

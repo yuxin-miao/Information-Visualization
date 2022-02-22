@@ -10,7 +10,7 @@ import RefreshIcon from "../assets/refresh.png";
  * @param customized: customized settings [startColor, endColor, numberofTicks, id]
  * @return svg node, line chart draw
  */
-export const LineChart = ({settings, data, customized, handleEndBrush}) => {
+export const LineChart = ({settings, data, customized, handleEndBrush, reset}) => {
 
   const {width, height, margin} = settings;
 
@@ -74,7 +74,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush}) => {
     const svgElement = d3.select(ref.current)
       .attr('width', width)
       .attr('height', height)
-    const brush = svgElement.append("g").attr("class", "brush")
+    const brush = svgElement.append("g").attr("class", "brush".concat(rangeId))
 
 
     brush.call( 
@@ -89,6 +89,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush}) => {
     )
 
     function handleOnBrush(event) {
+      brush.style("opacity", 1)
       const selection = event.selection
       let xStart = convertToXVal(selection[0]).toFixed(1)
       let xEnd = convertToXVal(selection[1]).toFixed(1)
@@ -104,10 +105,13 @@ export const LineChart = ({settings, data, customized, handleEndBrush}) => {
   }, [])
   //TODO use remove instead of opacity 
   const handleOnRefresh = () => {
-    d3.select("#".concat(rangeId)).remove()
-    d3.select(".brush").style("opacity", 0)
+    d3.select("#".concat(rangeId)).style("opacity", 0)
+    d3.select(".brush".concat(rangeId)).style("opacity", 0)
     handleEndBrush(-1,-1)
   }
+  useEffect(() => {
+    if (reset) handleOnRefresh()
+  }, [reset]) 
   return (
     <>    
       <div id={rangeId}></div>
