@@ -1,0 +1,53 @@
+axis-style line{
+  stroke: white;
+}
+
+.axis-style path{
+  stroke: #d0d0d0;
+}
+
+.axis-style text{
+  fill: white;
+  font-size: .8vw;
+}
+
+.axis-label {
+  font-size: 1vw;
+}
+
+.highlight-attr {
+  stroke: white;
+  stroke-width: 2;
+  opacity: 1;
+}
+
+.tooltip {
+  opacity: 0;
+  position: absolute;
+  background-color: rgb(3, 173, 173);
+  z-index: 100;
+  padding: 1px;
+  padding-left: 3px;
+  padding-right: 3px;
+  margin-left: 20px;
+  margin-top: -13px;
+  pointer-events: none;
+  font-size: .8vw;
+  font-weight: 400;
+  color: white;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.2s;
+
+}
+
+.tooltip ::after {
+  content: " ";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #ffffff transparent transparent transparent;
+}

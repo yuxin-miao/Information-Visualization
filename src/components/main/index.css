@@ -1,0 +1,13 @@
+.main-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: 5% 20% 50% 25%;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, .4fr) 1fr;
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: .5vw;
+  grid-row-gap: .5vh;
+}
