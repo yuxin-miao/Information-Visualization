@@ -204,6 +204,8 @@ export const Main = (props) => {
     setDisplayData(constRawData)
     document.getElementById("select-studio").value = "All"
     document.getElementById("select-contentwarning").value = "All"
+    document.getElementById("select-x-axis").value = "Episodes"
+    document.getElementById("select-y-axis").value = "Rating"
     setTypesCheckedState(new Array(types.length).fill(false))
     typesSelected=[]
     setSeasonsCheckedState(new Array(seasons.length).fill(false))
@@ -511,7 +513,7 @@ export const Main = (props) => {
       <ContainerBox title="Filters" className="row-start-2 col-start-4 col-span-full filter-grid p-5">
         <div className="grid grid-cols-5 gap-2 text-xs" >
           <p className="text-white font-ssp font-bold self-center col-span-2">X - Axis</p>
-          <select onChange={handleXOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="x-axis" id="select-x-axis">
+          <select onChange={handleXOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" defaultValue="Episodes" name="x-axis" id="select-x-axis">
             {axis.map(val => <option key={`x-axis-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
@@ -525,7 +527,10 @@ export const Main = (props) => {
         </div> */}
         <div className="row-start-4 grid grid-cols-5 gap-2 text-xs" >
           <p className="text-white font-ssp font-bold self-center col-span-2">Y - Axis</p>
-          <select onChange={handleYOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="y-axis" id="select-y-axis">
+          <select onChange={handleYOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" defaultValue="Rating" name="y-axis" id="select-y-axis">
+            {/* <option key="y-axis-rating" value="Rating">Rating</option>
+            <option key="y-axis-release-year" value="Release Year">Release Year</option>
+            <option key="y-axis-episodes" value="Episodes">Episodes</option> */}
             {axis.map(val => <option key={`y-axis-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
