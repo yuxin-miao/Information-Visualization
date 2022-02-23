@@ -9,3 +9,31 @@ axisStyle line{
 .axisStyle text{
   fill: white;
 }
+
+.rangetip {
+  opacity: 0;
+  position: absolute;
+  background-image: linear-gradient(to right, #59C173, #a17fe0, #5D26C1);
+  z-index: 100;
+  padding: 1px;
+  padding-left: 3px;
+  padding-right: 3px;
+  margin-left: 5px;
+  pointer-events: none;
+  font-size: 7px;
+  font-weight: 600;
+  color: white;
+  border-radius: 5px;
+}
+
+
+.rangetip ::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #59C173 transparent transparent;
+}
