@@ -161,22 +161,7 @@ export const Main = (props) => {
 
   );
   
-  // When user click one suggestion from the search box suggestion
-  // should also clear all current selection 
-  const clickSuggestion = (suggestion) => {
-    const suggestionArray = []
-    if (suggestion.type === "anime") {
-      suggestionArray.push(String(suggestion.val))
-    } else if (suggestion.type === "voice actor") {
-      constRawData.forEach(row => {
-        if (row[15] && row[15].includes(suggestion.val)) {
-          suggestionArray.push(String(row[1]))
-        }
-      })
-    }
-    setSelectSuggestion(suggestionArray)
 
-  }
 
   const dropDownRef = useRef()//dropdown ref for tag selection
 
@@ -223,6 +208,26 @@ export const Main = (props) => {
         }
       }
     )
+
+  }
+
+  // When user click one suggestion from the search box suggestion
+  // should also clear all current selection 
+  const clickSuggestion = (suggestion) => {
+    const suggestionArray = []
+    if (suggestion.type === "anime") {
+      suggestionArray.push(String(suggestion.val))
+      /////////////////////
+      refreshInfo(constRawData.filter(row=>row[1]===suggestion.val), InfoDispatch)
+
+    } else if (suggestion.type === "voice actor") {
+      constRawData.forEach(row => {
+        if (row[15] && row[15].includes(suggestion.val)) {
+          suggestionArray.push(String(row[1]))
+        }
+      })
+    }
+    setSelectSuggestion(suggestionArray)
 
   }
   /******************************Filter******************************/
@@ -706,18 +711,38 @@ const filterWithSeasons=(seasonString)=>{
 
 
 //change the name and the poster
-export const refreshInfo = (data, infoDispatch) => {
-  console.log(data)
-  const animeName = data.label;
+export const refreshInfo = (rawData, infoDispatch) => {
+  var data=[]
+  if(rawData.label)
+  {
+    data=rawData
+  }
+  else
+  {
+    let dataTemp=rawData[0]
+    data = {
+        label: dataTemp[1], // anime name
+        description: dataTemp[11],
+        rating: dataTemp[8],
+        type: dataTemp[3],
+        season: dataTemp[6],
+        releaseYear: dataTemp[9],
+        studio: dataTemp[5],
+        rank: dataTemp[0]
+    }
+  }
 
+  const animeName = data.label?data.label:data[0][1];
+  console.log(animeName)
   var posterUrl = animeName.replace('\'', '').replace(/[^\u2018-\u2019\u4e00-\u9fa5a-zA-Z0-9]/g, '-').replaceAll("---", '-').replaceAll("--", '-').toLowerCase();
   if (posterUrl[posterUrl.length - 1] == '-') {
     posterUrl = posterUrl.slice(0, posterUrl.length - 1);
   }
 
+  var descriptionCleansed=data.description.replaceAll("\\xa0",' ')
   infoDispatch(setUrl("https://cdn.anime-planet.com/anime/primary/" + posterUrl + "-1.jpg"))
   infoDispatch(setTitle(animeName))
-  infoDispatch(setDescription(data.description))
+  infoDispatch(setDescription(descriptionCleansed))
   infoDispatch(setStudio(data.studio))
   infoDispatch(setType(data.type))
   infoDispatch(setReleaseYear(data.releaseYear))
