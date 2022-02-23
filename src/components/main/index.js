@@ -208,16 +208,21 @@ export const Main = (props) => {
   // const [xAxis, setXAxis] = useState()
   // const [yAxis, setYAxis] = useState()
 
+  const getAxisIndex = (name) => {
+    if (name === "Rating") return 8
+    else if (name === "Release_year") return 9
+    else if (name === "Episodes") return 4
+  }
   const handleXOnChange = (e) => {
+    const index = getAxisIndex(e.target.value)
     setPlotSetting(
       {
         ...plotSetting,
         xVar: {
-          idx:8,
+          idx:index,
           name:e.target.value
         }
       }
-
     )
   }
 
@@ -284,8 +289,16 @@ export const Main = (props) => {
   // }
 
   const handleYOnChange = (e) => {
-    // setYAxis(e.target.value)
-    // console.log(yAxis)
+    const index = getAxisIndex(e.target.value)
+    setPlotSetting(
+      {
+        ...plotSetting,
+        yVar: {
+          idx:index,
+          name:e.target.value
+        }
+      }
+    )
   }
 
   // const handleYLowRange = (e) => {
