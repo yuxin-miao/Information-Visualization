@@ -34,7 +34,7 @@ const Dropdown = forwardRef((props, ref) => {
 
 
   return (
-    <div className={`${props.className ? props.className : ''} grid grid-cols-5 gap-2 text-xs`} >
+    <div className={`${props.className ? props.className : ''} grid grid-cols-5 gap-2`} style={{ fontSize: '.6vw' }} >
       <p className="text-white font-ssp font-bold self-center col-span-2">{props.label}</p>
       <select onChange={props.onChange ? props.onChange : function (event) { setValue(event.target.value) }} value={value} className="col-start-3 col-span-full rounded text-center bg-gray-200" name={props.value} id={`select-${props.value}`}>
         {props.options ? props.options.map(val => <option key={`${props.value}-${val.value}`} value={val.value}>{val.label}</option>) : <option value="">No Selection</option>}
@@ -49,7 +49,7 @@ const Range = (props) => {
   const [highRange, setHighRange] = useState('')
 
   return (
-    <div className={`${props.className ? props.className : ""} grid grid-cols-5 gap-2 font-ssp text-xs`}>
+    <div className={`${props.className ? props.className : ""} grid grid-cols-5 gap-2 font-ssp`} style={{ fontSize: '.6vw' }} >
       <p className="text-white self-center col-span-2">Range</p>
       <form className="col-start-3 col-span-full grid gap-2 grid-cols-5" onSubmit={props.onSubmit}>
         <input className="rounded col-span-2 text-center" type="text" value={lowRange} onChange={event => setLowRange(event.target.value)}></input>
@@ -64,9 +64,9 @@ const Range = (props) => {
 // Provide an onChange function on a Checkbox component to process the updated data.
 const Checkbox = (props) => {
   return (
-    <div className={`${props.className ? props.className : ''} justify-self-center flex w-full gap-2`}>
-      <input className="self-center" type='checkbox' id={`checkbox-${props.name}`} name={`${props.name}`} checked={props.checked}  onChange={props.onChange} />
-      <label className="self-center text-xs">{props.label}</label>
+    <div className={`${props.className ? props.className : ''} justify-self-center flex w-full gap-2`} style={{ fontSize: '.7vw' }}>
+      <input className="self-center" type='checkbox' id={`checkbox-${props.name}`} name={`${props.name}`} checked={props.checked} onChange={props.onChange} />
+      <label className="self-center">{props.label}</label>
     </div>
   )
 }
@@ -78,13 +78,13 @@ export const Main = (props) => {
   /****** setup for the scatter plot ******/
   // plot settings 
   const [plotSetting, setPlotSetting] = useState({
-    width: 650,
-    height: 300,
+    width: window.innerWidth * 0.5,
+    height: window.innerHeight * 0.5,
     margin: {
-      top: 20,
-      right: 10,
-      bottom: 50,
-      left: 60
+      top: window.innerWidth * 0.02,
+      right: window.innerWidth * 0.02,
+      bottom: window.innerWidth * 0.04,
+      left: window.innerWidth * 0.04
     },
     radius: 5,
     color: 'blue',
@@ -523,11 +523,11 @@ export const Main = (props) => {
     return returnData;
   }
   return (
-    <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
+    <div className={`${props.className ? props.className : ''} col-span-full main-grid`}>
 
       {displayData && <SearchBox rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)}
-        handleClickSuggestion={clickSuggestion} className="col-span-4" />}
-      <ContainerBox title="Tags" className="row-start-2 col-start-1 col-span-3 ">
+        handleClickSuggestion={clickSuggestion} className="col-span-4 m-2" />}
+      <ContainerBox title="Tags" className="row-start-2 col-start-1 col-span-4 m-2">
 
         <ul className="tags-list h-full w-full grid grid-cols-5 grid-rows-6 gap-2 p-5">
           {tags.map(({ tagName }, index) => {
@@ -539,13 +539,14 @@ export const Main = (props) => {
             );
           })}
           <button type="button"
-          className="text-white text-xs col-start-3 row-start-6 self-center font-ssp bg-gray-900 rounded-lg outline outline-offset-2 outline-highlight-blue"
+            className="text-white col-start-3 row-start-6 self-center font-ssp bg-gray-900 rounded-lg outline outline-offset-2 outline-highlight-blue"
           onClick={
             function () {
               tagsClear()
               setDisplayData(processData(constRawData))
             }
-          }>Clear</button>
+            style={{ fontSize: '.5vw' }}
+          >Clear</button>
           <Dropdown
             ref={dropDownRef}
             onChange={function (event) {
@@ -555,13 +556,13 @@ export const Main = (props) => {
             }}
             label="Tag Selection"
             value="tagSelection"
-            className="col-start-4 col-span-2 row-start-6 font-ssp self-center px-2 text-xs"
+            className="col-start-4 col-span-2 row-start-6 font-ssp self-center px-2"
             options={[{ value: 0, label: 'Intersection' }, { value: 1, label: 'Union' }]}>
           </Dropdown>
         </ul>
 
       </ContainerBox>
-      <ContainerBox title="Filters" className="row-start-2 col-start-4 col-span-full filter-grid p-5">
+      <ContainerBox title="Filters" className="row-start-2 col-start-5 col-span-full filter-grid m-2 p-5">
         <div className="grid grid-cols-5 gap-2 text-xs" >
           <p className="text-white font-ssp font-bold self-center col-span-2">X - Axis</p>
           <select onChange={handleXOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" defaultValue="Episodes" name="x-axis" id="select-x-axis">
@@ -609,7 +610,7 @@ export const Main = (props) => {
           </select>
         </div>
         <div className="col-start-3 col-span-full row-span-3 grid grid-cols-6 grid-rows-2 gap-2 font-ssp text-white">
-          <p className="text-xs self-center justify-self-center text-center font-bold">Type</p>
+          <p className="text-xs self-center justify-self-center text-center font-bold" style={{ fontSize: '.6vw' }}>Type</p>
           <Checkbox name="movie" label="Movie" checked={typesCheckedState[1]} onChange={() => handleTypeOnChange(1)}/>
           <Checkbox name="music" label="Music" checked={typesCheckedState[2]} onChange={() => handleTypeOnChange(2)}/>
           <Checkbox name="dvd-special" label="DVD Special" checked={typesCheckedState[0]} onChange={() => handleTypeOnChange(0)}/>
@@ -620,18 +621,18 @@ export const Main = (props) => {
           <Checkbox className="row-start-2 col-start-5" name="other" label="Other" checked={typesCheckedState[3]} onChange={() => handleTypeOnChange(3)}/>
         </div>
         <div className="col-start-3 row-start-4 row-span-2 grid grid-cols-6 grid-rows-1 gap-2 font-ssp text-white">
-          <p className="text-xs self-center justify-self-center text-center font-bold">Related Season</p>
+          <p className="text-xs self-center justify-self-center text-center font-bold" style={{ fontSize: '.6vw' }}>Released Season</p>
           <Checkbox name="spring" label="Spring" checked={seasonsCheckedState[0]} onChange={() => handleSeasonOnChange(0)}/>
           <Checkbox name="summer" label="Summer" checked={seasonsCheckedState[1]} onChange={() => handleSeasonOnChange(1)}/>
           <Checkbox name="fall" label="Fall" checked={seasonsCheckedState[2]} onChange={() => handleSeasonOnChange(2)}/>
           <Checkbox name="winter" label="Winter" checked={seasonsCheckedState[3]} onChange={() => handleSeasonOnChange(3)}/>
         </div>
       </ContainerBox>
-      <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-6">
+      <div ref={plotRef} className="row-start-3 col-span-7 m-2">
         {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion}/>}
       </div>
       <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" onClick={handleClearAll}>Clear All</button>
-      <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-7 col-span-2" >
+      <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-8 col-span-full m-2" >
         <InfoPanel
           animeTitle={infoTitle}
           animeDescription={infoDescription}
@@ -643,13 +644,13 @@ export const Main = (props) => {
           animeRating={infoRating}
         />
       </ContainerBox>
-      <ContainerBox title="Range" className="row-start-4 col-span-5" >
+      <ContainerBox title="Range" className="row-start-4 col-span-7 m-2" >
         { displayData && constRawData 
             && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} reset={reset} />
         }
       </ContainerBox>
 
-      <ContainerBox title="Related" className="row-start-4 col-start-6 col-span-full" />
+      <ContainerBox title="Related" className="row-start-4 col-start-8 col-span-full m-2" />
     </div>
 
   )
@@ -754,16 +755,16 @@ export const refreshInfo = (rawData, infoDispatch) => {
 
 const filterByRange = (rangeSelect, data) => {
   let returnData = data
-  if(rangeSelect.rank.length !== 0) {
+  if (rangeSelect.rank.length !== 0) {
     returnData = returnData.filter(row => row[0] >= rangeSelect.rank[0] && row[0] <= rangeSelect.rank[1]);
   }
-  if(rangeSelect.year.length !== 0) {
+  if (rangeSelect.year.length !== 0) {
     returnData = returnData.filter(row => row[9] >= rangeSelect.year[0] && row[9] <= rangeSelect.year[1]);
   }
-  if(rangeSelect.episodes.length !== 0) {
+  if (rangeSelect.episodes.length !== 0) {
     returnData = returnData.filter(row => row[4] >= rangeSelect.episodes[0] && row[4] <= rangeSelect.episodes[1]);
   }
-  if(rangeSelect.rates.length !== 0) {
+  if (rangeSelect.rates.length !== 0) {
     returnData = returnData.filter(row => row[8] >= rangeSelect.rates[0] && row[8] <= rangeSelect.rates[1]);
   }
   return returnData
