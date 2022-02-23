@@ -201,6 +201,7 @@ export const Main = (props) => {
   // function executed when user click clear all, would clear all the data filters 
   const handleClearAll = () => {
     setReset(true)
+    tagsClear()
     setDisplayData(constRawData)
     document.getElementById("select-studio").value = "All"
     document.getElementById("select-contentwarning").value = "All"
@@ -466,7 +467,13 @@ export const Main = (props) => {
       setDisplayData(processData(constRawData))
     }
 
-  };
+  }
+  const tagsClear=()=>{
+    tags.forEach(element => {
+      document.getElementById("checkbox-" + element.tagName).checked = false;
+    })
+    tagsSelected = []
+  }
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
 
@@ -487,11 +494,7 @@ export const Main = (props) => {
           className="text-white text-xs col-start-3 row-start-6 self-center font-ssp bg-gray-900 rounded-lg outline outline-offset-2 outline-highlight-blue"
           onClick={
             function () {
-              tags.forEach(element => {
-                document.getElementById("checkbox-" + element.tagName).checked = false;
-              })
-              tagsSelected = []
-              console.log(tagsCheckedState)
+              tagsClear()
               setDisplayData(processData(constRawData))
             }
           }>Clear</button>
@@ -608,14 +611,19 @@ export const Main = (props) => {
 const processData = (data) => {
   // Here maybe add other filters 
   // call this function whenever add new filter
-  let returnData = data.filter(row => row[8] > 1);
+  let returnData = data.filter(row => row[8] >= 0);
+  //let returnData=data.filter(row=>true);
 
   //tag filter
   returnData = returnData.filter(function (row) {
     if (row[7] !== null) {
       return filterWithTags(row[7])
     }
-    else {
+    else if(tagsSelected.length==0) {
+      return true
+    }
+    else
+    {
       return false
     }
   })
@@ -643,8 +651,6 @@ const processData = (data) => {
       return false
     }
   })
-
-
 
   return returnData;
 }

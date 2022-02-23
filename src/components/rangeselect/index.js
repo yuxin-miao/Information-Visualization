@@ -87,7 +87,7 @@ export const RangeSelection = (props) => {
   return (
     <div className="rangle-select text-sm px-7 py-4">
       <div className="flex justify-between">
-        <span className="px-5 text-white font-ssp">  Current number of animes displayed: <span className="text-pink">{props.activeAnime} </span>/ {props.allAnime.length}</span>
+        <span className="px-5 text-white font-ssp">  Current number of animes displayed: <span className="text-pink">{props.activeAnime} </span>/ {props.allAnime.length-1}</span>
         <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" onClick={onSubmit}>Apply Selection</button>
       </div>
       <div className="grid grid-cols-2 grid-rows-2 gap-x-10">
