@@ -208,6 +208,7 @@ export const Main = (props) => {
   // function executed when user click clear all, would clear all the data filters 
   const handleClearAll = () => {
     setReset(true)
+    tagsClear()
     setDisplayData(constRawData)
 
 
@@ -233,11 +234,7 @@ export const Main = (props) => {
           className="text-white text-xs col-start-3 row-start-6 self-center font-ssp bg-gray-900 rounded-lg outline outline-offset-2 outline-highlight-blue"
           onClick={
             function () {
-              tags.forEach(element => {
-                document.getElementById("checkbox-" + element.tagName).checked = false;
-              })
-              tagsSelected = []
-              console.log(tagsCheckedState)
+              tagsClear()
               setDisplayData(processData(constRawData))
             }
           }>Clear</button>
@@ -357,7 +354,12 @@ const processData = (data) => {
   })
   return returnData;
 }
-
+const tagsClear=()=>{
+  tags.forEach(element => {
+    document.getElementById("checkbox-" + element.tagName).checked = false;
+  })
+  tagsSelected = []
+}
 const filterWithTags = (tagString) => {
   //console.log(document.getElementById("select-tagSelection").value+"!") 
   var selectMethod = document.getElementById("select-tagSelection").value;
