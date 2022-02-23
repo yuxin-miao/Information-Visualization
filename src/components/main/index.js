@@ -125,7 +125,7 @@ export const Main = (props) => {
   useEffect(() => {
     parseData((result) => {
       result.data.shift() // first row is header, delete it here 
-      setConstRawData(result.data);
+      setConstRawData(result.data.slice(0,-1));
       setDisplayData(processData(result.data));
 
     })
@@ -227,7 +227,7 @@ export const Main = (props) => {
 
   }
   /******************************Filter******************************/
-
+  //console.log(constRawData)
   // const [xAxis, setXAxis] = useState()
   // const [yAxis, setYAxis] = useState()
 

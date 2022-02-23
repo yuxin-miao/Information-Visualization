@@ -77,8 +77,8 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
         .text(yVar.name);
     svgElement.append('image')
         .attr("href", colorLegend)
-        .attr('transform', `translate( ${(drawWidth*0.85)},${(height - margin.bottom + 20)})`)
-        .attr('width', drawWidth*0.1)
+        .attr('transform', `translate( ${(drawWidth*0.85)},${(height - margin.bottom + 25)})`)
+        .attr('width', drawWidth*0.16)
 
     
     // tool tip
