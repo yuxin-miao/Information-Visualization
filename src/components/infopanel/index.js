@@ -17,15 +17,15 @@ export const InfoPanel = (props) => {
                 <p>{props.animeRating}</p>
             </div>
             <div className='row-start-3 self-center justify-self-center flex gap-2'>
-                <img src={TypeIcon} className='h-min w-auto' />
+                <img src={TypeIcon} className='h-min w-auto' style={{alignSelf:'center'}}/>
                 <p>{props.animeType}</p>
             </div>
             <div className='row-start-3 col-start-3 col-span-3 self-center justify-self-center flex gap-2'>
-                <img src={CalendarIcon} className='h-min w-auto' />
+                <img src={CalendarIcon} className='h-min w-auto' style={{alignSelf:'center'}} />
                 <p>{props.animeSeason ? `${props.animeReleaseYear} ${props.animeSeason}` : props.animeReleaseYear}</p>
             </div>
             <div className='row-start-3 col-start-6 col-span-full self-center justify-self-center flex gap-2'>
-                <img src={StudioIcon} className='h-min w-auto' />
+                <img src={StudioIcon} className='h-min w-auto' style={{alignSelf:'center'}} />
                 <p>{props.animeStudio ? props.animeStudio : ''}</p>
             </div>
             <div className='row-start-4 col-span-full px-5 text-justify' style={{ overflowY: "scroll" }}>
