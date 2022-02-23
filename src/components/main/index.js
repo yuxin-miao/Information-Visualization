@@ -213,8 +213,16 @@ export const Main = (props) => {
   const [xAxis, setXAxis] = useState([])
 
   const handleXOnChange = (e) => {
-    setXAxis(e.target.value)
-    console.log(xAxis)
+    setPlotSetting(
+      {
+        ...plotSetting,
+        xVar: {
+          idx:8,
+          name:e.target.value
+        }
+      }
+
+    )
   }
 
   const handleXLowRange = (e) => {
