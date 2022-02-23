@@ -202,6 +202,8 @@ export const Main = (props) => {
   const handleClearAll = () => {
     setReset(true)
     setDisplayData(constRawData)
+    document.getElementById("select-studio").value = "All"
+    document.getElementById("select-contentwarning").value = "All"
     setTypesCheckedState(new Array(types.length).fill(false))
     typesSelected=[]
     setSeasonsCheckedState(new Array(seasons.length).fill(false))
