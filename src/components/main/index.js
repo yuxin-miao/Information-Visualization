@@ -70,6 +70,9 @@ const Checkbox = (props) => {
     </div>
   )
 }
+var tagsSelected = []
+var typesSelected=[]
+var seasonsSelected=[]
 export const Main = (props) => {
 
   const [xLowRange, setXLowRange] = useState('')
@@ -146,7 +149,7 @@ export const Main = (props) => {
     })
   }, [])
 
-  // console.log(rawSetData)
+
 
   /******************** Data Filter ****************/
   // data used by range selection 
@@ -161,24 +164,7 @@ export const Main = (props) => {
     new Array(tags.length).fill(false)
 
   );
-  const handleTagsOnChange = (position) => {
-    const updatedCheckedState = tagsCheckedState.map((item, index) =>
-      index === position ? !item : item
-    );
-
-    setTagsCheckedState(updatedCheckedState);
-    console.log(tagsCheckedState);
-    if (updatedCheckedState[position] === true) {
-      newTagSelected(tags[position].tagName);
-      // Here the input is set to be the original data, not the current display data 
-      setDisplayData(processData(constRawData))
-    }
-    else {
-      tagRemoved(tags[position].tagName);
-      setDisplayData(processData(constRawData))
-    }
-
-  };
+  
   // When user click one suggestion from the search box suggestion
   // should also clear all current selection 
   const clickSuggestion = (suggestion) => {
@@ -222,19 +208,8 @@ export const Main = (props) => {
   const handleClearAll = () => {
     setReset(true)
     setDisplayData(constRawData)
-
-
   }
-
   /******************************Filter******************************/
-  // const handleContentWarnOnChange = event => {
-  //   this.setState({ contentWarn: event.target.value });
-  // };
-
-  // const [filteredDatas, setFilteredDatas] = useState([])
-  // setFilteredDatas(constRawData)
-
-  // axis = 0: x-axis; axis = 1: y-axis
   const [xAxis, setXAxis] = useState([])
 
   const handleXOnChange = (e) => {
@@ -302,18 +277,6 @@ export const Main = (props) => {
     )
   }
 
-  // const handleVoiceActorOnChange = e => {
-  //   const value = e.target.value
-  //   setDisplayData(
-  //     constRawData.filter(item => {
-  //       if (item[15].includes(value)) {
-  //         return true
-  //       }
-  //       return false
-  //     })
-  //   )
-  // }
-
   const handleContentWarnOnChange = e => {
     const value = e.target.value
     setDisplayData(
@@ -327,130 +290,58 @@ export const Main = (props) => {
   }
 
   const [typesCheckedState, setTypesCheckedState] = useState(
-    new Array(8).fill(true)
+    new Array(types.length).fill(false)
   );
 
   const handleTypeOnChange = position => {
     
-    const updatedCheckedState = typesCheckedState.map((item, index) => index === position ? !item : item)
-    setTypesCheckedState(updatedCheckedState)
-
-    // const unique = Filter(0)
-    let newTypesSelected = []
-    for (let i = 0; i < 8; i++) {
-      if (typesCheckedState[i] === true) {
-        newTypesSelected.push(types[i].typeName)
-      }
-    }
-    setDisplayData(
-      constRawData.filter(item => {
-        if (item[3] != null) {
-          if (newTypesSelected.includes(item[3].trim())) {
-            return true
-          }
-        }
-        return false
-      })
+    const updatedCheckedState = typesCheckedState.map((item, index) => 
+      index === position ? !item : item
     )
-    // console.log(displayData)
-  }
-
-  const [seasonsCheckedState, setSeasonsCheckedState] = useState(new Array(5).fill(true));
-
-  const handleSeasonOnChange = position => {
-    if (position === 0 && seasonsCheckedState[0] === false) {
-      setSeasonsCheckedState([true, true, true, true, true])
-      setDisplayData(constRawData)
+    setTypesCheckedState(updatedCheckedState)
+    if (updatedCheckedState[position] === true) {
+      typesSelected.push(types[position].typeName)
+      // Here the input is set to be the original data, not the current display data 
+      setDisplayData(processData(constRawData))
     }
     else {
-      let newSeasonsSelected = []
-      if (position === 0 && seasonsCheckedState[0] === true) {
-        setSeasonsCheckedState([false, true, true, true, true])
-        for (let i = 1; i < 5; i++) {
-          newSeasonsSelected.push(seasons[i].seasonName)
-        }
-      }
-      else {
-        const updatedCheckedState = seasonsCheckedState.map((item, index) => index === position ? !item : item)
-        updatedCheckedState[0] = false
-        setSeasonsCheckedState(updatedCheckedState)
-        for (let i = 1; i < 5; i++) {
-          if (seasonsCheckedState[i] === true) {
-            newSeasonsSelected.push(seasons[i].seasonName)
-          }
-        }
-      }
-      setDisplayData(
-        constRawData.filter(item => {
-          if (item[6] != null) {
-            if (newSeasonsSelected.includes(item[6].trim())) {
-              return true
-            }
-          }
-          return false
-        })
-      )
+      typesSelected=typesSelected.filter(item=>item!==types[position].typeName)
+      setDisplayData(processData(constRawData))
     }
-    // console.log(displayData)
   }
+  const [seasonsCheckedState, setSeasonsCheckedState] = useState(new Array(seasons.length).fill(false));
 
-  // const getUnique = (filterIndex) => {
-  //   const optionList = [];
-  //   // const unique = []
-  //   // for (let i = 0; i < constRawData.length; i++){
-  //   //   unique.push(constRawData[i][index])
-  //   // }
-  //   // constRawData.forEach(data => {
-  //   //   unique.push(data[index])
-  //   // })
+  const handleSeasonOnChange = position => {
+    const updatedCheckedState = seasonsCheckedState.map((item, index) =>
+      index === position ? !item : item
+    )
+    setSeasonsCheckedState(updatedCheckedState)
+    if (updatedCheckedState[position] === true) {
+      seasonsSelected.push(seasons[position].seasonName)
+      // Here the input is set to be the original data, not the current display data 
+      setDisplayData(processData(constRawData))
+    }
+    else {
+      seasonsSelected=seasonsSelected.filter(item=>item!==seasons[position].seasonName)
+      setDisplayData(processData(constRawData))
+    }
+  }
+  const handleTagsOnChange = (position) => {
+    const updatedCheckedState = tagsCheckedState.map((item, index) =>
+      index === position ? !item : item
+    )
+    setTagsCheckedState(updatedCheckedState)
+    if (updatedCheckedState[position] === true) {
+      tagsSelected.push(tags[position].tagName)
+      // Here the input is set to be the original data, not the current display data 
+      setDisplayData(processData(constRawData))
+    }
+    else {
+      tagsSelected=tagsSelected.filter(item=>item!==tags[position].tagName)
+      setDisplayData(processData(constRawData))
+    }
 
-  //   // const unique = constRawData.map(data => data[filterIndex])
-  //   // unique = [...new Set(unique)]
-  //   // unique.forEach((el, n) => {
-  //   //   optionList.push({value:n, label:el})
-  //   // })
-  //   // useEffect(() => {parseData((result) => {
-  //   //   result.data.shift() // first row is header, delete it here 
-  //   //   setFilterDatas(result.data);
-  //   // })
-  //   constRawData.forEach(e => {
-  //     if (!optionList.includes(e[filterIndex])) {
-  //       optionList.push(e[filterIndex])
-  //     }
-  //   });
-  //   console.log(optionList);
-  //   return optionList;
-  //   // console.log(unique)
-  //   // const unique = constRawData
-  //   //   .map(e => e[index])
-  //   //   .filter(e => constRawData[e])
-  //   //   .map(e => constRawData[e]);
-  //   // return unique;
-  //   // let x = 0
-  //   // unique.forEach(item => {
-  //   //   optionList.push({value:x, label:item[index]})
-  //   //   x++
-  //   // });
-  //   // console.log(optionList)
-  //   // return optionList
-  // };
-
-  // const getUnique = (arr, index) => {
-  //   const unique = arr
-  //     //store the comparison values in array
-  //     .map(e => e[index])
-
-  //     // store the keys of the unique objects
-  //     .map((e, i, final) => final.indexOf(e) === i && i)
-
-  //     // eliminate the dead keys & store unique objects
-  //     .filter(e => arr[e])
-
-  //     .map(e => arr[e]);
-
-  //   return unique;
-  // }
-
+  };
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
 
@@ -495,19 +386,12 @@ export const Main = (props) => {
 
       </ContainerBox>
       <ContainerBox title="Filters" className="row-start-2 col-start-4 col-span-full filter-grid p-5">
-        {/* <Dropdown
-          label="X - Axis"
-          value="x-axis"
-          options={[{ value: 0, label: 'Option 0' }, { value: 1, label: 'Option 1' }]}
-        /> */}
         <div className="grid grid-cols-5 gap-2 text-xs" >
           <p className="text-white font-ssp font-bold self-center col-span-2">X - Axis</p>
           <select onChange={handleXOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="x-axis" id="select-x-axis">
             {axis.map(val => <option key={`x-axis-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
-
-        {/* <Range className="row-start-2" onChange={handelXRange} /> */}
         <div className={"row-start-2 grid grid-cols-5 gap-2 font-ssp text-xs"}>
           <p className="text-white self-center col-span-2">Range</p>
           <form className="col-start-3 col-span-full grid gap-2 grid-cols-5">
@@ -516,22 +400,12 @@ export const Main = (props) => {
             <input className="rounded col-start-4 col-span-full text-center" type="text" value={xHighRange} onChange={handleXHighRange}></input>
           </form>
         </div>
-
-        {/* <Dropdown
-          onChange={e => console.log(e)}
-          className="row-start-4"
-          label="Y - Axis"
-          value="y-axis"
-          options={[{ value: 0, label: 'Option 0' }, { value: 1, label: 'Option 1' }]}
-        /> */}
         <div className="row-start-4 grid grid-cols-5 gap-2 text-xs" >
           <p className="text-white font-ssp font-bold self-center col-span-2">Y - Axis</p>
           <select onChange={handleYOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="y-axis" id="select-y-axis">
             {axis.map(val => <option key={`y-axis-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
-
-        {/* <Range className='row-start-5' onChange={handelYRange} /> */}
         <div className={"row-start-5 grid grid-cols-5 gap-2 font-ssp text-xs"}>
           <p className="text-white self-center col-span-2">Range</p>
           <form className="col-start-3 col-span-full grid gap-2 grid-cols-5">
@@ -540,59 +414,24 @@ export const Main = (props) => {
             <input className="rounded col-start-4 col-span-full text-center" type="text" value={yHighRange} onChange={handleYHighRange}></input>
           </form>
         </div>
-
-        {/* <Dropdown
-          className="col-start-2"
-          label="Studio"
-          value="studio"
-          // options={getUnique(5)}
-          options={list}
-          onChange={handleStudioOnChange}
-        /> */}
         <div className="col-start-2 grid grid-cols-5 gap-2 text-xs" >
           <p className="text-white font-ssp font-bold self-center col-span-2">Studio</p>
-          {/* <select onChange={handleStudioOnChange} value={props.options[0].value} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="studio" id="select-studio"> */}
           <select onChange={handleStudioOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="studio" id="select-studio">
             {Filter(1).map(val => <option key={`studio-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
-
-        {/* <Dropdown
-          className="col-start-2 row-start-2"
-          label="Voice Actor"
-          value="voiceactor"
-          options={[{ value: 0, label: 'Option 0' }, { value: 1, label: 'Option 1' }]}
-          onChange={handleVoiceActorOnChange}
-        />*/}
-        
-        {/* <Dropdown
-          className="col-start-2 row-start-4"
-          label="Content Warn"
-          value="contentwarning"
-          options={[{ value: 'No', label: 'No' }, { value: 'Yes', label: 'Yes' }]}
-          onChange={handleContentWarnOnChange}
-        /> */}
         <div className="col-start-2 row-start-4 grid grid-cols-5 gap-2 text-xs" >
           <p className="text-white font-ssp font-bold self-center col-span-2">Content Warn</p>
           <select onChange={handleContentWarnOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="contentwarning" id="select-contentwarning">
-            {/* {rawSetData[3].forEach(el => {<option key={`contentwarning-${el}`} value={el}>{el}</option>})} */}
             <option key="studio-No" value="No">No</option>
             {Filter(3).map(val => <option key={`studio-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
-
         <div className="col-start-3 col-span-full row-span-3 grid grid-cols-6 grid-rows-2 gap-2 font-ssp text-white">
           <p className="text-xs self-center justify-self-center text-center font-bold">Type</p>
-          {/* <Checkbox name="dvd" label="DVD" onChange={() => handleTypeOnChange(0)}/>
-          <Checkbox name="special" label="Special" onChange={() => handleTypeOnChange(5)}/> */}
           <Checkbox name="movie" label="Movie" checked={typesCheckedState[1]} onChange={() => handleTypeOnChange(1)}/>
           <Checkbox name="music" label="Music" checked={typesCheckedState[2]} onChange={() => handleTypeOnChange(2)}/>
           <Checkbox name="dvd-special" label="DVD Special" checked={typesCheckedState[0]} onChange={() => handleTypeOnChange(0)}/>
-          {/* <Checkbox className="row-start-2 col-start-2" name="other" label="Other" onChange={() => handleTypeOnChange(2)}/>
-          <Checkbox className="row-start-2 col-start-3" name="ova" label="OVA" onChange={() => handleTypeOnChange(3)}/>
-          <Checkbox className="row-start-2 col-start-4" name="tv" label="TV" onChange={() => handleTypeOnChange(4)}/>
-          <Checkbox className="row-start-2 col-start-5" name="tv-special" label="TV Special" onChange={() => handleTypeOnChange(5)}/>
-          <Checkbox className="row-start-2 col-start-6" name="web" label="Web" onChange={() => handleTypeOnChange(7)}/> */}
           <Checkbox name="ova" label="OVA" checked={typesCheckedState[4]} onChange={() => handleTypeOnChange(4)}/>
           <Checkbox className="row-start-2 col-start-2" name="tv" label="TV" checked={typesCheckedState[5]} onChange={() => handleTypeOnChange(5)}/>
           <Checkbox className="row-start-2 col-start-3" name="tv-special" label="TV Special" checked={typesCheckedState[6]} onChange={() => handleTypeOnChange(6)}/>
@@ -601,20 +440,16 @@ export const Main = (props) => {
         </div>
         <div className="col-start-3 row-start-4 row-span-2 grid grid-cols-6 grid-rows-1 gap-2 font-ssp text-white">
           <p className="text-xs self-center justify-self-center text-center font-bold">Related Season</p>
-          <Checkbox name="all-season" checked={seasonsCheckedState[0]} label="All" onChange={() => handleSeasonOnChange(0)}/>
-          <Checkbox name="spring" label="Spring" checked={seasonsCheckedState[2]} onChange={() => handleSeasonOnChange(2)}/>
-          <Checkbox name="summer" label="Summer" checked={seasonsCheckedState[3]} onChange={() => handleSeasonOnChange(3)}/>
-          <Checkbox name="fall" label="Fall" checked={seasonsCheckedState[1]} onChange={() => handleSeasonOnChange(1)}/>
-          <Checkbox name="winter" label="Winter" checked={seasonsCheckedState[4]} onChange={() => handleSeasonOnChange(4)}/>
+          <Checkbox name="spring" label="Spring" checked={seasonsCheckedState[0]} onChange={() => handleSeasonOnChange(0)}/>
+          <Checkbox name="summer" label="Summer" checked={seasonsCheckedState[1]} onChange={() => handleSeasonOnChange(1)}/>
+          <Checkbox name="fall" label="Fall" checked={seasonsCheckedState[2]} onChange={() => handleSeasonOnChange(2)}/>
+          <Checkbox name="winter" label="Winter" checked={seasonsCheckedState[3]} onChange={() => handleSeasonOnChange(3)}/>
         </div>
       </ContainerBox>
-
       <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-6">
         {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion}/>}
       </div>
-
       <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" onClick={handleClearAll}>Clear All</button>
-
       <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-7 col-span-2" >
         <InfoPanel
           animeTitle={infoTitle}
@@ -639,11 +474,13 @@ export const Main = (props) => {
   )
 }
 
-var tagsSelected = []
+
 const processData = (data) => {
   // Here maybe add other filters 
   // call this function whenever add new filter
   let returnData = data.filter(row => row[8] > 1);
+
+  //tag filter
   returnData = returnData.filter(function (row) {
     if (row[7] !== null) {
       return filterWithTags(row[7])
@@ -652,11 +489,37 @@ const processData = (data) => {
       return false
     }
   })
+
+  //type filter
+  returnData = returnData.filter(function (row) {
+    if (row[3] !== null) {
+      return filterWithTypes(row[3])
+    }
+    else {
+      return false
+    }
+  })
+
+  //season filter
+  returnData = returnData.filter(function (row) {
+    if (row[6] !== null) {
+      return filterWithSeasons(row[6])
+    }
+    else if(seasonsSelected.length==0) {
+      return true
+    }
+    else
+    {
+      return false
+    }
+  })
+
+
+
   return returnData;
 }
 
 const filterWithTags = (tagString) => {
-  //console.log(document.getElementById("select-tagSelection").value+"!") 
   var selectMethod = document.getElementById("select-tagSelection").value;
   if (selectMethod == 0) {
     if (tagsSelected.length != 0) {
@@ -667,7 +530,6 @@ const filterWithTags = (tagString) => {
     else {
       return true;
     }
-
   }
   else if (selectMethod == 1) {
     if (tagsSelected.length != 0) {
@@ -678,32 +540,37 @@ const filterWithTags = (tagString) => {
     else {
       return true;
     }
-
   }
   else {
     console.log("wrong entry");
   }
-
 }
-
-const newTagSelected = (tag) => {
-  tagsSelected.push(tag);
-}
-
-const tagRemoved = (tag) => {
-  if (tagsSelected.includes(tag)) {
-    var tempTags = [];
-    tagsSelected.forEach(element => {
-      if (element != tag)
-        tempTags.push(element);
-
+const filterWithTypes=(typeString)=>{
+  if (typesSelected.length != 0) {
+    return typesSelected.some(function (type) {
+      return typeString.includes(type)
     });
-    tagsSelected = tempTags;
+  }
+  else {
+    return true;
+  }
+}
+const filterWithSeasons=(seasonString)=>{
+  if (seasonsSelected.length != 0) {
+    return seasonsSelected.some(function (season) {
+      return seasonString.includes(season)
+    });
+  }
+  else {
+    return true;
   }
 }
 
+
+
 //change the name and the poster
 export const refreshInfo = (data, infoDispatch) => {
+  console.log(data)
   const animeName = data.label;
 
   var posterUrl = animeName.replace('\'', '').replace(/[^\u2018-\u2019\u4e00-\u9fa5a-zA-Z0-9]/g, '-').replaceAll("---", '-').replaceAll("--", '-').toLowerCase();

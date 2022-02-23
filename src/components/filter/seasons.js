@@ -1,2 +1,2 @@
 export const seasons = [
-    {seasonName:"All"}, {seasonName:"Fall"}, {seasonName:"Spring"}, {seasonName:"Summer"}, {seasonName:"Winter"}]
+    {seasonName:"Spring"}, {seasonName:"Summer"}, {seasonName:"Fall"}, {seasonName:"Winter"}]
