@@ -20,6 +20,7 @@ import { Filter } from "../filter/Filter";
 import { types } from "../filter/types";
 import { seasons } from "../filter/seasons";
 import { InfoPanel } from "../infopanel";
+import { axis } from "../filter/axis";
 
 // Provide an onChange function on a Dropdown component to process the updated data.
 const Dropdown = forwardRef((props, ref) => {
@@ -59,6 +60,7 @@ const Range = (props) => {
   )
 }
 
+
 // Provide an onChange function on a Checkbox component to process the updated data.
 const Checkbox = (props) => {
   return (
@@ -69,6 +71,12 @@ const Checkbox = (props) => {
   )
 }
 export const Main = (props) => {
+
+  const [xLowRange, setXLowRange] = useState('')
+  const [xHighRange, setXHighRange] = useState('')
+
+  const [yLowRange, setYLowRange] = useState('')
+  const [yHighRange, setYHighRange] = useState('')
 
   /****** setup for the scatter plot ******/
   // plot settings 
@@ -225,6 +233,61 @@ export const Main = (props) => {
 
   // const [filteredDatas, setFilteredDatas] = useState([])
   // setFilteredDatas(constRawData)
+
+  // axis = 0: x-axis; axis = 1: y-axis
+  const [xAxis, setXAxis] = useState([])
+
+  const handleXOnChange = (e) => {
+    setXAxis(e.target.value)
+    console.log(xAxis)
+  }
+
+  const handleXLowRange = (e) => {
+    if (!isNaN(+e.target.value)) {
+        setXLowRange(e.target.value)
+    }
+    else {
+      e.target.value = xLowRange
+    }
+    console.log(xLowRange)
+  }
+
+  const handleXHighRange = (e) => {
+    if (!isNaN(+e.target.value)) {
+        setXHighRange(e.target.value)
+    }
+    else {
+      e.target.value = xHighRange
+    }
+    console.log(xHighRange)
+  }
+
+  const [yAxis, setYAxis] = useState([])
+
+  const handleYOnChange = (e) => {
+    setYAxis(e.target.value)
+    console.log(yAxis)
+  }
+
+  const handleYLowRange = (e) => {
+    if (!isNaN(+e.target.value)) {
+        setYLowRange(e.target.value)
+    }
+    else {
+      e.target.value = yLowRange
+    }
+    console.log(yLowRange)
+  }
+  
+  const handleYHighRange = (e) => {
+    if (!isNaN(+e.target.value)) {
+        setYHighRange(e.target.value)
+    }
+    else {
+      e.target.value = yHighRange
+    }
+    console.log(yHighRange)
+  }
 
   const handleStudioOnChange = e => {
     const value = e.target.value
@@ -432,20 +495,52 @@ export const Main = (props) => {
 
       </ContainerBox>
       <ContainerBox title="Filters" className="row-start-2 col-start-4 col-span-full filter-grid p-5">
-        <Dropdown
+        {/* <Dropdown
           label="X - Axis"
           value="x-axis"
           options={[{ value: 0, label: 'Option 0' }, { value: 1, label: 'Option 1' }]}
-        />
-        <Range className="row-start-2" />
-        <Dropdown
+        /> */}
+        <div className="grid grid-cols-5 gap-2 text-xs" >
+          <p className="text-white font-ssp font-bold self-center col-span-2">X - Axis</p>
+          <select onChange={handleXOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="x-axis" id="select-x-axis">
+            {axis.map(val => <option key={`x-axis-${val}`} value={val}>{val}</option>)}
+          </select>
+        </div>
+
+        {/* <Range className="row-start-2" onChange={handelXRange} /> */}
+        <div className={"row-start-2 grid grid-cols-5 gap-2 font-ssp text-xs"}>
+          <p className="text-white self-center col-span-2">Range</p>
+          <form className="col-start-3 col-span-full grid gap-2 grid-cols-5">
+            <input className="rounded col-span-2 text-center" type="text" value={xLowRange} onChange={handleXLowRange}></input>
+            <span className="text-white col-start-3 justify-self-center">-</span>
+            <input className="rounded col-start-4 col-span-full text-center" type="text" value={xHighRange} onChange={handleXHighRange}></input>
+          </form>
+        </div>
+
+        {/* <Dropdown
           onChange={e => console.log(e)}
           className="row-start-4"
           label="Y - Axis"
           value="y-axis"
           options={[{ value: 0, label: 'Option 0' }, { value: 1, label: 'Option 1' }]}
-        />
-        <Range className='row-start-5' />
+        /> */}
+        <div className="row-start-4 grid grid-cols-5 gap-2 text-xs" >
+          <p className="text-white font-ssp font-bold self-center col-span-2">Y - Axis</p>
+          <select onChange={handleYOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="y-axis" id="select-y-axis">
+            {axis.map(val => <option key={`y-axis-${val}`} value={val}>{val}</option>)}
+          </select>
+        </div>
+
+        {/* <Range className='row-start-5' onChange={handelYRange} /> */}
+        <div className={"row-start-5 grid grid-cols-5 gap-2 font-ssp text-xs"}>
+          <p className="text-white self-center col-span-2">Range</p>
+          <form className="col-start-3 col-span-full grid gap-2 grid-cols-5">
+            <input className="rounded col-span-2 text-center" type="text" value={yLowRange} onChange={handleYLowRange}></input>
+            <span className="text-white col-start-3 justify-self-center">-</span>
+            <input className="rounded col-start-4 col-span-full text-center" type="text" value={yHighRange} onChange={handleYHighRange}></input>
+          </form>
+        </div>
+
         {/* <Dropdown
           className="col-start-2"
           label="Studio"
@@ -461,6 +556,7 @@ export const Main = (props) => {
             {Filter(1).map(val => <option key={`studio-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
+
         {/* <Dropdown
           className="col-start-2 row-start-2"
           label="Voice Actor"
@@ -468,6 +564,7 @@ export const Main = (props) => {
           options={[{ value: 0, label: 'Option 0' }, { value: 1, label: 'Option 1' }]}
           onChange={handleVoiceActorOnChange}
         />*/}
+        
         {/* <Dropdown
           className="col-start-2 row-start-4"
           label="Content Warn"
@@ -483,18 +580,7 @@ export const Main = (props) => {
             {Filter(3).map(val => <option key={`studio-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
-        {/* <select
-          className="col-start-2 row-start-4"
-          label="Content Warn"
-          value="contentwarning"
-          // onChange={handleContentWarnOnChange()}
-        >
-          {getUnique(constRawData, 12).map(item => (
-            <option value={item[12]}>
-              {item[12]}
-            </option>
-          ))}
-        </select> */}
+
         <div className="col-start-3 col-span-full row-span-3 grid grid-cols-6 grid-rows-2 gap-2 font-ssp text-white">
           <p className="text-xs self-center justify-self-center text-center font-bold">Type</p>
           {/* <Checkbox name="dvd" label="DVD" onChange={() => handleTypeOnChange(0)}/>
