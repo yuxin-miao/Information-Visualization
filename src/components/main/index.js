@@ -202,6 +202,24 @@ export const Main = (props) => {
   const handleClearAll = () => {
     setReset(true)
     setDisplayData(constRawData)
+    setTypesCheckedState(new Array(types.length).fill(false))
+    typesSelected=[]
+    setSeasonsCheckedState(new Array(seasons.length).fill(false))
+    seasonsSelected=[]
+    setPlotSetting(
+      {
+        ...plotSetting,
+        xVar: {
+          idx: 4,
+          name: "Episodes"
+        },
+        yVar: {
+          idx: 8,
+          name: "Rating"
+        }
+      }
+    )
+
   }
   /******************************Filter******************************/
 
