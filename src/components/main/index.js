@@ -378,14 +378,19 @@ export const Main = (props) => {
   const handleStudioOnChange = e => {
     const value = e.target.value
     // console.log(value)
-    setDisplayData(
-      constRawData.filter(item => {
-        if (item[5] === value) {
-          return true
-        }
-        return false
-      })
-    )
+    if (value === "All") {
+      setDisplayData(constRawData)
+    }
+    else {
+      setDisplayData(
+        constRawData.filter(item => {
+          if (item[5] === value) {
+            return true
+          }
+          return false
+        })
+      )
+    }
   }
 
   const handleContentWarnOnChange = e => {
@@ -533,15 +538,16 @@ export const Main = (props) => {
         <div className="col-start-2 grid grid-cols-5 gap-2 text-xs" >
           <p className="text-white font-ssp font-bold self-center col-span-2">Studio</p>
           <select onChange={handleStudioOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="studio" id="select-studio">
+            <option key="studio-All" value="All">All</option>
             {Filter(1).map(val => <option key={`studio-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
         <div className="col-start-2 row-start-4 grid grid-cols-5 gap-2 text-xs" >
           <p className="text-white font-ssp font-bold self-center col-span-2">Content Warn</p>
           <select onChange={handleContentWarnOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="contentwarning" id="select-contentwarning">
-            <option key="studio-All" value="All">All</option>
-            <option key="studio-No" value="No">No Warning</option>
-            {Filter(3).map(val => <option key={`studio-${val}`} value={val}>{val}</option>)}
+            <option key="contentwarning-All" value="All">All</option>
+            <option key="contentwarning-No" value="No">No Warning</option>
+            {Filter(3).map(val => <option key={`contentwarning-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
         <div className="col-start-3 col-span-full row-span-3 grid grid-cols-6 grid-rows-2 gap-2 font-ssp text-white">
