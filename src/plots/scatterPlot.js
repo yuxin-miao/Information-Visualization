@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import { Main,refreshInfo } from "../components/main";
 import './scatterPlot.css';
 import { _interpolateColor,h2r,r2h } from "../utils/colorUtils";
+import colorLegend from "../assets/colorLegend.png"
 
 export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) => {
   // Chart width and height - accounting for margins
@@ -70,11 +71,15 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
         .attr('transform', `translate(${(drawWidth / 2)}, ${(height - margin.bottom + 40)})`)
         .style('fill', 'white')
         .text(xVar.name);
-
     svgElement.append('text')
         .attr('transform', `translate( ${(margin.left - 30)},${(margin.top + drawHeight / 2)}) rotate(-90)`)
         .style('fill', 'white')
         .text(yVar.name);
+    svgElement.append('image')
+        .attr("href", colorLegend)
+        .attr('transform', `translate( ${(drawWidth*0.85)},${(height - margin.bottom + 20)})`)
+        .attr('width', drawWidth*0.1)
+
     
     // tool tip
     const tooltip = d3.select('#tooltip')
@@ -95,7 +100,24 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
         .attr('fill', function(d){//color interpolation
            //console.log(_interpolateColor([0.5,1,0],[1,1,0],0.5))
            var interpolationFactor=(d.rating-1)<0?0:(d.rating-1)/4;
-           return r2h(_interpolateColor(h2r("#40e0d0"),h2r("#ff0080"),interpolationFactor)) 
+
+           var color2 = d3.scaleLinear()
+           .domain([0, 0.5, 1])
+           .range(['#40e0d0', '#ff8c00', '#ff0080'])
+           .interpolate(d3.interpolateHcl);
+
+
+           //console.log(color2(interpolationFactor))
+           return color2(interpolationFactor)
+           /*if(interpolationFactor<=0.5)
+           {
+            return r2h(_interpolateColor(h2r("#40e0d0"),h2r("#ff8c00"),interpolationFactor))
+           }
+           else
+           {
+            return r2h(_interpolateColor(h2r("#ff8c00"),h2r("#ff0080"),interpolationFactor))
+           }*/
+            
         })
         .attr('label', (d)=>d.label)
         .style('fill-opacity', 1)
@@ -117,6 +139,9 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
         //alert("on click get data" + d3.select(this).attr("label"));
             refreshInfo(d.srcElement.__data__, infoDispatch)
             d3.select(this).attr("stroke","white").attr("stroke-width",2)
+
+
+
 
         //Main.refreshInfo(d3.select(this).attr("label"));
         //console.log(Main);
