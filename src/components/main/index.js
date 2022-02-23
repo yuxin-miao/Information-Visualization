@@ -31,7 +31,7 @@ const Dropdown = forwardRef((props, ref) => {
 
 
   return (
-    <div className={`${props.className ? props.className : ''} grid grid-cols-5 gap-2 text-xs`} >
+    <div className={`${props.className ? props.className : ''} grid grid-cols-5 gap-2`} style={{ fontSize: '.6vw' }} >
       <p className="text-white font-ssp font-bold self-center col-span-2">{props.label}</p>
       <select onChange={props.onChange ? props.onChange : function (event) { setValue(event.target.value) }} value={value} className="col-start-3 col-span-full rounded text-center bg-gray-200" name={props.value} id={`select-${props.value}`}>
         {props.options ? props.options.map(val => <option key={`${props.value}-${val.value}`} value={val.value}>{val.label}</option>) : <option value="">No Selection</option>}
@@ -46,7 +46,7 @@ const Range = (props) => {
   const [highRange, setHighRange] = useState('')
 
   return (
-    <div className={`${props.className ? props.className : ""} grid grid-cols-5 gap-2 font-ssp text-xs`}>
+    <div className={`${props.className ? props.className : ""} grid grid-cols-5 gap-2 font-ssp`} style={{ fontSize: '.6vw' }} >
       <p className="text-white self-center col-span-2">Range</p>
       <form className="col-start-3 col-span-full grid gap-2 grid-cols-5" onSubmit={props.onSubmit}>
         <input className="rounded col-span-2 text-center" type="text" value={lowRange} onChange={event => setLowRange(event.target.value)}></input>
@@ -60,9 +60,9 @@ const Range = (props) => {
 // Provide an onChange function on a Checkbox component to process the updated data.
 const Checkbox = (props) => {
   return (
-    <div className={`${props.className ? props.className : ''} justify-self-center flex w-full gap-2`}>
+    <div className={`${props.className ? props.className : ''} justify-self-center flex w-full gap-2`} style={{ fontSize: '.7vw' }}>
       <input className="self-center" type='checkbox' id={`checkbox-${props.name}`} name={`${props.name}`} onChange={props.onChange} />
-      <label className="self-center text-xs">{props.label}</label>
+      <label className="self-center">{props.label}</label>
     </div>
   )
 }
@@ -74,10 +74,10 @@ export const Main = (props) => {
     width: window.innerWidth * 0.5,
     height: window.innerHeight * 0.5,
     margin: {
-      top: 20,
-      right: 10,
-      bottom: 50,
-      left: 60
+      top: window.innerWidth * 0.02,
+      right: window.innerWidth * 0.02,
+      bottom: window.innerWidth * 0.04,
+      left: window.innerWidth * 0.04
     },
     radius: 5,
     color: 'blue',
@@ -213,17 +213,19 @@ export const Main = (props) => {
             );
           })}
           <button type="button"
-          className="text-white text-xs col-start-3 row-start-6 self-center font-ssp bg-gray-900 rounded-lg outline outline-offset-2 outline-highlight-blue"
-          onClick={
-            function () {
-              tags.forEach(element => {
-                document.getElementById("checkbox-" + element.tagName).checked = false;
-              })
-              tagsSelected = []
-              console.log(tagsCheckedState)
-              setDisplayData(processData(constRawData))
+            className="text-white col-start-3 row-start-6 self-center font-ssp bg-gray-900 rounded-lg outline outline-offset-2 outline-highlight-blue"
+            onClick={
+              function () {
+                tags.forEach(element => {
+                  document.getElementById("checkbox-" + element.tagName).checked = false;
+                })
+                tagsSelected = []
+                console.log(tagsCheckedState)
+                setDisplayData(processData(constRawData))
+              }
             }
-          }>Clear</button>
+            style={{ fontSize: '.5vw' }}
+          >Clear</button>
           <Dropdown
             ref={dropDownRef}
             onChange={function (event) {
@@ -233,7 +235,7 @@ export const Main = (props) => {
             }}
             label="Tag Selection"
             value="tagSelection"
-            className="col-start-4 col-span-2 row-start-6 font-ssp self-center px-2 text-xs"
+            className="col-start-4 col-span-2 row-start-6 font-ssp self-center px-2"
             options={[{ value: 0, label: 'Intersection' }, { value: 1, label: 'Union' }]}>
           </Dropdown>
         </ul>
@@ -273,7 +275,7 @@ export const Main = (props) => {
           options={[{ value: 0, label: 'No' }, { value: 1, label: 'Yes' }]}
         />
         <div className="col-start-3 col-span-full row-span-3 grid grid-cols-6 grid-rows-2 gap-2 font-ssp text-white">
-          <p className="text-xs self-center justify-self-center text-center font-bold">Type</p>
+          <p className="self-center justify-self-center text-center font-bold" style={{ fontSize: '.6vw' }}>Type</p>
           <Checkbox name="dvd" label="DVD" />
           <Checkbox name="special" label="Special" />
           <Checkbox name="movie" label="Movie" />
@@ -286,7 +288,7 @@ export const Main = (props) => {
           <Checkbox className="row-start-2 col-start-6" name="web" label="Web" />
         </div>
         <div className="col-start-3 row-start-4 row-span-2 grid grid-cols-6 grid-rows-1 gap-2 font-ssp text-white">
-          <p className="text-xs self-center justify-self-center text-center font-bold">Related Season</p>
+          <p className="self-center justify-self-center text-center font-bold" style={{ fontSize: '.6vw' }}>Related Season</p>
           <Checkbox name="all-season" label="All" />
           <Checkbox name="spring" label="Spring" />
           <Checkbox name="summer" label="Summer" />
@@ -312,8 +314,8 @@ export const Main = (props) => {
         />
       </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-7 m-2" >
-        { displayData && constRawData 
-            && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} />
+        {displayData && constRawData
+          && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} />
         }
       </ContainerBox>
 
@@ -411,16 +413,16 @@ export const refreshInfo = (data, infoDispatch) => {
 
 const filterByRange = (rangeSelect, data) => {
   let returnData = data
-  if(rangeSelect.rank.length !== 0) {
+  if (rangeSelect.rank.length !== 0) {
     returnData = returnData.filter(row => row[0] >= rangeSelect.rank[0] && row[0] <= rangeSelect.rank[1]);
   }
-  if(rangeSelect.year.length !== 0) {
+  if (rangeSelect.year.length !== 0) {
     returnData = returnData.filter(row => row[9] >= rangeSelect.year[0] && row[9] <= rangeSelect.year[1]);
   }
-  if(rangeSelect.episodes.length !== 0) {
+  if (rangeSelect.episodes.length !== 0) {
     returnData = returnData.filter(row => row[4] >= rangeSelect.episodes[0] && row[4] <= rangeSelect.episodes[1]);
   }
-  if(rangeSelect.rates.length !== 0) {
+  if (rangeSelect.rates.length !== 0) {
     returnData = returnData.filter(row => row[8] >= rangeSelect.rates[0] && row[8] <= rangeSelect.rates[1]);
   }
   return returnData

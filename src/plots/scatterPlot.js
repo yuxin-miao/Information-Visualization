@@ -67,12 +67,14 @@ export const ScatterPlot = ({settings, displayData, infoDispatch}) => {
         .call(yAxis);
     // render axis label
     svgElement.append('text')
-        .attr('transform', `translate(${(drawWidth / 2)}, ${(height - margin.bottom + 40)})`)
+        .attr('transform', `translate(${(drawWidth / 2)}, ${(height - margin.bottom + window.innerHeight * 0.05)})`)
+        .attr('class', 'axis-label')
         .style('fill', 'white')
         .text(xVar.name);
 
     svgElement.append('text')
-        .attr('transform', `translate( ${(margin.left - 30)},${(margin.top + drawHeight / 2)}) rotate(-90)`)
+        .attr('transform', `translate( ${(margin.left - window.innerWidth * 0.025)},${(margin.top + drawHeight / 2)}) rotate(-90)`)
+        .attr('class', 'axis-label')
         .style('fill', 'white')
         .text(yVar.name);
     

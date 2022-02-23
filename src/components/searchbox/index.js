@@ -63,10 +63,11 @@ export const SearchBox = ({ className, onSubmit, rawSetData, animeData, handleCl
           (filteredSuggestions.map((suggestion, index) => {
             return (
               <li className="flex justify-between py-2 px-4 text-sm text-gray-100 hover:text-main hover:bg-gray-50" 
+                  style={{ fontSize: '.7vw', height: '3vh' }}
                   key={index} 
                   onClick={() => handleClick(suggestion)}>
-                <div>{suggestion.val}</div>  
-                <div className="circle-text px-2"> {suggestion.type}</div>
+                <div className="self-center">{suggestion.val}</div>  
+                <div className="self-center circle-text px-2"> {suggestion.type}</div>
               </li>
             );
           })) : 
@@ -89,7 +90,7 @@ export const SearchBox = ({ className, onSubmit, rawSetData, animeData, handleCl
     <div className={`${className ? className : ''} w-full flex gap-4 p-2 pt-0`}>
       <div className="search-icon flex align-center justify-center"> <img alt={''} src={SearchIcon} className="icon"/> </div>
       
-      <div className="input-box justify-center w-full">
+      <div className="input-box justify-center w-full" style={{ fontSize: '.8vw' }}>
         <form className="input-area w-ful" onSubmit={onSubmit}>
           <input
             className="px-3 w-full h-full bg-transparent text-white"
