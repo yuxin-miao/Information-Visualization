@@ -71,12 +71,8 @@ const Checkbox = (props) => {
   )
 }
 export const Main = (props) => {
-
-  const [xLowRange, setXLowRange] = useState('')
-  const [xHighRange, setXHighRange] = useState('')
-
-  const [yLowRange, setYLowRange] = useState('')
-  const [yHighRange, setYHighRange] = useState('')
+  const [xAxis, setXAxis] = useState("Episodes")
+  const [yAxis, setYAxis] = useState("Rating")
 
   /****** setup for the scatter plot ******/
   // plot settings 
@@ -93,11 +89,11 @@ export const Main = (props) => {
     color: 'blue',
     xVar: {
       idx: 4,
-      name: "Episodes"
+      name: xAxis
     },
     yVar: {
       idx: 8,
-      name: "Rating"
+      name: yAxis
     }
   })
   // boolean value for whether draw the scatterplot 
@@ -227,42 +223,74 @@ export const Main = (props) => {
   }
 
   /******************************Filter******************************/
-  // const handleContentWarnOnChange = event => {
-  //   this.setState({ contentWarn: event.target.value });
-  // };
 
-  // const [filteredDatas, setFilteredDatas] = useState([])
-  // setFilteredDatas(constRawData)
-
-  // axis = 0: x-axis; axis = 1: y-axis
-  const [xAxis, setXAxis] = useState([])
 
   const handleXOnChange = (e) => {
     setXAxis(e.target.value)
     console.log(xAxis)
   }
 
+  const [xLowRange, setXLowRange] = useState('')
+  const [xHighRange, setXHighRange] = useState('')
+
+  const [yLowRange, setYLowRange] = useState('')
+  const [yHighRange, setYHighRange] = useState('')
+
   const handleXLowRange = (e) => {
     if (!isNaN(+e.target.value)) {
-        setXLowRange(e.target.value)
+      setXLowRange(e.target.value)
+      let index
+      if (xAxis === "Rating") {
+        index = 8
+      }
+      else if (xAxis === "Release_year") {
+        index = 9
+      }
+      else if (xAxis === "Episodes") {
+        index = 4
+      }
+      setDisplayData(
+        constRawData.filter(item => {
+          if (item[index] != null && item[index] >= xLowRange) {
+            return true
+          }
+          return false
+        })
+      )
     }
     else {
       e.target.value = xLowRange
     }
-    console.log(xLowRange)
+    // console.log(xLowRange)
   }
 
   const handleXHighRange = (e) => {
     if (!isNaN(+e.target.value)) {
-        setXHighRange(e.target.value)
+      setXHighRange(e.target.value)
+      let index
+      if (xAxis === "Rating") {
+        index = 8
+      }
+      else if (xAxis === "Release_year") {
+        index = 9
+      }
+      else if (xAxis === "Episodes") {
+        index = 4
+      }
+      setDisplayData(
+        constRawData.filter(item => {
+          if (item[index] != null && item[index] <= xHighRange) {
+            return true
+          }
+          return false
+        })
+      )
     }
     else {
       e.target.value = xHighRange
     }
-    console.log(xHighRange)
+    // console.log(xHighRange)
   }
-
-  const [yAxis, setYAxis] = useState([])
 
   const handleYOnChange = (e) => {
     setYAxis(e.target.value)
@@ -271,7 +299,25 @@ export const Main = (props) => {
 
   const handleYLowRange = (e) => {
     if (!isNaN(+e.target.value)) {
-        setYLowRange(e.target.value)
+      setYLowRange(e.target.value)
+      let index
+      if (yAxis === "Rating") {
+        index = 8
+      }
+      else if (yAxis === "Release_year") {
+        index = 9
+      }
+      else if (yAxis === "Episodes") {
+        index = 4
+      }
+      setDisplayData(
+        constRawData.filter(item => {
+          if (item[index] != null && item[index] >= yLowRange) {
+            return true
+          }
+          return false
+        })
+      )
     }
     else {
       e.target.value = yLowRange
@@ -281,7 +327,25 @@ export const Main = (props) => {
   
   const handleYHighRange = (e) => {
     if (!isNaN(+e.target.value)) {
-        setYHighRange(e.target.value)
+      setYHighRange(e.target.value)
+      let index
+      if (yAxis === "Rating") {
+        index = 8
+      }
+      else if (yAxis === "Release_year") {
+        index = 9
+      }
+      else if (yAxis === "Episodes") {
+        index = 4
+      }
+      setDisplayData(
+        constRawData.filter(item => {
+          if (item[index] != null && item[index] <= yHighRange) {
+            return true
+          }
+          return false
+        })
+      )
     }
     else {
       e.target.value = yHighRange
@@ -508,14 +572,14 @@ export const Main = (props) => {
         </div>
 
         {/* <Range className="row-start-2" onChange={handelXRange} /> */}
-        <div className={"row-start-2 grid grid-cols-5 gap-2 font-ssp text-xs"}>
+        {/* <div className={"row-start-2 grid grid-cols-5 gap-2 font-ssp text-xs"}>
           <p className="text-white self-center col-span-2">Range</p>
           <form className="col-start-3 col-span-full grid gap-2 grid-cols-5">
             <input className="rounded col-span-2 text-center" type="text" value={xLowRange} onChange={handleXLowRange}></input>
             <span className="text-white col-start-3 justify-self-center">-</span>
             <input className="rounded col-start-4 col-span-full text-center" type="text" value={xHighRange} onChange={handleXHighRange}></input>
           </form>
-        </div>
+        </div> */}
 
         {/* <Dropdown
           onChange={e => console.log(e)}
@@ -532,14 +596,14 @@ export const Main = (props) => {
         </div>
 
         {/* <Range className='row-start-5' onChange={handelYRange} /> */}
-        <div className={"row-start-5 grid grid-cols-5 gap-2 font-ssp text-xs"}>
+        {/* <div className={"row-start-5 grid grid-cols-5 gap-2 font-ssp text-xs"}>
           <p className="text-white self-center col-span-2">Range</p>
           <form className="col-start-3 col-span-full grid gap-2 grid-cols-5">
             <input className="rounded col-span-2 text-center" type="text" value={yLowRange} onChange={handleYLowRange}></input>
             <span className="text-white col-start-3 justify-self-center">-</span>
             <input className="rounded col-start-4 col-span-full text-center" type="text" value={yHighRange} onChange={handleYHighRange}></input>
           </form>
-        </div>
+        </div> */}
 
         {/* <Dropdown
           className="col-start-2"
