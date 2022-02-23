@@ -12,7 +12,10 @@ import { SearchBox } from '../searchbox'
 import { ContainerBox } from "../containerbox";
 import { tags } from "../tags/tags";
 import { RangeSelection } from "../rangeselect";
-
+import { forEach } from "lodash-es";
+import { Filter } from "../filter/Filter";
+import { types } from "../filter/types";
+import { seasons } from "../filter/seasons";
 
 
 // Provide an onChange function on a Dropdown component to process the updated data.
@@ -53,7 +56,7 @@ const Range = (props) => {
 const Checkbox = (props) => {
   return (
     <div className={`${props.className ? props.className : ''} justify-self-center flex w-full gap-2`}>
-      <input className="self-center" type='checkbox' id={`checkbox-${props.name}`} name={`${props.name}`} onChange={props.onChange} />
+      <input className="self-center" type='checkbox' id={`checkbox-${props.name}`} name={`${props.name}`} checked={props.checked}  onChange={props.onChange} />
       <label className="self-center text-xs">{props.label}</label>
     </div>
   )
@@ -103,7 +106,7 @@ export const Main = (props) => {
 
   /******************** Data Prepare ****************/
   // const rawData, delete the first row 
-  let [constRawData, setConstRawData] = useState()
+  let [constRawData, setConstRawData] = useState();
   // data used for display
   let [displayData, setDisplayData] = useState(); 
   // download the data only when first mount 
@@ -117,6 +120,7 @@ export const Main = (props) => {
     })
   }, []);
 
+  // console.log(displayData)
 
   // When other components need data, import it 
   // So no need to papaparse everytime
@@ -126,6 +130,8 @@ export const Main = (props) => {
       setRawSetData(result.data);
     })
   }, [])
+
+  // console.log(rawSetData)
 
   /******************** Data Filter ****************/
   const onSearchBoxSubmit = (event) => {
@@ -176,6 +182,176 @@ export const Main = (props) => {
     console.log(suggestion)
   }
 
+  /******************************Filter******************************/
+  // const handleContentWarnOnChange = event => {
+  //   this.setState({ contentWarn: event.target.value });
+  // };
+
+  // const [filteredDatas, setFilteredDatas] = useState([])
+  // setFilteredDatas(constRawData)
+
+  const handleStudioOnChange = e => {
+    const value = e.target.value
+    // console.log(value)
+    setDisplayData(
+      constRawData.filter(item => {
+        if (item[5] === value) {
+          return true
+        }
+        return false
+      })
+    )
+  }
+
+  // const handleVoiceActorOnChange = e => {
+  //   const value = e.target.value
+  //   setDisplayData(
+  //     constRawData.filter(item => {
+  //       if (item[15].includes(value)) {
+  //         return true
+  //       }
+  //       return false
+  //     })
+  //   )
+  // }
+
+  const handleContentWarnOnChange = e => {
+    const value = e.target.value
+    setDisplayData(
+      constRawData.filter(item => {
+        if (item[12] != null && item[12].includes(value) || value === "No" && item[12] === null){
+          return true
+        }
+        return false
+      })
+    )
+  }
+
+  const [typesCheckedState, setTypesCheckedState] = useState(
+    new Array(8).fill(true)
+  );
+
+  const handleTypeOnChange = position => {
+    
+    const updatedCheckedState = typesCheckedState.map((item, index) => index === position ? !item : item)
+    setTypesCheckedState(updatedCheckedState)
+
+    // const unique = Filter(0)
+    let newTypesSelected = []
+    for (let i = 0; i < 8; i++) {
+      if (typesCheckedState[i] === true) {
+        newTypesSelected.push(types[i].typeName)
+      }
+    }
+    setDisplayData(
+      constRawData.filter(item => {
+        if (item[3] != null) {
+          if (newTypesSelected.includes(item[3].trim())) {
+            return true
+          }
+        }
+        return false
+      })
+    )
+    // console.log(displayData)
+  }
+
+  const [seasonsCheckedState, setSeasonsCheckedState] = useState(new Array(5).fill(true));
+
+  const handleSeasonOnChange = position => {
+    if (position === 0 && seasonsCheckedState[0] === false) {
+      setSeasonsCheckedState([true, true, true, true, true])
+      setDisplayData(constRawData)
+    }
+    else {
+      let newSeasonsSelected = []
+      if (position === 0 && seasonsCheckedState[0] === true) {
+        setSeasonsCheckedState([false, true, true, true, true])
+        for (let i = 1; i < 5; i++) {
+          newSeasonsSelected.push(seasons[i].seasonName)
+        }
+      }
+      else {
+        const updatedCheckedState = seasonsCheckedState.map((item, index) => index === position ? !item : item)
+        updatedCheckedState[0] = false
+        setSeasonsCheckedState(updatedCheckedState)
+        for (let i = 1; i < 5; i++) {
+          if (seasonsCheckedState[i] === true) {
+            newSeasonsSelected.push(seasons[i].seasonName)
+          }
+        }
+      }
+      setDisplayData(
+        constRawData.filter(item => {
+          if (item[6] != null) {
+            if (newSeasonsSelected.includes(item[6].trim())) {
+              return true
+            }
+          }
+          return false
+        })
+      )
+    }
+    // console.log(displayData)
+  }
+
+  // const getUnique = (filterIndex) => {
+  //   const optionList = [];
+  //   // const unique = []
+  //   // for (let i = 0; i < constRawData.length; i++){
+  //   //   unique.push(constRawData[i][index])
+  //   // }
+  //   // constRawData.forEach(data => {
+  //   //   unique.push(data[index])
+  //   // })
+
+  //   // const unique = constRawData.map(data => data[filterIndex])
+  //   // unique = [...new Set(unique)]
+  //   // unique.forEach((el, n) => {
+  //   //   optionList.push({value:n, label:el})
+  //   // })
+  //   // useEffect(() => {parseData((result) => {
+  //   //   result.data.shift() // first row is header, delete it here 
+  //   //   setFilterDatas(result.data);
+  //   // })
+  //   constRawData.forEach(e => {
+  //     if (!optionList.includes(e[filterIndex])) {
+  //       optionList.push(e[filterIndex])
+  //     }
+  //   });
+  //   console.log(optionList);
+  //   return optionList;
+  //   // console.log(unique)
+  //   // const unique = constRawData
+  //   //   .map(e => e[index])
+  //   //   .filter(e => constRawData[e])
+  //   //   .map(e => constRawData[e]);
+  //   // return unique;
+  //   // let x = 0
+  //   // unique.forEach(item => {
+  //   //   optionList.push({value:x, label:item[index]})
+  //   //   x++
+  //   // });
+  //   // console.log(optionList)
+  //   // return optionList
+  // };
+
+  // const getUnique = (arr, index) => {
+  //   const unique = arr
+  //     //store the comparison values in array
+  //     .map(e => e[index])
+
+  //     // store the keys of the unique objects
+  //     .map((e, i, final) => final.indexOf(e) === i && i)
+
+  //     // eliminate the dead keys & store unique objects
+  //     .filter(e => arr[e])
+
+  //     .map(e => arr[e]);
+
+  //   return unique;
+  // }
+
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
 
@@ -215,44 +391,80 @@ export const Main = (props) => {
           options={[{ value: 0, label: 'Option 0' }, { value: 1, label: 'Option 1' }]}
         />
         <Range className='row-start-5' />
-        <Dropdown
+        {/* <Dropdown
           className="col-start-2"
           label="Studio"
           value="studio"
-          options={[{ value: 0, label: 'Option 0' }, { value: 1, label: 'Option 1' }]}
-        />
-        <Dropdown
+          // options={getUnique(5)}
+          options={list}
+          onChange={handleStudioOnChange}
+        /> */}
+        <div className="col-start-2 grid grid-cols-5 gap-2 text-xs" >
+          <p className="text-white font-ssp font-bold self-center col-span-2">Studio</p>
+          {/* <select onChange={handleStudioOnChange} value={props.options[0].value} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="studio" id="select-studio"> */}
+          <select onChange={handleStudioOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="studio" id="select-studio">
+            {Filter(1).map(val => <option key={`studio-${val}`} value={val}>{val}</option>)}
+          </select>
+        </div>
+        {/* <Dropdown
           className="col-start-2 row-start-2"
           label="Voice Actor"
           value="voiceactor"
           options={[{ value: 0, label: 'Option 0' }, { value: 1, label: 'Option 1' }]}
-        />
-        <Dropdown
+          onChange={handleVoiceActorOnChange}
+        />*/}
+        {/* <Dropdown
           className="col-start-2 row-start-4"
           label="Content Warn"
           value="contentwarning"
-          options={[{ value: 0, label: 'No' }, { value: 1, label: 'Yes' }]}
-        />
+          options={[{ value: 'No', label: 'No' }, { value: 'Yes', label: 'Yes' }]}
+          onChange={handleContentWarnOnChange}
+        /> */}
+        <div className="col-start-2 row-start-4 grid grid-cols-5 gap-2 text-xs" >
+          <p className="text-white font-ssp font-bold self-center col-span-2">Content Warn</p>
+          <select onChange={handleContentWarnOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="contentwarning" id="select-contentwarning">
+            {/* {rawSetData[3].forEach(el => {<option key={`contentwarning-${el}`} value={el}>{el}</option>})} */}
+            <option key="studio-No" value="No">No</option>
+            {Filter(3).map(val => <option key={`studio-${val}`} value={val}>{val}</option>)}
+          </select>
+        </div>
+        {/* <select
+          className="col-start-2 row-start-4"
+          label="Content Warn"
+          value="contentwarning"
+          // onChange={handleContentWarnOnChange()}
+        >
+          {getUnique(constRawData, 12).map(item => (
+            <option value={item[12]}>
+              {item[12]}
+            </option>
+          ))}
+        </select> */}
         <div className="col-start-3 col-span-full row-span-3 grid grid-cols-6 grid-rows-2 gap-2 font-ssp text-white">
           <p className="text-xs self-center justify-self-center text-center font-bold">Type</p>
-          <Checkbox name="dvd" label="DVD" />
-          <Checkbox name="special" label="Special" />
-          <Checkbox name="movie" label="Movie" />
-          <Checkbox name="music" label="Music" />
-          <Checkbox name="video" label="Video" />
-          <Checkbox className="row-start-2 col-start-2" name="other" label="Other" />
-          <Checkbox className="row-start-2 col-start-3" name="ova" label="OVA" />
-          <Checkbox className="row-start-2 col-start-4" name="tv" label="TV" />
-          <Checkbox className="row-start-2 col-start-5" name="tv-special" label="TV Special" />
-          <Checkbox className="row-start-2 col-start-6" name="web" label="Web" />
+          {/* <Checkbox name="dvd" label="DVD" onChange={() => handleTypeOnChange(0)}/>
+          <Checkbox name="special" label="Special" onChange={() => handleTypeOnChange(5)}/> */}
+          <Checkbox name="movie" label="Movie" checked={typesCheckedState[1]} onChange={() => handleTypeOnChange(1)}/>
+          <Checkbox name="music" label="Music" checked={typesCheckedState[2]} onChange={() => handleTypeOnChange(2)}/>
+          <Checkbox name="dvd-special" label="DVD Special" checked={typesCheckedState[0]} onChange={() => handleTypeOnChange(0)}/>
+          {/* <Checkbox className="row-start-2 col-start-2" name="other" label="Other" onChange={() => handleTypeOnChange(2)}/>
+          <Checkbox className="row-start-2 col-start-3" name="ova" label="OVA" onChange={() => handleTypeOnChange(3)}/>
+          <Checkbox className="row-start-2 col-start-4" name="tv" label="TV" onChange={() => handleTypeOnChange(4)}/>
+          <Checkbox className="row-start-2 col-start-5" name="tv-special" label="TV Special" onChange={() => handleTypeOnChange(5)}/>
+          <Checkbox className="row-start-2 col-start-6" name="web" label="Web" onChange={() => handleTypeOnChange(7)}/> */}
+          <Checkbox name="ova" label="OVA" checked={typesCheckedState[4]} onChange={() => handleTypeOnChange(4)}/>
+          <Checkbox className="row-start-2 col-start-2" name="tv" label="TV" checked={typesCheckedState[5]} onChange={() => handleTypeOnChange(5)}/>
+          <Checkbox className="row-start-2 col-start-3" name="tv-special" label="TV Special" checked={typesCheckedState[6]} onChange={() => handleTypeOnChange(6)}/>
+          <Checkbox className="row-start-2 col-start-4" name="web" label="Web" checked={typesCheckedState[7]} onChange={() => handleTypeOnChange(7)}/> 
+          <Checkbox className="row-start-2 col-start-5" name="other" label="Other" checked={typesCheckedState[3]} onChange={() => handleTypeOnChange(3)}/>
         </div>
         <div className="col-start-3 row-start-4 row-span-2 grid grid-cols-6 grid-rows-1 gap-2 font-ssp text-white">
           <p className="text-xs self-center justify-self-center text-center font-bold">Related Season</p>
-          <Checkbox name="all-season" label="All" />
-          <Checkbox name="spring" label="Spring" />
-          <Checkbox name="summer" label="Summer" />
-          <Checkbox name="autumn" label="Autumn" />
-          <Checkbox name="winter" label="Winter" />
+          <Checkbox name="all-season" checked={seasonsCheckedState[0]} label="All" onChange={() => handleSeasonOnChange(0)}/>
+          <Checkbox name="spring" label="Spring" checked={seasonsCheckedState[2]} onChange={() => handleSeasonOnChange(2)}/>
+          <Checkbox name="summer" label="Summer" checked={seasonsCheckedState[3]} onChange={() => handleSeasonOnChange(3)}/>
+          <Checkbox name="fall" label="Fall" checked={seasonsCheckedState[1]} onChange={() => handleSeasonOnChange(1)}/>
+          <Checkbox name="winter" label="Winter" checked={seasonsCheckedState[4]} onChange={() => handleSeasonOnChange(4)}/>
         </div>
     </ContainerBox>
 
