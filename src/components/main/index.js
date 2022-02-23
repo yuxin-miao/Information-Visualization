@@ -89,12 +89,12 @@ export const Main = (props) => {
     radius: 5,
     color: 'blue',
     xVar: {
-      idx: 4,
-      name: "Episodes"
-    },
-    yVar: {
       idx: 8,
       name: "Rating"
+    },
+    yVar: {
+      idx: 4,
+      name: "Episodes"
     }
   })
   // boolean value for whether draw the scatterplot 
@@ -125,8 +125,10 @@ export const Main = (props) => {
   useEffect(() => {
     parseData((result) => {
       result.data.shift() // first row is header, delete it here 
-      setConstRawData(result.data.slice(0,-1));
-      setDisplayData(processData(result.data));
+      let setData = result.data.filter(row => row[8] >= 0)
+      setData = setData.slice(0,-1)
+      setConstRawData(setData);
+      setDisplayData(setData);
 
     })
   }, []);
@@ -188,12 +190,9 @@ export const Main = (props) => {
   const infoSeason = useSelector(state => state.info.season)
   const infoRank = useSelector(state => state.info.rank)
   const infoRating = useSelector(state => state.info.rating)
-
   useEffect(() => {
-    // console.log('change range select', rangeSelect)
-    // let tmpData = processData(displayData)
-    let res = filterByRange(rangeSelect, displayData)
-    setDisplayData(res)
+      let res = processData(constRawData)
+      setDisplayData(res)
   }, [rangeSelect])
 
   // global reset indicator 
@@ -215,12 +214,12 @@ export const Main = (props) => {
       {
         ...plotSetting,
         xVar: {
-          idx: 4,
-          name: "Episodes"
-        },
-        yVar: {
           idx: 8,
           name: "Rating"
+        },
+        yVar: {
+          idx: 4,
+          name: "Episodes"
         }
       }
     )
@@ -233,7 +232,7 @@ export const Main = (props) => {
 
   const getAxisIndex = (name) => {
     if (name === "Rating") return 8
-    else if (name === "Release_year") return 9
+    else if (name === "Release Year") return 9
     else if (name === "Episodes") return 4
   }
   const handleXOnChange = (e) => {
@@ -474,6 +473,50 @@ export const Main = (props) => {
     })
     tagsSelected = []
   }
+  const processData = (data) => {
+    // Here maybe add other filters 
+    // call this function whenever add new filter
+    let returnData = data;
+    //let returnData=data.filter(row=>true);
+  
+    //tag filter
+    if (tagsSelected.length !== 0) {
+      returnData = returnData.filter(function (row) {
+        if (row[7] !== null) {
+          return filterWithTags(row[7])
+        } else {
+          return false
+        }
+      })
+    }
+
+  
+    //type filter
+    if (typesSelected.length !== 0) {
+      returnData = returnData.filter(function (row) {
+        if (row[3] !== null) {
+          return filterWithTypes(row[3])
+        }
+        else {
+          return false
+        }
+      })
+    }
+
+  
+    //season filter
+    if (seasonsSelected.length !== 0) {
+      returnData = returnData.filter(function (row) {
+        if (row[6] !== null) {
+          return filterWithSeasons(row[6])
+        } else {
+          return false
+        }
+      })
+    }
+    returnData = filterByRange(rangeSelect, returnData)
+    return returnData;
+  }
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid pr-4 py-4`}>
 
@@ -607,53 +650,6 @@ export const Main = (props) => {
   )
 }
 
-
-const processData = (data) => {
-  // Here maybe add other filters 
-  // call this function whenever add new filter
-  let returnData = data.filter(row => row[8] >= 0);
-  //let returnData=data.filter(row=>true);
-
-  //tag filter
-  returnData = returnData.filter(function (row) {
-    if (row[7] !== null) {
-      return filterWithTags(row[7])
-    }
-    else if(tagsSelected.length==0) {
-      return true
-    }
-    else
-    {
-      return false
-    }
-  })
-
-  //type filter
-  returnData = returnData.filter(function (row) {
-    if (row[3] !== null) {
-      return filterWithTypes(row[3])
-    }
-    else {
-      return false
-    }
-  })
-
-  //season filter
-  returnData = returnData.filter(function (row) {
-    if (row[6] !== null) {
-      return filterWithSeasons(row[6])
-    }
-    else if(seasonsSelected.length==0) {
-      return true
-    }
-    else
-    {
-      return false
-    }
-  })
-
-  return returnData;
-}
 const tagsClear=()=>{
   tags.forEach(element => {
     document.getElementById("checkbox-" + element.tagName).checked = false;
