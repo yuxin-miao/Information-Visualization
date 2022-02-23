@@ -390,14 +390,19 @@ export const Main = (props) => {
 
   const handleContentWarnOnChange = e => {
     const value = e.target.value
-    setDisplayData(
-      constRawData.filter(item => {
-        if (item[12] != null && item[12].includes(value) || value === "No" && item[12] === null){
-          return true
-        }
-        return false
-      })
-    )
+    if (value === "All") {
+      setDisplayData(constRawData)
+    }
+    else {
+      setDisplayData(
+        constRawData.filter(item => {
+          if (item[12] != null && item[12].includes(value) || value === "No" && item[12] === null){
+            return true
+          }
+          return false
+        })
+      )
+    }
   }
 
   const [typesCheckedState, setTypesCheckedState] = useState(
@@ -534,7 +539,8 @@ export const Main = (props) => {
         <div className="col-start-2 row-start-4 grid grid-cols-5 gap-2 text-xs" >
           <p className="text-white font-ssp font-bold self-center col-span-2">Content Warn</p>
           <select onChange={handleContentWarnOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="contentwarning" id="select-contentwarning">
-            <option key="studio-No" value="No">No</option>
+            <option key="studio-All" value="All">All</option>
+            <option key="studio-No" value="No">No Warning</option>
             {Filter(3).map(val => <option key={`studio-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
