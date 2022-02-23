@@ -161,7 +161,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
     circles.transition().duration(500);
     circles.exit().remove();
 
-  },[displayData, highlight]);
+  },[displayData, highlight, settings]);
 
 
 
