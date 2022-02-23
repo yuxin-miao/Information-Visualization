@@ -12,12 +12,13 @@ axis-style line{
 }
 
 .axis-label {
-  font-size: .8vw;
+  font-size: 1vw;
 }
 
 .highlight-attr {
   stroke: white;
   stroke-width: 2;
+  opacity: 1;
 }
 
 .tooltip {

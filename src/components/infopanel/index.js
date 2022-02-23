@@ -25,7 +25,7 @@ export const InfoPanel = (props) => {
                 <p>{props.animeSeason ? `${props.animeReleaseYear} ${props.animeSeason}` : props.animeReleaseYear}</p>
             </div>
             <div className='row-start-3 col-start-6 col-span-full self-center justify-self-center flex gap-2' style={{ fontSize: '1vw' }}>
-                <img src={StudioIcon} className='w-full object-contain' />
+                <img src={StudioIcon} className='h-full object-contain self-center' style={{ width: '15%' }} />
                 <p>{props.animeStudio ? props.animeStudio : ''}</p>
             </div>
             <div className='row-start-4 col-span-full px-5 my-2 text-justify' style={{ overflowY: "scroll", fontSize: '1vw' }}>

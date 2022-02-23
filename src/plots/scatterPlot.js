@@ -79,7 +79,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
         .text(yVar.name);
     svgElement.append('image')
         .attr("href", colorLegend)
-        .attr('transform', `translate( ${(drawWidth*0.85)},${(height - margin.bottom + 25)})`)
+        .attr('transform', `translate( ${(drawWidth*0.91)},${(height - margin.bottom + window.innerHeight * 0.032)})`)
         .attr('width', drawWidth*0.16)
 
     
@@ -122,7 +122,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
             
         })
         .attr('label', (d)=>d.label)
-        .style('fill-opacity', 1)
+        .style('opacity', 0.4)
         .merge(circles)
         .attr('cx', (d) => xScale(d.x))
         .attr('cy', (d) => yScale(d.y))
@@ -154,9 +154,9 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
             const posX = d3.select(this).attr("cx")
             const posY = d3.select(this).attr("cy")
             tooltip.style('transform', `translate(${posX}px, ${posY}px)`).style("opacity", 1).text(`${d.label}(${d.x}, ${d.y})`)
-            d3.select(this).attr("stroke","white").attr("stroke-width",1)
+            d3.select(this).attr("stroke","white").attr("stroke-width", 1).style("opacity", 1)
         }).on("mouseout", function(d){
-            d3.select(this).attr("stroke", "none")
+            d3.select(this).attr("stroke", "none").style("opacity", .4)
             tooltip.style('opacity', 0)
         });
 

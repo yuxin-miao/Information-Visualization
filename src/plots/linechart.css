@@ -8,7 +8,7 @@ axisStyle line{
 
 .axisStyle text{
   fill: white;
-  font-size: .5vw;
+  font-size: .8vw;
 }
 
 .rangetip {
@@ -21,7 +21,7 @@ axisStyle line{
   padding-right: 3px;
   margin-left: 5px;
   pointer-events: none;
-  font-size: .6vw;
+  font-size: .8vw;
   font-weight: 600;
   color: white;
   border-radius: 5px;

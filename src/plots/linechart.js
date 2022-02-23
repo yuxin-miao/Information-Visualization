@@ -56,10 +56,11 @@ export const LineChart = ({settings, data, customized, handleEndBrush, reset}) =
         .attr('height', height)
         .attr('width', width);
     gElement.selectAll('path')
-         .data(newdata)
-         .enter().append('path')
-         .attr('d', p => newline(p))
-         .attr('stroke', p => gradientColor(p)); 
+        .data(newdata)
+        .enter().append('path')
+        .attr('d', p => newline(p))
+        .attr('stroke', p => gradientColor(p))
+        .attr("stroke-width", '.15vw')
 
   }, [])
 
@@ -117,7 +118,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush, reset}) =
       <div id={rangeId}></div>
       <div className="flex">
         <svg ref = {ref}/>
-        <img onClick={handleOnRefresh} className="w-4 h-4 self-center ml-1" src={RefreshIcon}/>     
+        <img onClick={handleOnRefresh} className="h-full self-center ml-1" src={RefreshIcon} style={{ width: '8%' }} />     
       </div>
     </>
 

@@ -59,7 +59,7 @@ export const SearchBox = ({ className, rawSetData, animeData, handleClickSuggest
   const renderSuggestionList = () => {
     if (query === undefined || query === '' || submitSearch) return null;
     return (
-      <ul className="suggestions bg-main w-1/2 absolute inline-block z-10">
+      <ul className="suggestions bg-main absolute inline-block z-10" style={{ width: '31%' }}>
         {filteredSuggestions && filteredSuggestions.length > 0 ?
           (filteredSuggestions.map((suggestion, index) => {
             return (
@@ -108,7 +108,7 @@ export const SearchBox = ({ className, rawSetData, animeData, handleClickSuggest
             value={query}
             onChange={handleChange}
           />
-          <img onClick={handleOnRefresh} className="w-4 h-4 self-center ml-1" src={RefreshIcon}/>     
+          <img onClick={handleOnRefresh} className="w-auto h-full self-center ml-1" src={RefreshIcon}/>     
         </form>
 
         {renderSuggestionList()}

@@ -34,7 +34,7 @@ const Dropdown = forwardRef((props, ref) => {
 
 
   return (
-    <div className={`${props.className ? props.className : ''} grid grid-cols-5 gap-2`} style={{ fontSize: '.6vw' }} >
+    <div className={`${props.className ? props.className : ''} grid grid-cols-5 gap-2`} style={{ fontSize: '.8vw' }} >
       <p className="text-white font-ssp font-bold self-center col-span-2">{props.label}</p>
       <select onChange={props.onChange ? props.onChange : function (event) { setValue(event.target.value) }} value={value} className="col-start-3 col-span-full rounded text-center bg-gray-200" name={props.value} id={`select-${props.value}`}>
         {props.options ? props.options.map(val => <option key={`${props.value}-${val.value}`} value={val.value}>{val.label}</option>) : <option value="">No Selection</option>}
@@ -49,7 +49,7 @@ const Range = (props) => {
   const [highRange, setHighRange] = useState('')
 
   return (
-    <div className={`${props.className ? props.className : ""} grid grid-cols-5 gap-2 font-ssp`} style={{ fontSize: '.6vw' }} >
+    <div className={`${props.className ? props.className : ""} grid grid-cols-5 gap-2 font-ssp`} style={{ fontSize: '.8vw' }} >
       <p className="text-white self-center col-span-2">Range</p>
       <form className="col-start-3 col-span-full grid gap-2 grid-cols-5" onSubmit={props.onSubmit}>
         <input className="rounded col-span-2 text-center" type="text" value={lowRange} onChange={event => setLowRange(event.target.value)}></input>
@@ -64,9 +64,9 @@ const Range = (props) => {
 // Provide an onChange function on a Checkbox component to process the updated data.
 const Checkbox = (props) => {
   return (
-    <div className={`${props.className ? props.className : ''} justify-self-center flex w-full gap-2`} style={{ fontSize: '.7vw' }}>
+    <div className={`${props.className ? props.className : ''} justify-self-center flex w-full gap-2`} style={{ fontSize: '.85vw' }}>
       <input className="self-center" type='checkbox' id={`checkbox-${props.name}`} name={`${props.name}`} checked={props.checked} onChange={props.onChange} />
-      <label className="self-center">{props.label}</label>
+      <label className="self-center leading-none">{props.label}</label>
     </div>
   )
 }
@@ -86,7 +86,7 @@ export const Main = (props) => {
       bottom: window.innerWidth * 0.04,
       left: window.innerWidth * 0.04
     },
-    radius: 5,
+    radius: window.innerWidth * .0025,
     color: 'blue',
     xVar: {
       idx: 8,
@@ -545,7 +545,8 @@ export const Main = (props) => {
               tagsClear()
               setDisplayData(processData(constRawData))
             }
-            style={{ fontSize: '.5vw' }}
+          }
+            style={{ fontSize: '.7vw' }}
           >Clear</button>
           <Dropdown
             ref={dropDownRef}
@@ -563,7 +564,7 @@ export const Main = (props) => {
 
       </ContainerBox>
       <ContainerBox title="Filters" className="row-start-2 col-start-5 col-span-full filter-grid m-2 p-5">
-        <div className="grid grid-cols-5 gap-2 text-xs" >
+        <div className="grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">X - Axis</p>
           <select onChange={handleXOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" defaultValue="Episodes" name="x-axis" id="select-x-axis">
             {axis.map(val => <option key={`x-axis-${val}`} value={val}>{val}</option>)}
@@ -577,7 +578,7 @@ export const Main = (props) => {
             <input className="rounded col-start-4 col-span-full text-center" type="text" value={xHighRange} onChange={handleXHighRange}></input>
           </form>
         </div> */}
-        <div className="row-start-4 grid grid-cols-5 gap-2 text-xs" >
+        <div className="row-start-4 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">Y - Axis</p>
           <select onChange={handleYOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" defaultValue="Rating" name="y-axis" id="select-y-axis">
             {/* <option key="y-axis-rating" value="Rating">Rating</option>
@@ -594,14 +595,14 @@ export const Main = (props) => {
             <input className="rounded col-start-4 col-span-full text-center" type="text" value={yHighRange} onChange={handleYHighRange}></input>
           </form>
         </div> */}
-        <div className="col-start-2 grid grid-cols-5 gap-2 text-xs" >
+        <div className="col-start-2 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">Studio</p>
           <select onChange={handleStudioOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="studio" id="select-studio">
             <option key="studio-All" value="All">All</option>
             {Filter(1).map(val => <option key={`studio-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
-        <div className="col-start-2 row-start-4 grid grid-cols-5 gap-2 text-xs" >
+        <div className="col-start-2 row-start-4 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">Content Warn</p>
           <select onChange={handleContentWarnOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="contentwarning" id="select-contentwarning">
             <option key="contentwarning-All" value="All">All</option>
@@ -610,7 +611,7 @@ export const Main = (props) => {
           </select>
         </div>
         <div className="col-start-3 col-span-full row-span-3 grid grid-cols-6 grid-rows-2 gap-2 font-ssp text-white">
-          <p className="text-xs self-center justify-self-center text-center font-bold" style={{ fontSize: '.6vw' }}>Type</p>
+          <p className="text-xs self-center justify-self-center text-center font-bold" style={{ fontSize: '.8vw' }}>Type</p>
           <Checkbox name="movie" label="Movie" checked={typesCheckedState[1]} onChange={() => handleTypeOnChange(1)}/>
           <Checkbox name="music" label="Music" checked={typesCheckedState[2]} onChange={() => handleTypeOnChange(2)}/>
           <Checkbox name="dvd-special" label="DVD Special" checked={typesCheckedState[0]} onChange={() => handleTypeOnChange(0)}/>
@@ -621,7 +622,7 @@ export const Main = (props) => {
           <Checkbox className="row-start-2 col-start-5" name="other" label="Other" checked={typesCheckedState[3]} onChange={() => handleTypeOnChange(3)}/>
         </div>
         <div className="col-start-3 row-start-4 row-span-2 grid grid-cols-6 grid-rows-1 gap-2 font-ssp text-white">
-          <p className="text-xs self-center justify-self-center text-center font-bold" style={{ fontSize: '.6vw' }}>Released Season</p>
+          <p className="text-xs self-center justify-self-center text-center font-bold leading-8" style={{ fontSize: '.8vw' }}>Released Season</p>
           <Checkbox name="spring" label="Spring" checked={seasonsCheckedState[0]} onChange={() => handleSeasonOnChange(0)}/>
           <Checkbox name="summer" label="Summer" checked={seasonsCheckedState[1]} onChange={() => handleSeasonOnChange(1)}/>
           <Checkbox name="fall" label="Fall" checked={seasonsCheckedState[2]} onChange={() => handleSeasonOnChange(2)}/>
@@ -631,7 +632,7 @@ export const Main = (props) => {
       <div ref={plotRef} className="row-start-3 col-span-7 m-2">
         {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion}/>}
       </div>
-      <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" onClick={handleClearAll}>Clear All</button>
+      <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" style={{ margin: '.6vh .8vw', fontSize: '1vw' }} onClick={handleClearAll}>Clear All</button>
       <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-8 col-span-full m-2" >
         <InfoPanel
           animeTitle={infoTitle}
