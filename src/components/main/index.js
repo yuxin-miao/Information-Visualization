@@ -89,12 +89,13 @@ export const Main = (props) => {
     radius: window.innerWidth * .0025,
     color: 'blue',
     xVar: {
-      idx: 8,
-      name: "Rating"
-    },
-    yVar: {
       idx: 4,
       name: "Episodes"
+    },
+    yVar: {
+
+      idx: 8,
+      name: "Rating"
     }
   })
   // boolean value for whether draw the scatterplot 
@@ -199,12 +200,13 @@ export const Main = (props) => {
       {
         ...plotSetting,
         xVar: {
-          idx: 8,
-          name: "Rating"
-        },
-        yVar: {
           idx: 4,
           name: "Episodes"
+        },
+        yVar: {
+
+          idx: 8,
+          name: "Rating"
         }
       }
     )
