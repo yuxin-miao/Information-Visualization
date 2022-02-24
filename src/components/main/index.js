@@ -36,7 +36,7 @@ const Dropdown = forwardRef((props, ref) => {
   return (
     <div className={`${props.className ? props.className : ''} grid grid-cols-5 gap-2`} style={{ fontSize: '.8vw' }} >
       <p className="text-white font-ssp font-bold self-center col-span-2">{props.label}</p>
-      <select onChange={props.onChange ? props.onChange : function (event) { setValue(event.target.value) }} value={value} className="col-start-3 col-span-full rounded text-center bg-gray-200" name={props.value} id={`select-${props.value}`}>
+      <select onChange={props.onChange ? props.onChange : function (event) { setValue(event.target.value) }} value={value} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh'}} name={props.value} id={`select-${props.value}`}>
         {props.options ? props.options.map(val => <option key={`${props.value}-${val.value}`} value={val.value}>{val.label}</option>) : <option value="">No Selection</option>}
       </select>
     </div>
@@ -214,10 +214,11 @@ export const Main = (props) => {
   // When user click one suggestion from the search box suggestion
   // should also clear all current selection 
   const clickSuggestion = (suggestion) => {
+    // setDisplayData(constRawData)
+    // handleClearAll()
     const suggestionArray = []
     if (suggestion.type === "anime") {
       suggestionArray.push(String(suggestion.val))
-      /////////////////////
       refreshInfo(constRawData.filter(row=>row[1]===suggestion.val), InfoDispatch)
 
     } else if (suggestion.type === "voice actor") {
@@ -566,7 +567,7 @@ export const Main = (props) => {
       <ContainerBox title="Filters" className="row-start-2 col-start-5 col-span-full filter-grid m-2 p-5">
         <div className="grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">X - Axis</p>
-          <select onChange={handleXOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" defaultValue="Episodes" name="x-axis" id="select-x-axis">
+          <select onChange={handleXOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh'}} defaultValue="Episodes" name="x-axis" id="select-x-axis">
             {axis.map(val => <option key={`x-axis-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
@@ -580,7 +581,7 @@ export const Main = (props) => {
         </div> */}
         <div className="row-start-4 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">Y - Axis</p>
-          <select onChange={handleYOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" defaultValue="Rating" name="y-axis" id="select-y-axis">
+          <select onChange={handleYOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh'}} defaultValue="Rating" name="y-axis" id="select-y-axis">
             {/* <option key="y-axis-rating" value="Rating">Rating</option>
             <option key="y-axis-release-year" value="Release Year">Release Year</option>
             <option key="y-axis-episodes" value="Episodes">Episodes</option> */}
@@ -597,14 +598,14 @@ export const Main = (props) => {
         </div> */}
         <div className="col-start-2 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">Studio</p>
-          <select onChange={handleStudioOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="studio" id="select-studio">
+          <select onChange={handleStudioOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh'}} name="studio" id="select-studio">
             <option key="studio-All" value="All">All</option>
             {Filter(1).map(val => <option key={`studio-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
         <div className="col-start-2 row-start-4 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">Content Warn</p>
-          <select onChange={handleContentWarnOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200" name="contentwarning" id="select-contentwarning">
+          <select onChange={handleContentWarnOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh'}} name="contentwarning" id="select-contentwarning">
             <option key="contentwarning-All" value="All">All</option>
             <option key="contentwarning-No" value="No">No Warning</option>
             {Filter(3).map(val => <option key={`contentwarning-${val}`} value={val}>{val}</option>)}
