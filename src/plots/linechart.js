@@ -98,13 +98,12 @@ export const LineChart = ({settings, data, customized, handleEndBrush, reset}) =
     }
 
     function convertToXVal(number) {
-      const xMax = d3.max(data, d => d.xVal)
-      return number / drawWidth * xMax
+      const [xMin, xMax] = d3.extent(data, d => d.xVal);
+      let res = number / drawWidth * (xMax - xMin) + xMin
+      return Number(res)
     }
 
-
   }, [])
-  //TODO use remove instead of opacity 
   const handleOnRefresh = () => {
     d3.select("#".concat(rangeId)).style("opacity", 0)
     d3.select(".brush".concat(rangeId)).style("opacity", 0)
