@@ -23,7 +23,9 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
       season: item[6],
       releaseYear: item[9],
       studio: item[5],
-      rank: item[0]
+      rank: item[0],
+      voiceActors: item[15],
+      staff: item[16]
     }
   })
   //console.log(data);

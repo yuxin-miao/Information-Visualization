@@ -6,7 +6,7 @@ import { useRef, useEffect, useSpring, useState, useMemo } from "react";
 import { useInterval } from '../../utils/useInterval';
 
 import { useSelector, useDispatch } from "react-redux";
-import { setUrl, setTitle, setDescription, setStudio, setSeason, setReleaseYear, setType, setRank, setRating } from "../../utils/infoSlice";
+import { setUrl, setTitle, setDescription, setStudio, setSeason, setReleaseYear, setType, setRank, setRating, setVoiceActors, setStaff } from "../../utils/infoSlice";
 
 import { ScatterPlot } from '../../plots/scatterPlot';
 import { parseData, parseSetData } from "../../utils/fetchData";
@@ -176,6 +176,8 @@ export const Main = (props) => {
   const infoSeason = useSelector(state => state.info.season)
   const infoRank = useSelector(state => state.info.rank)
   const infoRating = useSelector(state => state.info.rating)
+  const infoVoiceActors = useSelector(state => state.info.voiceActors)
+  const infoStaff = useSelector(state => state.info.staff)
   useEffect(() => {
       let res = processData(constRawData)
       setDisplayData(res)
@@ -646,6 +648,8 @@ export const Main = (props) => {
           animeSeason={infoSeason}
           animeRank={infoRank}
           animeRating={infoRating}
+          animeVoiceActors={infoVoiceActors}
+          animeStaff={infoStaff}
         />
       </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-7 m-2" >
@@ -717,28 +721,33 @@ const filterWithSeasons=(seasonString)=>{
 
 //change the name and the poster
 export const refreshInfo = (rawData, infoDispatch) => {
-  var data=[]
-  if(rawData.label)
-  {
-    data=rawData
-  }
-  else
-  {
-    let dataTemp=rawData[0]
-    data = {
-        label: dataTemp[1], // anime name
-        description: dataTemp[11],
-        rating: dataTemp[8],
-        type: dataTemp[3],
-        season: dataTemp[6],
-        releaseYear: dataTemp[9],
-        studio: dataTemp[5],
-        rank: dataTemp[0]
-    }
-  }
+  // var data=[]
+  // if(rawData.label)
+  // {
+  //   data=rawData
+  // }
+  // else
+  // {
+  //   let dataTemp=rawData[0]
+  //   data = {
+  //       label: dataTemp[1], // anime name
+  //       description: dataTemp[11],
+  //       rating: dataTemp[8],
+  //       type: dataTemp[3],
+  //       season: dataTemp[6],
+  //       releaseYear: dataTemp[9],
+  //       studio: dataTemp[5],
+  //       rank: dataTemp[0],
+  //       voiceActor: dataTemp[15]
+  //   }
+  // }
 
-  const animeName = data.label?data.label:data[0][1];
-  console.log(animeName)
+  let data = rawData
+
+  console.log(data.voiceActors)
+
+  // const animeName = data.label?data.label:data[0][1];
+  const animeName = data.label;
   var posterUrl = animeName.replace('\'', '').replace(/[^\u2018-\u2019\u4e00-\u9fa5a-zA-Z0-9]/g, '-').replaceAll("---", '-').replaceAll("--", '-').toLowerCase();
   if (posterUrl[posterUrl.length - 1] == '-') {
     posterUrl = posterUrl.slice(0, posterUrl.length - 1);
@@ -754,6 +763,8 @@ export const refreshInfo = (rawData, infoDispatch) => {
   infoDispatch(setSeason(data.season))
   infoDispatch(setRank(data.rank))
   infoDispatch(setRating(data.rating))
+  infoDispatch(setVoiceActors(data.voiceActors))
+  infoDispatch(setStaff(data.staff))
 }
 
 
