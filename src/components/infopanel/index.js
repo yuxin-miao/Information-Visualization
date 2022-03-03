@@ -31,11 +31,21 @@ export const InfoPanel = (props) => {
             <div className='row-start-4 col-span-full text-justify' style={{ overflowY: "scroll", fontSize: '0.8vw', paddingTop: '0.5vh', paddingRight: '0.5vw' }}>
                 <p>{props.animeDescription}</p>
             </div>
-            <div className='row-start-5 col-span-full text-justify' style={{ overflowY: "scroll", fontSize: '0.8vw', paddingTop: '0.5vh', paddingRight: '0.5vw' }}>
-                <p>{props.animeVoiceActors}</p>
+            <div className='row-start-5 col-start-2 col-end-7 text-justify' style={{ overflowY: "scroll", fontSize: '0.8vw', paddingTop: '0.8vh', paddingRight: '0.5vw' }}>
+                {props.animeVoiceActors.map((v, k) => {
+                    return <div key={k} className='grid grid-cols-5 w-full' style={{ marginBottom: '0.8vh' }}>
+                        <p className='font-bold col-span-2' style={{ fontSize: '.7vw' }}>{v.role}</p>
+                        <p className='col-start-3 col-span-full self-center justify-self-center' style={{ fontSize: '.7vw' }}>{v.name}</p>
+                    </div>
+                })}
             </div>
-            <div className='row-start-6 col-span-full text-justify' style={{ overflowY: "scroll", fontSize: '0.8vw', paddingTop: '0.5vh', paddingRight: '0.5vw' }}>
-                <p>{props.animeStaff}</p>
+            <div className='row-start-6 col-start-2 col-end-7 text-justify' style={{ overflowY: "scroll", fontSize: '0.8vw', paddingTop: '0.8vh', paddingRight: '0.5vw' }}>
+                {props.animeStaff.map((v, k) => {
+                    return <div key={k} className='grid grid-cols-5 w-full' style={{ marginBottom: '0.8vh' }}>
+                        <p className='font-bold col-span-2' style={{ fontSize: '.7vw' }}>{v.role}</p>
+                        <p className='col-start-3 col-span-full self-center justify-self-center' style={{ fontSize: '.7vw' }}>{v.name}</p>
+                    </div>
+                })}
             </div>
         </div>
     )

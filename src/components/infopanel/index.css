@@ -1,5 +1,5 @@
 .info-grid {
     display: grid;
     grid-template-columns: 1fr repeat(5, .5fr) 1fr;
-    grid-template-rows: repeat(2, 5%) 10% 45% 10% 15% 10%;
+    grid-template-rows: repeat(2, 5%) 10% 40% 15% 15% 10%;
 }

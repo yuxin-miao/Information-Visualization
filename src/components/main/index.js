@@ -744,7 +744,33 @@ export const refreshInfo = (rawData, infoDispatch) => {
 
   let data = rawData
 
-  console.log(data.voiceActors)
+  let tmpStaff = []
+  if (data.staff) {
+    tmpStaff = data.staff
+    tmpStaff = data.staff.split(',')
+    tmpStaff = tmpStaff.map(v => {
+      let splittedVal = v.split(':')
+      return {
+        name: splittedVal[0].trim(),
+        role: splittedVal[1].trim()
+      }
+    })
+  }
+
+  let tmpVA = []
+  if (data.voiceActors) {
+    tmpVA = data.voiceActors
+    tmpVA = data.voiceActors.split(',')
+    tmpVA = tmpVA.filter(v => v.includes(':'))
+    tmpVA = tmpVA.map(v => {
+      let splittedVal = v.split(':')
+      return {
+        name: splittedVal[1].trim(),
+        role: splittedVal[0].trim()
+      }
+    })
+  }
+  console.log(tmpVA)
 
   // const animeName = data.label?data.label:data[0][1];
   const animeName = data.label;
@@ -763,8 +789,8 @@ export const refreshInfo = (rawData, infoDispatch) => {
   infoDispatch(setSeason(data.season))
   infoDispatch(setRank(data.rank))
   infoDispatch(setRating(data.rating))
-  infoDispatch(setVoiceActors(data.voiceActors))
-  infoDispatch(setStaff(data.staff))
+  infoDispatch(setVoiceActors(tmpVA))
+  infoDispatch(setStaff(tmpStaff))
 }
 
 

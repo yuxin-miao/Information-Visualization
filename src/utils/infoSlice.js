@@ -12,8 +12,8 @@ export const infoSlice = createSlice({
         type: '',
         rank: '',
         rating: '',
-        voiceActors: '',
-        staff: ''
+        voiceActors: [],
+        staff: []
     },
     reducers: {
         setUrl: (state, action) => {
