@@ -242,6 +242,7 @@ export const Main = (props) => {
     if (name === "Rating") return 8
     else if (name === "Release Year") return 9
     else if (name === "Episodes") return 4
+    else if (name === "Rank") return 0
   }
   const handleXOnChange = (e) => {
     const index = getAxisIndex(e.target.value)
