@@ -130,12 +130,12 @@ export const Main = (props) => {
         width: forceRef.current.offsetWidth,
         height: forceRef.current.offsetHeight,
       })
+      console.log(forceRef.current.offsetHeight, forceRef.current.offsetWidth)
       setDrawForce(true)  
     }
   }, [forceRef])
   const [nodes, setNodes] = useState([])
   const [relateAnime, setRelatedAnime] = useState('')
-  const [rowRelate, setRowRelate] = useState([])
 
   // set the data applied to Related components 
   useEffect(() => {
@@ -285,7 +285,7 @@ export const Main = (props) => {
   const clickRelatedAnime = (animeName) => {
     console.log(animeName)
     // setRelatedAnime(animeName)
-    // refreshInfo(constRawData.filter(x => x[1] === relateAnime), InfoDispatch)
+    refreshInfo(constRawData.filter(x => x[1] === relateAnime), InfoDispatch)
   }
   /******************************Filter******************************/
   //console.log(constRawData)
@@ -707,8 +707,8 @@ export const Main = (props) => {
       </ContainerBox>
 
       <ContainerBox title="Related" className="row-start-4 col-start-6 col-span-full">
-        <div ref={forceRef}>
-          <ForceGraph settings={forceSetting} nodes={nodes} clicked={clickRelatedAnime} />  
+        <div className="w-full h-full" ref={forceRef}>
+          { drawForce && <ForceGraph settings={forceSetting} nodes={nodes} clicked={clickRelatedAnime} />  }
         </div> 
       </ContainerBox>
     </div>
