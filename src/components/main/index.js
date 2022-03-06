@@ -15,12 +15,12 @@ import { SearchBox } from '../searchbox'
 import { ContainerBox } from "../containerbox";
 import { tags } from "../tags/tags";
 import { RangeSelection } from "../rangeselect";
-import { forEach } from "lodash-es";
 import { Filter } from "../filter/Filter";
 import { types } from "../filter/types";
 import { seasons } from "../filter/seasons";
 import { InfoPanel } from "../infopanel";
 import { axis } from "../filter/axis";
+import { ForceGraph } from "../../plots/force";
 
 // Provide an onChange function on a Dropdown component to process the updated data.
 const Dropdown = forwardRef((props, ref) => {
@@ -115,6 +115,55 @@ export const Main = (props) => {
 
   const [selectSuggestion, setSelectSuggestion] = useState([])
 
+  /****** setup for the force directed graph ******/
+  // ref for the wrapper of forceGraph 
+  const forceRef = useRef()
+  const [forceSetting, setForceSetting] = useState({
+    width: 650,
+    height: 300,
+  })
+  // boolean value for whether draw the graph 
+  const [drawForce, setDrawForce] = useState(false)
+  useEffect(() => {
+    if (forceRef && forceRef.current) {
+      setForceSetting({
+        width: forceRef.current.offsetWidth,
+        height: forceRef.current.offsetHeight,
+      })
+      setDrawForce(true)  
+    }
+  }, [forceRef])
+  const [nodes, setNodes] = useState([])
+  const [relateAnime, setRelatedAnime] = useState('')
+  const [rowRelate, setRowRelate] = useState([])
+
+  // set the data applied to Related components 
+  useEffect(() => {
+    if (relateAnime) {
+      let animeInfo = constRawData.filter(x => x[1] === relateAnime)[0]
+
+      let resNode = [{"name": animeInfo[1], "type": "main"}]
+      let tmpList = [];
+      if (animeInfo[7]) {
+        tmpList = animeInfo[7].split(",");
+      }
+
+      for (let i = 0; i < tmpList.length; i++) {
+        resNode.push({"name": tmpList[i], "type": "tag"})
+      }
+
+      // only related Anime no mange? 
+      let relatedList = []
+      if (animeInfo[14]) {
+        relatedList = animeInfo[14].split(",");
+      }
+
+      for (let i = 0; i < relatedList.length; i++) {
+        resNode.push({"name": relatedList[i], "type": "related"})
+      }
+      setNodes(resNode)
+    }
+  }, [relateAnime])
   /******************** Data Prepare ****************/
   // const rawData, delete the first row 
   let [constRawData, setConstRawData] = useState();
@@ -217,8 +266,8 @@ export const Main = (props) => {
     const suggestionArray = []
     if (suggestion.type === "anime") {
       suggestionArray.push(String(suggestion.val))
-      /////////////////////
       refreshInfo(constRawData.filter(row=>row[1]===suggestion.val), InfoDispatch)
+      setRelatedAnime(String(suggestion.val))
 
     } else if (suggestion.type === "voice actor") {
       constRawData.forEach(row => {
@@ -229,6 +278,14 @@ export const Main = (props) => {
     }
     setSelectSuggestion(suggestionArray)
 
+  }
+
+
+  // when user click ralated anime
+  const clickRelatedAnime = (animeName) => {
+    console.log(animeName)
+    // setRelatedAnime(animeName)
+    // refreshInfo(constRawData.filter(x => x[1] === relateAnime), InfoDispatch)
   }
   /******************************Filter******************************/
   //console.log(constRawData)
@@ -628,7 +685,7 @@ export const Main = (props) => {
         </div>
       </ContainerBox>
       <div ref={plotRef} className="bg-gray-100 row-start-3 col-span-6">
-        {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion}/>}
+        {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion} setRelatedAnime={setRelatedAnime}/>}
       </div>
       <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" onClick={handleClearAll}>Clear All</button>
       <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-7 col-span-2" >
@@ -649,7 +706,11 @@ export const Main = (props) => {
         }
       </ContainerBox>
 
-      <ContainerBox title="Related" className="row-start-4 col-start-6 col-span-full" />
+      <ContainerBox title="Related" className="row-start-4 col-start-6 col-span-full">
+        <div ref={forceRef}>
+          <ForceGraph settings={forceSetting} nodes={nodes} clicked={clickRelatedAnime} />  
+        </div> 
+      </ContainerBox>
     </div>
 
   )
@@ -733,7 +794,6 @@ export const refreshInfo = (rawData, infoDispatch) => {
   }
 
   const animeName = data.label?data.label:data[0][1];
-  console.log(animeName)
   var posterUrl = animeName.replace('\'', '').replace(/[^\u2018-\u2019\u4e00-\u9fa5a-zA-Z0-9]/g, '-').replaceAll("---", '-').replaceAll("--", '-').toLowerCase();
   if (posterUrl[posterUrl.length - 1] == '-') {
     posterUrl = posterUrl.slice(0, posterUrl.length - 1);
