@@ -3,6 +3,7 @@ import { Routes, Route, Link, Switch } from "react-router-dom";
 
 import { Main } from '../components/main';
 import { About } from './About/about';
+import { Team } from './Team/team';
 import { Sidebar } from '../components/sidebar';
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main className="col-start-3"/>} />
         <Route path="/about" element={<About className="col-start-3"/>} />
-        <Route path="/team" element={<Main className="col-start-3"/>} />
+        <Route path="/team" element={<Team className="col-start-3"/>} />
         <Route path="/demo" element={<Main className="col-start-3"/>} />
       </Routes>
     </div>

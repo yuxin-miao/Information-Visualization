@@ -18,7 +18,9 @@ module.exports = {
         'circle2-top': '#236FF3',
         'circle2-bottom': '#382B62',
         'circle3-top': '#7723F3',
-        'circle3-bottom': '#382B62'
+        'circle3-bottom': '#382B62',
+        'teaminfo-start': 'rgba(66, 76, 109, 0.9)',
+        'teaminfo-end': 'rgba(11, 27, 97, 0.9)',
       }
     },
   },

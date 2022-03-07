@@ -13,9 +13,9 @@ export const Sidebar = (props) => {
 
     return (
         <div className={`${props.className ? props.className : ''} dotted-spaced right side-grid relative pt-4`}>
-            <a href='#' className="justify-self-center self-center h-min">
+            <div className="justify-self-center self-center h-min">
                 <img src={Logo} className="object-contain" style={{ height: '3vw' }} />
-            </a>
+            </div>
             <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1.2vw' }}>
                 <Link to="/" className='col-start-2 self-center justify-self-center'>
                     <img src={VisualIcon} />
