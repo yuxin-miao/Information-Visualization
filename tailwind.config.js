@@ -10,7 +10,15 @@ module.exports = {
         'main': '#010033',
         'highlight-blue': '#00BEDB',
         'pink': '#FF38ED',
-        'light-gray': '#F5F5F5'
+        'light-gray': '#F5F5F5',
+        'blue-start': 'rgba(66, 76, 109, 0.4)',
+        'blue-end': 'rgba(11, 27, 97, 0.4)',
+        'circle1-top': '#F323BF', 
+        'circle1-bottom': '#382B62',
+        'circle2-top': '#236FF3',
+        'circle2-bottom': '#382B62',
+        'circle3-top': '#7723F3',
+        'circle3-bottom': '#382B62'
       }
     },
   },
