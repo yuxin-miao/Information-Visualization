@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import React from "react";
 import { useRef, useEffect } from "react";
 
+
 export const ForceGraph = ({nodes, settings, clicked}) => {
 
   const ref = useRef()
@@ -98,7 +99,7 @@ export const ForceGraph = ({nodes, settings, clicked}) => {
     }
 
     function dragEnded(event, d) {
-      let simulation
+    
         if (!event.active) simulation.alphaTarget(0);
         d.fx = undefined;
         d.fy = undefined;
@@ -114,7 +115,9 @@ export const ForceGraph = ({nodes, settings, clicked}) => {
 
     var ur = '#gradient1'
     let circles = elementGroup.append('circle')
-        .attr("r", function(d) { if(d.type === 'main')return 15+20; else if(d.type === 'related') return 15+8; else return 5;})
+        .attr("r", function(d) { 
+          
+          if(d.type === 'main')return 15+20; else if(d.type === 'related') return 15+8; else return 5;})
         .style("fill", d=> {return "url(#gradient" + Math.floor(Math.random() * 10) + ")"})
         .style("opacity",function(d) { if(d.type === 'main')return 1; else if(d.type === 'related') return 1; else return 0})
         .on("click", function(event, d) {
