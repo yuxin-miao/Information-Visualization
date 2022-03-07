@@ -770,7 +770,6 @@ export const refreshInfo = (rawData, infoDispatch) => {
       }
     })
   }
-  console.log(tmpVA)
 
   // const animeName = data.label?data.label:data[0][1];
   const animeName = data.label;
