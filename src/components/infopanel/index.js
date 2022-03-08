@@ -11,41 +11,70 @@ export const InfoPanel = (props) => {
                 <p>{props.animeTitle}</p>
             </div>
             <div className='col-start-1 row-start-1 row-span-2 self-center justify-self-center font-extrabold' style={{ fontSize: '1vw' }}>
-                <p>{props.animeRank ? `# ${props.animeRank}` : ''}</p>
+                <div className='ttip'>{props.animeRank ? `# ${props.animeRank}` : ''}
+                    <span className='ttiptext'>Rank</span>
+                </div>
             </div>
             <div className='col-start-7 row-start-1 row-span-2 self-center justify-self-center text-red-400 font-extrabold' style={{ fontSize: '1vw' }}>
-                <p>{props.animeRating}</p>
+                <div className='ttip'>
+                    {props.animeRating}
+                    <span className='ttiptext'>Rating</span>
+                </div>
             </div>
-            <div className='row-start-3 self-center justify-self-center w-full h-full grid grid-cols-5' style={{ fontSize: '0.8vw' }}>
-                <img src={TypeIcon} className='object-contain h-min self-center justify-self-center col-span-2' />
-                <p className='col-start-3 col-span-full self-center' style={{ marginLeft: '0.25vw' }}>{props.animeType}</p>
+            <div className='row-start-3 self-center justify-self-center w-full h-full grid grid-cols-5 ' style={{ fontSize: '0.8vw' }}>
+                <img src={TypeIcon} className='object-contain h-min self-center justify-self-center col-span-2 ttip' />
+                <div className='col-start-3 col-span-full self-center ttip' style={{ marginLeft: '0.25vw' }}>
+                    {props.animeType}
+                    <span className='ttiptext'>Type</span>
+                </div>
             </div>
             <div className='row-start-3 col-start-3 col-span-3 self-center justify-self-center w-full h-full grid grid-cols-7' style={{ fontSize: '0.8vw' }}>
                 <img src={CalendarIcon} className='object-contain self-center justify-self-center col-span-2' />
-                <p className='col-start-3 col-span-full self-center' style={{ marginLeft: '0.25vw', marginRight: '0.25vw', lineHeight: '1.75vh' }}>{props.animeSeason ? `${props.animeReleaseYear} ${props.animeSeason}` : props.animeReleaseYear}</p>
+                <div className='col-start-3 col-span-full self-center ttip' style={{ marginLeft: '0.25vw', marginRight: '0.25vw', lineHeight: '1.75vh' }}>{props.animeSeason ? `${props.animeReleaseYear} ${props.animeSeason}` : props.animeReleaseYear}
+                    <span className='ttiptext'>Release Season</span>
+                </div>
             </div>
             <div className='row-start-3 col-start-6 col-span-full self-center justify-self-center w-full h-full grid grid-cols-7'>
                 <img src={StudioIcon} className='object-contain self-center justify-self-center col-span-2' />
-                <p className='col-start-3 col-span-full self-center' style={{ marginLeft: '0.25vw', marginRight: '0.25vw', fontSize: '0.6vw', lineHeight: '1.75vh' }}>{props.animeStudio ? props.animeStudio : ''}</p>
+                <div className='col-start-3 col-span-full self-center ttip' style={{ marginLeft: '0.25vw', marginRight: '0.25vw', fontSize: '0.6vw', lineHeight: '1.75vh' }}>{props.animeStudio ? props.animeStudio : ''}
+                    <span className='ttiptext'>Studio</span>
+                </div>
             </div>
             <div className='row-start-4 col-span-full text-justify' style={{ overflowY: "scroll", fontSize: '0.8vw', paddingTop: '0.5vh', paddingRight: '0.5vw' }}>
                 <p>{props.animeDescription}</p>
             </div>
-            <div className='row-start-5 col-start-2 col-end-7 text-justify' style={{ overflowY: "scroll", fontSize: '0.8vw', paddingTop: '0.8vh', paddingRight: '0.5vw' }}>
-                {props.animeVoiceActors.map((v, k) => {
-                    return <div key={k} className='grid grid-cols-5 w-full' style={{ marginBottom: '0.8vh' }}>
-                        <p className='font-bold col-span-2' style={{ fontSize: '.7vw' }}>{v.role}</p>
-                        <p className='col-start-3 col-span-full self-center justify-self-center' style={{ fontSize: '.7vw' }}>{v.name}</p>
-                    </div>
-                })}
+            <div className='row-start-5 row-span-2 col-start-1 col-span-3 text-justify flex flex-col gap-4' style={{ fontSize: '0.8vw', paddingTop: '0.8vh', paddingRight: '0.5vw' }}>
+                <p className='self-center'>Voice Actors</p>
+                <div style={{ overflowY: "scroll" }}>
+                    {props.animeVoiceActors.map((v, k) => {
+                        return <div key={k} className='grid grid-cols-5 w-full' style={{ marginBottom: '0.8vh' }}>
+                            <p className='font-bold col-span-2' style={{ fontSize: '.7vw' }}>{v.role}</p>
+                            <p className='col-start-3 col-span-full self-center justify-self-center' style={{ fontSize: '.7vw' }}>{v.name}</p>
+                        </div>
+                    })}
+                </div>
             </div>
-            <div className='row-start-6 col-start-2 col-end-7 text-justify' style={{ overflowY: "scroll", fontSize: '0.8vw', paddingTop: '0.8vh', paddingRight: '0.5vw' }}>
-                {props.animeStaff.map((v, k) => {
-                    return <div key={k} className='grid grid-cols-5 w-full' style={{ marginBottom: '0.8vh' }}>
-                        <p className='font-bold col-span-2' style={{ fontSize: '.7vw' }}>{v.role}</p>
-                        <p className='col-start-3 col-span-full self-center justify-self-center' style={{ fontSize: '.7vw' }}>{v.name}</p>
-                    </div>
-                })}
+            <div className='row-start-5 row-span-2 col-start-5 col-span-3 text-justify flex flex-col gap-4' style={{ fontSize: '0.8vw', paddingTop: '0.8vh', paddingRight: '0.5vw' }}>
+                <p className='self-center'>Staff</p>
+                <div style={{ overflowY: "scroll" }}>
+                    {props.animeStaff.map((v, k) => {
+                        return <div key={k} className='grid grid-cols-5 w-full' style={{ marginBottom: '0.8vh' }}>
+                            <p className='font-bold col-span-2' style={{ fontSize: '.7vw' }}>{v.role}</p>
+                            <p className='col-start-3 col-span-full self-center justify-self-center' style={{ fontSize: '.7vw' }}>{v.name}</p>
+                        </div>
+                    })}
+                </div>
+            </div>
+            <div className='row-start-7 col-span-3 text-justify flex flex-col justify-center '>
+                <p className='font-bold self-center'>Anime-Planet Followers</p>
+                <p className='self-center'>
+                    {props.animeUserStat}
+                </p>
+            </div>
+            <div className='row-start-7 col-start-5 col-span-3 text-justify flex justify-center'>
+                <a className='self-center font-bold' href={props.animePosterUrl} target="_blank">
+                    Go to website
+                </a>
             </div>
         </div>
     )

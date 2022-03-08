@@ -13,7 +13,7 @@ function App() {
     <div className="h-screen w-screen bg-main grid gap-4 grid-cols-12 grid-rows-1">
       <Sidebar className="col-span-2" />
       <Routes>
-        <Route path="/" element={<Main className="col-start-3"/>} />
+        <Route path="/" element={<Main />} />
         <Route path="/about" element={<About className="col-start-3"/>} />
         <Route path="/team" element={<Team className="col-start-3"/>} />
         <Route path="/demo" element={<Demo className="col-start-3"/>} />

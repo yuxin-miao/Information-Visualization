@@ -1,5 +1,32 @@
 .info-grid {
     display: grid;
     grid-template-columns: 1fr repeat(5, .5fr) 1fr;
-    grid-template-rows: repeat(2, 5%) 10% 40% 15% 15% 10%;
+    grid-template-rows: repeat(2, 5%) 10% 40% 10% 10% 20%;
 }
+
+.ttip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .ttip .ttiptext {
+    visibility: hidden;
+    width: max-content;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 1vh 1vw;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    font-size: 0.8vw;
+  }
+  
+  .ttip:hover .ttiptext {
+    visibility: visible;
+  }

@@ -9,6 +9,7 @@ module.exports = {
         'transparent': 'transparent',
         'main': '#010033',
         'highlight-blue': '#00BEDB',
+        'filter-blue': '#1B4688',
         'pink': '#FF38ED',
         'light-gray': '#F5F5F5',
         'blue-start': 'rgba(66, 76, 109, 0.4)',
