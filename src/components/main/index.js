@@ -112,40 +112,64 @@ const FilterSection = (props) => {
           className="text-black"
           options={[{ value: 'All', label: 'All', selected: true }, ...studioList]}
         />
-        <div className='h-full grid gap-2 grid-cols-5'>
-          <p className='col-span-2'>User Stats</p>
-          <div className='col-start-3 col-span-full grid grid-rows-5'>
-            <Checkbox name="100k" label="100,000 +"></Checkbox>
-            <Checkbox name="50k" label="50,000 +"></Checkbox>
-            <Checkbox name="10k" label="10,000 +"></Checkbox>
-            <Checkbox name="5k" label="5,000 +"></Checkbox>
-            <Checkbox name="1k" label="1,000 +"></Checkbox>
-          </div>
+        <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
+          <p>User Stats</p>
+          <AutoComplete
+            multiple
+            fullWidth
+            id="size-small-outlined-multi"
+            size="small"
+            options={[
+              "100,000+",
+              "50,000+",
+              "10,000+",
+              "5,000+",
+              "1,000+"
+            ]}
+            renderInput={(params) => (
+              <TextField {...params} placeholder="Search for tags..." />
+            )}
+            sx={{ overflow: 'auto', color: 'white' }}
+          />
         </div>
-        <div className='h-full grid gap-2 grid-cols-7'>
-          <p className='col-span-2'>Type</p>
-          <div className='col-start-3 col-span-3 grid grid-rows-5'>
-            <Checkbox name="100k" label="DVD"></Checkbox>
-            <Checkbox name="50k" label="Movie"></Checkbox>
-            <Checkbox name="10k" label="Video"></Checkbox>
-            <Checkbox name="5k" label="OVA"></Checkbox>
-            <Checkbox name="1k" label="TV Special"></Checkbox>
-          </div>
-          <div className='col-start-6 col-span-full grid grid-rows-5'>
-            <Checkbox name="100k" label="Special"></Checkbox>
-            <Checkbox name="50k" label="Music"></Checkbox>
-            <Checkbox name="10k" label="Web"></Checkbox>
-            <Checkbox name="5k" label="TV"></Checkbox>
-          </div>
+        <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
+          <p>Type</p>
+          <AutoComplete
+            multiple
+            fullWidth
+            id="size-small-outlined-multi"
+            size="small"
+            options={[
+              "100,000+",
+              "50,000+",
+              "10,000+",
+              "5,000+",
+              "1,000+"
+            ]}
+            renderInput={(params) => (
+              <TextField {...params} placeholder="Search for tags..." />
+            )}
+            sx={{ overflow: 'auto', color: 'white' }}
+          />
         </div>
-        <div className='h-full grid gap-2 grid-cols-5'>
-          <p className='col-span-2'>Released Season</p>
-          <div className='col-start-3 col-span-full grid grid-rows-5'>
-            <Checkbox name="100k" label="Spring"></Checkbox>
-            <Checkbox name="50k" label="Summer"></Checkbox>
-            <Checkbox name="10k" label="Fall"></Checkbox>
-            <Checkbox name="5k" label="Winter"></Checkbox>
-          </div>
+        <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
+          <p>Released Season</p>
+          <AutoComplete
+            multiple
+            fullWidth
+            id="size-small-outlined-multi"
+            size="small"
+            options={[
+              "Spring",
+              "Summer",
+              "Fall",
+              "Winter"
+            ]}
+            renderInput={(params) => (
+              <TextField {...params} placeholder="Search for tags..." />
+            )}
+            sx={{ overflow: 'auto', color: 'white' }}
+          />
         </div>
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
           <p>Tags</p>
