@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import '../../index.css'
 import './index.css'
 import Logo from "../../assets/logo.png"
@@ -11,39 +13,39 @@ export const Sidebar = (props) => {
 
     return (
         <div className={`${props.className ? props.className : ''} dotted-spaced right side-grid relative pt-4`}>
-            <a href='#' className="justify-self-center self-center h-min">
+            <div className="justify-self-center self-center h-min">
                 <img src={Logo} className="object-contain" style={{ height: '3vw' }} />
-            </a>
+            </div>
             <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1.2vw' }}>
-                <a href='#' className='col-start-2 self-center justify-self-center'>
+                <Link to="/" className='col-start-2 self-center justify-self-center'>
                     <img src={VisualIcon} />
-                </a>
+                </Link>
                 <div className='col-start-3 col-span-full w-max flex flex-col justify-center'>
-                    <a href='#' className='text-white font-ssp h-max'>Visual</a>
+                    <Link to="/" className='text-white font-ssp h-max'>Visual</Link>
                 </div>
             </div>
             <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1.2vw' }}>
-                <a href='#' className='col-start-2 self-center justify-self-center'>
+                <Link to="/about" className='col-start-2 self-center justify-self-center'>
                     <img src={AboutIcon} />
-                </a>
+                </Link>
                 <div className='col-start-3 col-span-full w-max flex flex-col justify-center'>
-                    <a href='#' className='text-white font-ssp h-max'>About</a>
+                    <Link to="/about" className='text-white font-ssp h-max'>About</Link>
                 </div>
             </div>
             <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1.2vw' }}>
-                <a href='#' className='col-start-2 self-center justify-self-center'>
+                <Link to="/team" className='col-start-2 self-center justify-self-center'>
                     <img src={TeamIcon} />
-                </a>
+                </Link>
                 <div className='col-start-3 col-span-full w-max flex flex-col justify-center'>
-                    <a href='#' className='text-white font-ssp h-max'>Team</a>
+                    <Link to="/team" className='text-white font-ssp h-max'>Team</Link>
                 </div>
             </div>
             <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1.2vw' }}>
-                <a href='#' className='col-start-2 self-center justify-self-center'>
+                <Link to="/demo" className='col-start-2 self-center justify-self-center'>
                     <img src={DemoIcon} />
-                </a>
+                </Link>
                 <div className='col-start-3 col-span-full w-max flex flex-col justify-center'>
-                    <a href='#' className='text-white font-ssp h-max'>Demo</a>
+                    <Link to="/demo" className='text-white font-ssp h-max'>Demo</Link>
                 </div>
             </div>
 
