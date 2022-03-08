@@ -9,6 +9,9 @@ import AnimeGirl from "../../assets/animegirl.png"
 import FilterArrow from "../../assets/filterarrow.png"
 import { useState } from 'react'
 
+import { Filter } from '../filter/Filter'
+import { axis } from '../filter/axis'
+
 import { Dropdown } from '../dropdown'
 import { Checkbox } from '../checkbox'
 import AutoComplete from '@mui/material/Autocomplete'
@@ -17,12 +20,25 @@ import TextField from '@mui/material/TextField';
 export const Sidebar = (props) => {
     const [isFilterActive, setIsFilterActive] = useState(false)
 
+    const studioList = Filter(1).map((val, i) => {
+        return {
+            value: i+1,
+            label: val
+        }
+    })
+    const axisList = axis.map((val,i) => {
+        return {
+            value: i,
+            label: val
+        }
+    })
+
     return (
         <div className={`${props.className ? props.className : ''} dotted-spaced right side-grid relative pt-4`}>
             <a href='#' className="justify-self-center h-min">
                 <img src={Logo} />
             </a>
-            <div
+            {/* <div
                 className={`absolute text-white bg-filter-blue font-ssp font-bold flex justify-end filter-header ${isFilterActive ? 'active' : ''}`}
                 onClick={_ => setIsFilterActive(!isFilterActive)}
             >
@@ -37,21 +53,21 @@ export const Sidebar = (props) => {
                     value="x-axis"
                     style={{ height: '3vh' }}
                     className="text-black"
-                    options={[{ value: 0, label: 'Intersection' }, { value: 1, label: 'Union' }]}
+                    options={axisList}
                 />
                 <Dropdown
                     label="Y - Axis"
                     value="y-axis"
                     style={{ height: '3vh' }}
                     className="text-black"
-                    options={[{ value: 0, label: 'Intersection' }, { value: 1, label: 'Union' }]}
+                    options={axisList}
                 />
                 <Dropdown
                     label="Studio"
                     value="studio"
                     style={{ height: '3vh' }}
                     className="text-black"
-                    options={[{ value: 0, label: 'Intersection' }, { value: 1, label: 'Union' }]}
+                    options={[{value: 0, label: 'No Selection'}, ...studioList]}
                 />
                 <div className='h-full grid gap-2 grid-cols-5'>
                     <p className='col-span-2'>User Stats</p>
@@ -103,7 +119,7 @@ export const Sidebar = (props) => {
                         sx={{ overflow: 'auto', color: 'white' }}
                     />
                 </div>
-            </div>
+            </div> */}
             <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1.2vw' }}>
                 <a href='#' className='col-start-2 self-center justify-self-center'>
                     <img src={VisualIcon} />

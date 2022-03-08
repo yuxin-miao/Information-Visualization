@@ -5,6 +5,8 @@ import * as d3 from "d3";
 import { useRef, useEffect, useSpring, useState, useMemo } from "react";
 import { useInterval } from '../../utils/useInterval';
 
+import FilterArrow from '../../assets/filterarrow.png'
+
 import { useSelector, useDispatch } from "react-redux";
 import { setUrl, setTitle, setDescription, setStudio, setSeason, setReleaseYear, setType, setRank, setRating, setVoiceActors, setStaff } from "../../utils/infoSlice";
 
@@ -24,9 +26,117 @@ import { axis } from "../filter/axis";
 import { Dropdown } from "../dropdown";
 import { Checkbox } from "../checkbox";
 
+import AutoComplete from '@mui/material/Autocomplete'
+import TextField from '@mui/material/TextField';
+
 var tagsSelected = []
-var typesSelected=[]
-var seasonsSelected=[]
+var typesSelected = []
+var seasonsSelected = []
+
+const FilterSection = () => {
+  const [isFilterActive, setIsFilterActive] = useState(false)
+
+  const studioList = Filter(1).map((val, i) => {
+    return {
+      value: i + 1,
+      label: val
+    }
+  })
+  const axisList = axis.map((val, i) => {
+    return {
+      value: i,
+      label: val
+    }
+  })
+
+  return (
+    <div className="relative">
+      <div
+        className={`absolute text-white bg-filter-blue font-ssp font-bold flex justify-end filter-header ${isFilterActive ? 'active' : ''}`}
+        onClick={_ => setIsFilterActive(!isFilterActive)}
+      >
+        <div className='flex filter-button'>
+          <p className='self-center'>Filters</p>
+          <img className={`self-center filter-arrow ${isFilterActive ? 'active' : ''}`} src={FilterArrow}/>
+        </div>
+      </div>
+      <div className={`absolute text-white bg-filter-blue rounded-br font-ssp filter-section ${isFilterActive ? 'active' : ''}`} style={{ fontSize: '1vw' }}>
+        <Dropdown
+          label="X - Axis"
+          value="x-axis"
+          style={{ height: '3vh' }}
+          className="text-black"
+          options={axisList}
+        />
+        <Dropdown
+          label="Y - Axis"
+          value="y-axis"
+          style={{ height: '3vh' }}
+          className="text-black"
+          options={axisList}
+        />
+        <Dropdown
+          label="Studio"
+          value="studio"
+          style={{ height: '3vh' }}
+          className="text-black"
+          options={[{ value: 0, label: 'No Selection' }, ...studioList]}
+        />
+        <div className='h-full grid gap-2 grid-cols-5'>
+          <p className='col-span-2'>User Stats</p>
+          <div className='col-start-3 col-span-full grid grid-rows-5'>
+            <Checkbox name="100k" label="100,000 +"></Checkbox>
+            <Checkbox name="50k" label="50,000 +"></Checkbox>
+            <Checkbox name="10k" label="10,000 +"></Checkbox>
+            <Checkbox name="5k" label="5,000 +"></Checkbox>
+            <Checkbox name="1k" label="1,000 +"></Checkbox>
+          </div>
+        </div>
+        <div className='h-full grid gap-2 grid-cols-7'>
+          <p className='col-span-2'>Type</p>
+          <div className='col-start-3 col-span-3 grid grid-rows-5'>
+            <Checkbox name="100k" label="DVD"></Checkbox>
+            <Checkbox name="50k" label="Movie"></Checkbox>
+            <Checkbox name="10k" label="Video"></Checkbox>
+            <Checkbox name="5k" label="OVA"></Checkbox>
+            <Checkbox name="1k" label="TV Special"></Checkbox>
+          </div>
+          <div className='col-start-6 col-span-full grid grid-rows-5'>
+            <Checkbox name="100k" label="Special"></Checkbox>
+            <Checkbox name="50k" label="Music"></Checkbox>
+            <Checkbox name="10k" label="Web"></Checkbox>
+            <Checkbox name="5k" label="TV"></Checkbox>
+          </div>
+        </div>
+        <div className='h-full grid gap-2 grid-cols-5'>
+          <p className='col-span-2'>Released Season</p>
+          <div className='col-start-3 col-span-full grid grid-rows-5'>
+            <Checkbox name="100k" label="Spring"></Checkbox>
+            <Checkbox name="50k" label="Summer"></Checkbox>
+            <Checkbox name="10k" label="Fall"></Checkbox>
+            <Checkbox name="5k" label="Winter"></Checkbox>
+          </div>
+        </div>
+        <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
+          <p>Tags</p>
+          <AutoComplete
+            multiple
+            fullWidth
+            id="size-small-outlined-multi"
+            size="small"
+            options={[{ title: 'The Shawshank Redemption Shawshank Redemption', year: 1994 }, { title: 'The Godfather', year: 1972 }]}
+            getOptionLabel={(option) => option.title}
+            renderInput={(params) => (
+              <TextField {...params} placeholder="Search for tags..." />
+            )}
+            sx={{ overflow: 'auto', color: 'white' }}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export const Main = (props) => {
 
   /****** setup for the scatter plot ******/
@@ -81,7 +191,7 @@ export const Main = (props) => {
     parseData((result) => {
       result.data.shift() // first row is header, delete it here 
       let setData = result.data.filter(row => row[8] >= 0)
-      setData = setData.slice(0,-1)
+      setData = setData.slice(0, -1)
       setConstRawData(setData);
       setDisplayData(setData);
 
@@ -115,7 +225,7 @@ export const Main = (props) => {
     new Array(tags.length).fill(false)
 
   );
-  
+
 
 
   const dropDownRef = useRef()//dropdown ref for tag selection
@@ -133,8 +243,8 @@ export const Main = (props) => {
   const infoVoiceActors = useSelector(state => state.info.voiceActors)
   const infoStaff = useSelector(state => state.info.staff)
   useEffect(() => {
-      let res = processData(constRawData)
-      setDisplayData(res)
+    let res = processData(constRawData)
+    setDisplayData(res)
   }, [rangeSelect])
 
   // global reset indicator 
@@ -149,9 +259,9 @@ export const Main = (props) => {
     document.getElementById("select-x-axis").value = "Episodes"
     document.getElementById("select-y-axis").value = "Rating"
     setTypesCheckedState(new Array(types.length).fill(false))
-    typesSelected=[]
+    typesSelected = []
     setSeasonsCheckedState(new Array(seasons.length).fill(false))
-    seasonsSelected=[]
+    seasonsSelected = []
     setPlotSetting(
       {
         ...plotSetting,
@@ -177,7 +287,7 @@ export const Main = (props) => {
     const suggestionArray = []
     if (suggestion.type === "anime") {
       suggestionArray.push(String(suggestion.val))
-      refreshInfo(constRawData.filter(row=>row[1]===suggestion.val), InfoDispatch)
+      refreshInfo(constRawData.filter(row => row[1] === suggestion.val), InfoDispatch)
 
     } else if (suggestion.type === "voice actor") {
       constRawData.forEach(row => {
@@ -205,8 +315,8 @@ export const Main = (props) => {
       {
         ...plotSetting,
         xVar: {
-          idx:index,
-          name:e.target.value
+          idx: index,
+          name: e.target.value
         }
       }
     )
@@ -280,8 +390,8 @@ export const Main = (props) => {
       {
         ...plotSetting,
         yVar: {
-          idx:index,
-          name:e.target.value
+          idx: index,
+          name: e.target.value
         }
       }
     )
@@ -314,7 +424,7 @@ export const Main = (props) => {
   //   }
   //   console.log(yLowRange)
   // }
-  
+
   // const handleYHighRange = (e) => {
   //   if (!isNaN(+e.target.value)) {
   //     setYHighRange(e.target.value)
@@ -369,7 +479,7 @@ export const Main = (props) => {
     else {
       setDisplayData(
         constRawData.filter(item => {
-          if (item[12] != null && item[12].includes(value) || value === "No" && item[12] === null){
+          if (item[12] != null && item[12].includes(value) || value === "No" && item[12] === null) {
             return true
           }
           return false
@@ -383,8 +493,8 @@ export const Main = (props) => {
   );
 
   const handleTypeOnChange = position => {
-    
-    const updatedCheckedState = typesCheckedState.map((item, index) => 
+
+    const updatedCheckedState = typesCheckedState.map((item, index) =>
       index === position ? !item : item
     )
     setTypesCheckedState(updatedCheckedState)
@@ -394,7 +504,7 @@ export const Main = (props) => {
       setDisplayData(processData(constRawData))
     }
     else {
-      typesSelected=typesSelected.filter(item=>item!==types[position].typeName)
+      typesSelected = typesSelected.filter(item => item !== types[position].typeName)
       setDisplayData(processData(constRawData))
     }
   }
@@ -411,7 +521,7 @@ export const Main = (props) => {
       setDisplayData(processData(constRawData))
     }
     else {
-      seasonsSelected=seasonsSelected.filter(item=>item!==seasons[position].seasonName)
+      seasonsSelected = seasonsSelected.filter(item => item !== seasons[position].seasonName)
       setDisplayData(processData(constRawData))
     }
   }
@@ -426,12 +536,12 @@ export const Main = (props) => {
       setDisplayData(processData(constRawData))
     }
     else {
-      tagsSelected=tagsSelected.filter(item=>item!==tags[position].tagName)
+      tagsSelected = tagsSelected.filter(item => item !== tags[position].tagName)
       setDisplayData(processData(constRawData))
     }
 
   }
-  const tagsClear=()=>{
+  const tagsClear = () => {
     tags.forEach(element => {
       document.getElementById("checkbox-" + element.tagName).checked = false;
     })
@@ -442,7 +552,7 @@ export const Main = (props) => {
     // call this function whenever add new filter
     let returnData = data;
     //let returnData=data.filter(row=>true);
-  
+
     //tag filter
     if (tagsSelected.length !== 0) {
       returnData = returnData.filter(function (row) {
@@ -454,7 +564,7 @@ export const Main = (props) => {
       })
     }
 
-  
+
     //type filter
     if (typesSelected.length !== 0) {
       returnData = returnData.filter(function (row) {
@@ -467,7 +577,7 @@ export const Main = (props) => {
       })
     }
 
-  
+
     //season filter
     if (seasonsSelected.length !== 0) {
       returnData = returnData.filter(function (row) {
@@ -484,6 +594,8 @@ export const Main = (props) => {
   return (
     <div className={`${props.className ? props.className : ''} col-span-full main-grid`}>
 
+      <FilterSection/>
+
       {displayData && <SearchBox rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)}
         handleClickSuggestion={clickSuggestion} className="col-span-4 m-2" />}
       <ContainerBox title="Tags" className="row-start-2 col-start-1 col-span-4 m-2">
@@ -499,12 +611,12 @@ export const Main = (props) => {
           })}
           <button type="button"
             className="text-white col-start-3 row-start-6 self-center font-ssp bg-gray-900 rounded-lg outline outline-offset-2 outline-highlight-blue"
-          onClick={
-            function () {
-              tagsClear()
-              setDisplayData(processData(constRawData))
+            onClick={
+              function () {
+                tagsClear()
+                setDisplayData(processData(constRawData))
+              }
             }
-          }
             style={{ fontSize: '.7vw' }}
           >Clear</button>
           <Dropdown
@@ -525,7 +637,7 @@ export const Main = (props) => {
       <ContainerBox title="Filters" className="row-start-2 col-start-5 col-span-full filter-grid m-2 p-5">
         <div className="grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">X - Axis</p>
-          <select onChange={handleXOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh'}} defaultValue="Episodes" name="x-axis" id="select-x-axis">
+          <select onChange={handleXOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh' }} defaultValue="Episodes" name="x-axis" id="select-x-axis">
             {axis.map(val => <option key={`x-axis-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
@@ -539,7 +651,7 @@ export const Main = (props) => {
         </div> */}
         <div className="row-start-4 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">Y - Axis</p>
-          <select onChange={handleYOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh'}} defaultValue="Rating" name="y-axis" id="select-y-axis">
+          <select onChange={handleYOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh' }} defaultValue="Rating" name="y-axis" id="select-y-axis">
             {/* <option key="y-axis-rating" value="Rating">Rating</option>
             <option key="y-axis-release-year" value="Release Year">Release Year</option>
             <option key="y-axis-episodes" value="Episodes">Episodes</option> */}
@@ -556,14 +668,14 @@ export const Main = (props) => {
         </div> */}
         <div className="col-start-2 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">Studio</p>
-          <select onChange={handleStudioOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh'}} name="studio" id="select-studio">
+          <select onChange={handleStudioOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh' }} name="studio" id="select-studio">
             <option key="studio-All" value="All">All</option>
             {Filter(1).map(val => <option key={`studio-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
         <div className="col-start-2 row-start-4 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">Content Warn</p>
-          <select onChange={handleContentWarnOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh'}} name="contentwarning" id="select-contentwarning">
+          <select onChange={handleContentWarnOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh' }} name="contentwarning" id="select-contentwarning">
             <option key="contentwarning-All" value="All">All</option>
             <option key="contentwarning-No" value="No">No Warning</option>
             {Filter(3).map(val => <option key={`contentwarning-${val}`} value={val}>{val}</option>)}
@@ -571,25 +683,25 @@ export const Main = (props) => {
         </div>
         <div className="col-start-3 col-span-full row-span-3 grid grid-cols-6 grid-rows-2 gap-2 font-ssp text-white">
           <p className="text-xs self-center justify-self-center text-center font-bold" style={{ fontSize: '.8vw' }}>Type</p>
-          <Checkbox name="movie" label="Movie" checked={typesCheckedState[1]} onChange={() => handleTypeOnChange(1)}/>
-          <Checkbox name="music" label="Music" checked={typesCheckedState[2]} onChange={() => handleTypeOnChange(2)}/>
-          <Checkbox name="dvd-special" label="DVD Special" checked={typesCheckedState[0]} onChange={() => handleTypeOnChange(0)}/>
-          <Checkbox name="ova" label="OVA" checked={typesCheckedState[4]} onChange={() => handleTypeOnChange(4)}/>
-          <Checkbox className="row-start-2 col-start-2" name="tv" label="TV" checked={typesCheckedState[5]} onChange={() => handleTypeOnChange(5)}/>
-          <Checkbox className="row-start-2 col-start-3" name="tv-special" label="TV Special" checked={typesCheckedState[6]} onChange={() => handleTypeOnChange(6)}/>
-          <Checkbox className="row-start-2 col-start-4" name="web" label="Web" checked={typesCheckedState[7]} onChange={() => handleTypeOnChange(7)}/> 
-          <Checkbox className="row-start-2 col-start-5" name="other" label="Other" checked={typesCheckedState[3]} onChange={() => handleTypeOnChange(3)}/>
+          <Checkbox name="movie" label="Movie" checked={typesCheckedState[1]} onChange={() => handleTypeOnChange(1)} />
+          <Checkbox name="music" label="Music" checked={typesCheckedState[2]} onChange={() => handleTypeOnChange(2)} />
+          <Checkbox name="dvd-special" label="DVD Special" checked={typesCheckedState[0]} onChange={() => handleTypeOnChange(0)} />
+          <Checkbox name="ova" label="OVA" checked={typesCheckedState[4]} onChange={() => handleTypeOnChange(4)} />
+          <Checkbox className="row-start-2 col-start-2" name="tv" label="TV" checked={typesCheckedState[5]} onChange={() => handleTypeOnChange(5)} />
+          <Checkbox className="row-start-2 col-start-3" name="tv-special" label="TV Special" checked={typesCheckedState[6]} onChange={() => handleTypeOnChange(6)} />
+          <Checkbox className="row-start-2 col-start-4" name="web" label="Web" checked={typesCheckedState[7]} onChange={() => handleTypeOnChange(7)} />
+          <Checkbox className="row-start-2 col-start-5" name="other" label="Other" checked={typesCheckedState[3]} onChange={() => handleTypeOnChange(3)} />
         </div>
         <div className="col-start-3 row-start-4 row-span-2 grid grid-cols-6 grid-rows-1 gap-2 font-ssp text-white">
           <p className="text-xs self-center justify-self-center text-center font-bold leading-8" style={{ fontSize: '.8vw' }}>Released Season</p>
-          <Checkbox name="spring" label="Spring" checked={seasonsCheckedState[0]} onChange={() => handleSeasonOnChange(0)}/>
-          <Checkbox name="summer" label="Summer" checked={seasonsCheckedState[1]} onChange={() => handleSeasonOnChange(1)}/>
-          <Checkbox name="fall" label="Fall" checked={seasonsCheckedState[2]} onChange={() => handleSeasonOnChange(2)}/>
-          <Checkbox name="winter" label="Winter" checked={seasonsCheckedState[3]} onChange={() => handleSeasonOnChange(3)}/>
+          <Checkbox name="spring" label="Spring" checked={seasonsCheckedState[0]} onChange={() => handleSeasonOnChange(0)} />
+          <Checkbox name="summer" label="Summer" checked={seasonsCheckedState[1]} onChange={() => handleSeasonOnChange(1)} />
+          <Checkbox name="fall" label="Fall" checked={seasonsCheckedState[2]} onChange={() => handleSeasonOnChange(2)} />
+          <Checkbox name="winter" label="Winter" checked={seasonsCheckedState[3]} onChange={() => handleSeasonOnChange(3)} />
         </div>
       </ContainerBox>
       <div ref={plotRef} className="row-start-3 col-span-7 m-2">
-        {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion}/>}
+        {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion} />}
       </div>
       <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" style={{ margin: '.6vh .8vw', fontSize: '1vw' }} onClick={handleClearAll}>Clear All</button>
       <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-8 col-span-full m-2" >
@@ -607,8 +719,8 @@ export const Main = (props) => {
         />
       </ContainerBox>
       <ContainerBox title="Range" className="row-start-4 col-span-7 m-2" >
-        { displayData && constRawData 
-            && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} reset={reset} />
+        {displayData && constRawData
+          && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} reset={reset} />
         }
       </ContainerBox>
 
@@ -618,7 +730,7 @@ export const Main = (props) => {
   )
 }
 
-const tagsClear=()=>{
+const tagsClear = () => {
   tags.forEach(element => {
     document.getElementById("checkbox-" + element.tagName).checked = false;
   })
@@ -650,7 +762,7 @@ const filterWithTags = (tagString) => {
     console.log("wrong entry");
   }
 }
-const filterWithTypes=(typeString)=>{
+const filterWithTypes = (typeString) => {
   if (typesSelected.length != 0) {
     return typesSelected.some(function (type) {
       return typeString.includes(type)
@@ -660,7 +772,7 @@ const filterWithTypes=(typeString)=>{
     return true;
   }
 }
-const filterWithSeasons=(seasonString)=>{
+const filterWithSeasons = (seasonString) => {
   if (seasonsSelected.length != 0) {
     return seasonsSelected.some(function (season) {
       return seasonString.includes(season)
@@ -732,7 +844,7 @@ export const refreshInfo = (rawData, infoDispatch) => {
     posterUrl = posterUrl.slice(0, posterUrl.length - 1);
   }
 
-  var descriptionCleansed=data.description.replaceAll("\\xa0",' ')
+  var descriptionCleansed = data.description.replaceAll("\\xa0", ' ')
   infoDispatch(setUrl("https://cdn.anime-planet.com/anime/primary/" + posterUrl + "-1.jpg"))
   infoDispatch(setTitle(animeName))
   infoDispatch(setDescription(descriptionCleansed))

@@ -12,7 +12,6 @@ export const Dropdown = forwardRef((props, ref) => {
         fontSize: '.8vw'
     }
   
-  
     return (
       <div className={`${props.className ? props.className : ''} grid grid-cols-5 gap-2`} style={props.style ? {...props.style, ...style} : style} >
         <p className={`${props.pClassName ? props.pClassName : ''} text-white font-ssp font-bold self-center col-span-2`}>{props.label}</p>
