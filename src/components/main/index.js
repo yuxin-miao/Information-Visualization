@@ -21,55 +21,9 @@ import { types } from "../filter/types";
 import { seasons } from "../filter/seasons";
 import { InfoPanel } from "../infopanel";
 import { axis } from "../filter/axis";
+import { Dropdown } from "../dropdown";
+import { Checkbox } from "../checkbox";
 
-// Provide an onChange function on a Dropdown component to process the updated data.
-const Dropdown = forwardRef((props, ref) => {
-  const [value, setValue] = useState(props.options ? props.options[0].value : "")
-  useImperativeHandle(ref, () => ({
-    onChange(event) {
-      setValue(event.target.value)
-      //console.log(event)
-    }
-  }))
-
-
-  return (
-    <div className={`${props.className ? props.className : ''} grid grid-cols-5 gap-2`} style={{ fontSize: '.8vw' }} >
-      <p className="text-white font-ssp font-bold self-center col-span-2">{props.label}</p>
-      <select onChange={props.onChange ? props.onChange : function (event) { setValue(event.target.value) }} value={value} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh'}} name={props.value} id={`select-${props.value}`}>
-        {props.options ? props.options.map(val => <option key={`${props.value}-${val.value}`} value={val.value}>{val.label}</option>) : <option value="">No Selection</option>}
-      </select>
-    </div>
-  )
-})
-
-// Provide an onSubmit prop on the Range component to process the input data.
-const Range = (props) => {
-  const [lowRange, setLowRange] = useState('')
-  const [highRange, setHighRange] = useState('')
-
-  return (
-    <div className={`${props.className ? props.className : ""} grid grid-cols-5 gap-2 font-ssp`} style={{ fontSize: '.8vw' }} >
-      <p className="text-white self-center col-span-2">Range</p>
-      <form className="col-start-3 col-span-full grid gap-2 grid-cols-5" onSubmit={props.onSubmit}>
-        <input className="rounded col-span-2 text-center" type="text" value={lowRange} onChange={event => setLowRange(event.target.value)}></input>
-        <span className="text-white col-start-3 justify-self-center">-</span>
-        <input className="rounded col-start-4 col-span-full text-center" type="text" value={highRange} onChange={event => setHighRange(event.target.value)}></input>
-      </form>
-    </div>
-  )
-}
-
-
-// Provide an onChange function on a Checkbox component to process the updated data.
-const Checkbox = (props) => {
-  return (
-    <div className={`${props.className ? props.className : ''} justify-self-center flex w-full gap-2`} style={{ fontSize: '.85vw' }}>
-      <input className="self-center" type='checkbox' id={`checkbox-${props.name}`} name={`${props.name}`} checked={props.checked} onChange={props.onChange} />
-      <label className="self-center leading-none">{props.label}</label>
-    </div>
-  )
-}
 var tagsSelected = []
 var typesSelected=[]
 var seasonsSelected=[]
