@@ -50,7 +50,7 @@ const FilterSection = () => {
   })
 
   return (
-    <div className="relative">
+    <div className="col-span-2 absolute">
       <div
         className={`absolute text-white bg-filter-blue font-ssp font-bold flex justify-end filter-header ${isFilterActive ? 'active' : ''}`}
         onClick={_ => setIsFilterActive(!isFilterActive)}
@@ -592,10 +592,9 @@ export const Main = (props) => {
     return returnData;
   }
   return (
-    <div className={`${props.className ? props.className : ''} col-span-full main-grid`}>
-
-      <FilterSection/>
-
+    <>
+    <FilterSection />
+    <div className="col-start-3 col-span-full main-grid">
       {displayData && <SearchBox rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)}
         handleClickSuggestion={clickSuggestion} className="col-span-4 m-2" />}
       <ContainerBox title="Tags" className="row-start-2 col-start-1 col-span-4 m-2">
@@ -726,6 +725,7 @@ export const Main = (props) => {
 
       <ContainerBox title="Related" className="row-start-4 col-start-8 col-span-full m-2" />
     </div>
+    </>
 
   )
 }
