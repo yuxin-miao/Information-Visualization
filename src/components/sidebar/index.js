@@ -7,34 +7,51 @@ import TeamIcon from "../../assets/teamicon.png"
 import DemoIcon from "../../assets/demoicon.png"
 import AnimeGirl from "../../assets/animegirl.png"
 import FilterArrow from "../../assets/filterarrow.png"
+import { useState } from 'react'
 
 import { Dropdown } from '../dropdown'
 import { Checkbox } from '../checkbox'
+import AutoComplete from '@mui/material/Autocomplete'
+import TextField from '@mui/material/TextField';
 
 export const Sidebar = (props) => {
+    const [isFilterActive, setIsFilterActive] = useState(false)
 
     return (
         <div className={`${props.className ? props.className : ''} dotted-spaced right side-grid relative pt-4`}>
-            <a href='#' className="justify-self-center self-center h-min">
-                <img src={Logo} className="object-contain" style={{ height: '3vw' }} />
+            <a href='#' className="justify-self-center h-min">
+                <img src={Logo} />
             </a>
-            <div className='absolute text-white bg-filter-blue rounded-tr font-ssp font-bold flex justify-end'
-                style={{ top: '15%', left: '-1%', fontSize: '1vw', height: '5%', width: '100%' }}>
-                <p className='self-center' style={{ paddingRight: '.5vw' }}>Filters</p>
-                <img className='self-center' src={FilterArrow} style={{ height: '40%', paddingRight: '.5vw' }} />
+            <div
+                className={`absolute text-white bg-filter-blue font-ssp font-bold flex justify-end filter-header ${isFilterActive ? 'active' : ''}`}
+                onClick={_ => setIsFilterActive(!isFilterActive)}
+            >
+                <div className='flex filter-button'>
+                    <p className='self-center' style={{ paddingRight: '.5vw' }}>Filters</p>
+                    <img className='self-center' src={FilterArrow} style={{ height: '40%', paddingRight: '.5vw' }} />
+                </div>
             </div>
-            <div className='absolute text-white bg-filter-blue rounded-br font-ssp filter-section' style={{ overflowY: 'scroll' }}>
+            <div className={`absolute text-white bg-filter-blue rounded-br font-ssp filter-section ${isFilterActive ? 'active' : ''}`}>
                 <Dropdown
                     label="X - Axis"
                     value="x-axis"
+                    style={{ height: '3vh' }}
                     className="text-black"
-                    selectClassName="h-1/2 self-center"
+                    options={[{ value: 0, label: 'Intersection' }, { value: 1, label: 'Union' }]}
                 />
                 <Dropdown
                     label="Y - Axis"
                     value="y-axis"
+                    style={{ height: '3vh' }}
                     className="text-black"
-                    selectClassName="h-1/2 self-center"
+                    options={[{ value: 0, label: 'Intersection' }, { value: 1, label: 'Union' }]}
+                />
+                <Dropdown
+                    label="Studio"
+                    value="studio"
+                    style={{ height: '3vh' }}
+                    className="text-black"
+                    options={[{ value: 0, label: 'Intersection' }, { value: 1, label: 'Union' }]}
                 />
                 <div className='h-full grid gap-2 grid-cols-5'>
                     <p className='col-span-2'>User Stats</p>
@@ -70,6 +87,21 @@ export const Sidebar = (props) => {
                         <Checkbox name="10k" label="Fall"></Checkbox>
                         <Checkbox name="5k" label="Winter"></Checkbox>
                     </div>
+                </div>
+                <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
+                    <p>Tags</p>
+                    <AutoComplete
+                        multiple
+                        fullWidth
+                        id="size-small-outlined-multi"
+                        size="small"
+                        options={[{ title: 'The Shawshank Redemption Shawshank Redemption', year: 1994 }, { title: 'The Godfather', year: 1972 }]}
+                        getOptionLabel={(option) => option.title}
+                        renderInput={(params) => (
+                            <TextField {...params} placeholder="Search for tags..." />
+                        )}
+                        sx={{ overflow: 'auto', color: 'white' }}
+                    />
                 </div>
             </div>
             <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1.2vw' }}>
