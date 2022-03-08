@@ -109,7 +109,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
         .call(zoom);
     function updateChart(event) {
-        console.log(event.transform)
+        //console.log(event.transform)
         //svgElement.attr("transform",transform)
         // recover the new scale
         var newX = event.transform.rescaleX(xScale);
