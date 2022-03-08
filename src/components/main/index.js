@@ -50,7 +50,7 @@ const FilterSection = () => {
   })
 
   return (
-    <div className="col-span-2 absolute">
+    <div className="col-span-2 absolute filter-wrapper">
       <div
         className={`absolute text-white bg-filter-blue font-ssp font-bold flex justify-end filter-header ${isFilterActive ? 'active' : ''}`}
         onClick={_ => setIsFilterActive(!isFilterActive)}
