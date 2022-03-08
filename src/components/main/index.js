@@ -701,7 +701,30 @@ const filterWithSeasons = (seasonString) => {
 
 //change the name and the poster
 export const refreshInfo = (rawData, infoDispatch) => {
-  let data = rawData
+
+  var data=[]
+  if(rawData.label)
+  {
+    data=rawData
+  }
+  else
+  {
+    let dataTemp=rawData[0]
+    data = {
+        label: dataTemp[1], // anime name
+        description: dataTemp[11],
+        rating: dataTemp[8],
+        type: dataTemp[3],
+        season: dataTemp[6],
+        releaseYear: dataTemp[9],
+        studio: dataTemp[5],
+        rank: dataTemp[0],
+        voiceActors: dataTemp[15],
+        staff: dataTemp[16],
+        posterUrl:dataTemp[17],
+        userStat:dataTemp[18]
+    }
+  }
 
   let tmpStaff = []
   if (data.staff) {
@@ -729,13 +752,13 @@ export const refreshInfo = (rawData, infoDispatch) => {
       }
     })
   }
-
-  // const animeName = data.label?data.label:data[0][1];
-  const animeName = data.label;
-  var posterUrl = animeName.replace('\'', '').replace(/[^\u2018-\u2019\u4e00-\u9fa5a-zA-Z0-9]/g, '-').replaceAll("---", '-').replaceAll("--", '-').toLowerCase();
+  console.log(data.userStat)
+  const animeName = data.label?data.label:data[0][1];
+  /*var posterUrl = animeName.replace('\'', '').replace(/[^\u2018-\u2019\u4e00-\u9fa5a-zA-Z0-9]/g, '-').replaceAll("---", '-').replaceAll("--", '-').toLowerCase();
   if (posterUrl[posterUrl.length - 1] == '-') {
     posterUrl = posterUrl.slice(0, posterUrl.length - 1);
-  }
+  }*/
+  var posterUrl=data.posterUrl
 
   var descriptionCleansed = data.description.replaceAll("\\xa0", ' ')
   infoDispatch(setUrl("https://cdn.anime-planet.com/anime/primary/" + posterUrl + "-1.jpg"))
