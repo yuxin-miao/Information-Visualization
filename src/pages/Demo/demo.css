@@ -1,4 +1,4 @@
-.circle1 {
+.circle01 {
   top: 8vw;
   left: 32vw;
   width: 5vw;
@@ -8,7 +8,7 @@
   animation: float 5s ease-in-out infinite;
 }
   
-.circle2 {
+.circle02 {
   top: 12vw;
   left: 50vw;
   width: 8vw;
@@ -17,7 +17,7 @@
   filter: blur(.5vw);
   animation: float 8s ease-in-out infinite;
 }
-.circle3 {
+.circle03 {
   bottom: 10vw;
   left: 30vw;
   width: 9vw;
@@ -26,7 +26,7 @@
   filter: blur(.5vw);
   animation: float 10s ease-in-out infinite;
 }
-.circle4 {
+.circle04 {
   top: 10vw;
   left: 80vw;
   width: 6vw;
@@ -35,7 +35,7 @@
   filter: blur(.5vw);
   animation: float 6s ease-in-out infinite;
 }
-.circle5 {
+.circle05 {
   bottom: 5vw;
   right: 10vw;
   width: 8vw;
