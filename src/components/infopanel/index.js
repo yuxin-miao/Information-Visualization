@@ -65,14 +65,15 @@ export const InfoPanel = (props) => {
                     })}
                 </div>
             </div>
-            <div className='row-start-7 col-span-3 text-justify '>
-                <p>
+            <div className='row-start-7 col-span-3 text-justify flex flex-col justify-center '>
+                <p className='font-bold self-center'>Anime-Planet Followers</p>
+                <p className='self-center'>
                     {props.animeUserStat}
                 </p>
             </div>
-            <div className='row-start-7 col-start-5 col-span-3 text-justify '>
-                <a href={props.animePosterUrl} target="_blank">
-                    Website
+            <div className='row-start-7 col-start-5 col-span-3 text-justify flex justify-center'>
+                <a className='self-center font-bold' href={props.animePosterUrl} target="_blank">
+                    Go to website
                 </a>
             </div>
         </div>
