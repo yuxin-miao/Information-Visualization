@@ -6,7 +6,7 @@ import './scatterPlot.css';
 import { _interpolateColor,h2r,r2h } from "../utils/colorUtils";
 import colorLegend from "../assets/colorLegend.png"
 
-export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) => {
+export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, setRelatedAnime}) => {
   // Chart width and height - accounting for margins
   const {width, height, margin, radius, color, xVar, yVar} = settings;
   let drawWidth = width - margin.left - margin.right;
@@ -142,7 +142,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
             refreshInfo(d.srcElement.__data__, infoDispatch)
             d3.select(this).attr("stroke","white").attr("stroke-width",2)
 
-
+            setRelatedAnime(d3.select(this).attr("label"))
 
 
         //Main.refreshInfo(d3.select(this).attr("label"));
