@@ -26,8 +26,9 @@ import { axis } from "../filter/axis";
 import { Dropdown } from "../dropdown";
 import { Checkbox } from "../checkbox";
 
-import AutoComplete from '@mui/material/Autocomplete'
+import AutoComplete, { createFilterOptions } from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField';
+import { value } from "lodash-es";
 
 var tagsSelected = []
 var typesSelected = []
@@ -139,17 +140,13 @@ const FilterSection = (props) => {
             fullWidth
             id="size-small-outlined-multi"
             size="small"
-            options={[
-              "100,000+",
-              "50,000+",
-              "10,000+",
-              "5,000+",
-              "1,000+"
-            ]}
+            options={types}
+            getOptionLabel={(option) => option.typeName}
             renderInput={(params) => (
-              <TextField {...params} placeholder="Search for tags..." />
+              <TextField {...params} placeholder="Search for types..." />
             )}
             sx={{ overflow: 'auto', color: 'white' }}
+            onChange={(e,value)=>{typesSelected=value.map(v=>{return v.typeName});props.filterAutoCompleteOnChange()}}
           />
         </div>
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
@@ -159,16 +156,13 @@ const FilterSection = (props) => {
             fullWidth
             id="size-small-outlined-multi"
             size="small"
-            options={[
-              "Spring",
-              "Summer",
-              "Fall",
-              "Winter"
-            ]}
+            options={seasons}
+            getOptionLabel={(option) => option.seasonName}
             renderInput={(params) => (
-              <TextField {...params} placeholder="Search for tags..." />
+              <TextField {...params} placeholder="Search for released season..." />
             )}
             sx={{ overflow: 'auto', color: 'white' }}
+            onChange={(e,value)=>{seasonsSelected=value.map(v=>{return v.seasonName});props.filterAutoCompleteOnChange()}}
           />
         </div>
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
@@ -178,12 +172,13 @@ const FilterSection = (props) => {
             fullWidth
             id="size-small-outlined-multi"
             size="small"
-            options={[{ title: 'The Shawshank Redemption Shawshank Redemption', year: 1994 }, { title: 'The Godfather', year: 1972 }]}
-            getOptionLabel={(option) => option.title}
+            options={tags}
+            getOptionLabel={(option) => option.tagName}
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for tags..." />
             )}
             sx={{ overflow: 'auto', color: 'white' }}
+            onChange={(e,value)=>{tagsSelected=value.map(v=>{return v.tagName});props.filterAutoCompleteOnChange()}}
           />
         </div>
       </div>
@@ -450,7 +445,7 @@ export const Main = (props) => {
       setDisplayData(processData(constRawData))
     }
   }
-  const handleTagsOnChange = (position) => {
+  /*const handleTagsOnChange = (position) => {
     const updatedCheckedState = tagsCheckedState.map((item, index) =>
       index === position ? !item : item
     )
@@ -465,6 +460,12 @@ export const Main = (props) => {
       setDisplayData(processData(constRawData))
     }
 
+  }*/
+  const handleTagsOnChange=()=>{
+    setDisplayData(processData(constRawData))
+  }
+  const handleFilterOnChange=()=>{
+    setDisplayData(processData(constRawData))
   }
   const tagsClear = () => {
     tags.forEach(element => {
@@ -522,6 +523,7 @@ export const Main = (props) => {
       studioOnChange={handleStudioOnChange}
       xAxisOnChange={handleXOnChange}
       yAxisOnChange={handleYOnChange}
+      filterAutoCompleteOnChange={handleFilterOnChange}
     />
 
 
@@ -718,7 +720,6 @@ const filterWithSeasons = (seasonString) => {
 
 //change the name and the poster
 export const refreshInfo = (rawData, infoDispatch) => {
-
   let data = rawData
 
   let tmpStaff = []
