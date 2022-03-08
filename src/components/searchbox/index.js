@@ -59,15 +59,16 @@ export const SearchBox = ({ className, rawSetData, animeData, handleClickSuggest
   const renderSuggestionList = () => {
     if (query === undefined || query === '' || submitSearch) return null;
     return (
-      <ul className="suggestions bg-main w-1/2 absolute inline-block z-10">
+      <ul className="suggestions bg-main absolute inline-block z-10" style={{ width: '31%' }}>
         {filteredSuggestions && filteredSuggestions.length > 0 ?
           (filteredSuggestions.map((suggestion, index) => {
             return (
               <li className="flex justify-between py-2 px-4 text-sm text-gray-100 hover:text-main hover:bg-gray-50" 
+                  style={{ fontSize: '.7vw', height: '3vh' }}
                   key={index} 
                   onClick={() => handleClick(suggestion)}>
-                <div>{suggestion.val}</div>  
-                <div className="circle-text px-2"> {suggestion.type}</div>
+                <div className="self-center">{suggestion.val}</div>  
+                <div className="self-center circle-text px-2"> {suggestion.type}</div>
               </li>
             );
           })) : 
@@ -97,7 +98,7 @@ export const SearchBox = ({ className, rawSetData, animeData, handleClickSuggest
     <div className={`${className ? className : ''} w-full flex gap-4 p-2 pt-0`}>
       <div className="search-icon flex align-center justify-center"> <img alt={''} src={SearchIcon} className="icon"/> </div>
       
-      <div className="input-box justify-center w-full">
+      <div className="input-box justify-center w-full" style={{ fontSize: '.8vw' }}>
         <form className="input-area w-full flex">
           <input
             className="px-3 w-full h-full bg-transparent text-white"
@@ -107,7 +108,7 @@ export const SearchBox = ({ className, rawSetData, animeData, handleClickSuggest
             value={query}
             onChange={handleChange}
           />
-          <img onClick={handleOnRefresh} className="w-4 h-4 self-center ml-1" src={RefreshIcon}/>     
+          <img onClick={handleOnRefresh} className="w-auto h-full self-center ml-1" src={RefreshIcon}/>     
         </form>
 
         {renderSuggestionList()}

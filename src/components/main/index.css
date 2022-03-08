@@ -1,9 +1,7 @@
 .main-grid {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: 5vh 20vh 50vh 25vh;
-  grid-column-gap: 1.5vw;
-  grid-row-gap: 1.5vh;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: 5% 20% 50% 25%;
 }
 
 .filter-grid {

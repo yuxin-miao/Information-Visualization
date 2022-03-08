@@ -68,16 +68,18 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
         .call(yAxis);
     // render axis label
     svgElement.append('text')
-        .attr('transform', `translate(${(drawWidth / 2)}, ${(height - margin.bottom + 40)})`)
+        .attr('transform', `translate(${(drawWidth / 2)}, ${(height - margin.bottom + window.innerHeight * 0.05)})`)
+        .attr('class', 'axis-label')
         .style('fill', 'white')
         .text(xVar.name);
     svgElement.append('text')
-        .attr('transform', `translate( ${(margin.left - 30)},${(margin.top + drawHeight / 2)}) rotate(-90)`)
+        .attr('transform', `translate( ${(margin.left - window.innerWidth * 0.025)},${(margin.top + drawHeight / 2)}) rotate(-90)`)
+        .attr('class', 'axis-label')
         .style('fill', 'white')
         .text(yVar.name);
     svgElement.append('image')
         .attr("href", colorLegend)
-        .attr('transform', `translate( ${(drawWidth*0.85)},${(height - margin.bottom + 25)})`)
+        .attr('transform', `translate( ${(drawWidth*0.91)},${(height - margin.bottom + window.innerHeight * 0.032)})`)
         .attr('width', drawWidth*0.16)
 
     
@@ -120,7 +122,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
             
         })
         .attr('label', (d)=>d.label)
-        .style('fill-opacity', 1)
+        .style('opacity', 0.4)
         .merge(circles)
         .attr('cx', (d) => xScale(d.x))
         .attr('cy', (d) => yScale(d.y))
@@ -150,9 +152,9 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
             const posX = d3.select(this).attr("cx")
             const posY = d3.select(this).attr("cy")
             tooltip.style('transform', `translate(${posX}px, ${posY}px)`).style("opacity", 1).text(`${d.label}(${d.x}, ${d.y})`)
-            d3.select(this).attr("stroke","white").attr("stroke-width",1)
+            d3.select(this).attr("stroke","white").attr("stroke-width", 1).style("opacity", 1)
         }).on("mouseout", function(d){
-            d3.select(this).attr("stroke", "none")
+            d3.select(this).attr("stroke", "none").style("opacity", .4)
             tooltip.style('opacity', 0)
         });
 

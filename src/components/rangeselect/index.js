@@ -10,7 +10,7 @@ export const RangeSelection = (props) => {
   const gridRef = useRef()
   const [draw, setDraw] = useState(false)
   const [settings, setSettings] = useState({
-    height: 100,
+    height: window.innerHeight * 0.09,
     width: 300,
     margin: {top: 0, right: 10, bottom: 50, left: 10},
   })
@@ -85,12 +85,12 @@ export const RangeSelection = (props) => {
 
 
   return (
-    <div className="rangle-select text-sm px-7 py-4">
-      <div className="flex justify-between">
-        <span className="px-5 text-white font-ssp">  Current number of animes displayed: <span className="text-pink">{props.activeAnime} </span>/ {props.allAnime.length}</span>
+    <div className="rangle-select h-full" style={{ padding: '1.5vh 1.5vw'}}>
+      <div className="flex justify-between" style={{ fontSize: '0.7vw' }}>
+        <span className="px-5 text-white font-ssp">Current number of animes displayed: <span className="text-pink">{props.activeAnime} </span>/ {props.allAnime.length}</span>
         <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" onClick={onSubmit}>Apply Selection</button>
       </div>
-      <div className="grid grid-cols-2 grid-rows-2 gap-x-10">
+      <div className="grid grid-cols-2 grid-rows-2 gap-x-10" style={{ fontSize: '0.7vw' }}>
         <div className="m-0 col-span-1 grid grid-cols-10" ref={gridRef}>
           <div className="place-self-center text-white col-span-2 justify-self-end">Rank</div>   
           <div className="col-span-8"> { draw && <LineChart settings={settings} data={rankData} customized={['yellow', 'green', 5, 'rank']} handleEndBrush={handleEndBrush('rank')} reset={props.reset}/>}</div>

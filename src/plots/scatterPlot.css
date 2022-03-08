@@ -8,11 +8,17 @@ axis-style line{
 
 .axis-style text{
   fill: white;
+  font-size: .8vw;
+}
+
+.axis-label {
+  font-size: 1vw;
 }
 
 .highlight-attr {
   stroke: white;
   stroke-width: 2;
+  opacity: 1;
 }
 
 .tooltip {
@@ -26,7 +32,7 @@ axis-style line{
   margin-left: 20px;
   margin-top: -13px;
   pointer-events: none;
-  font-size: 7px;
+  font-size: .8vw;
   font-weight: 400;
   color: white;
   border-radius: 5px;
