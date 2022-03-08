@@ -271,6 +271,7 @@ export const Main = (props) => {
     const suggestionArray = []
     if (suggestion.type === "anime") {
       suggestionArray.push(String(suggestion.val))
+      //console.log(constRawData.filter(row=>row[1]===suggestion.val))
       refreshInfo(constRawData.filter(row=>row[1]===suggestion.val), InfoDispatch)
       setRelatedAnime(String(suggestion.val))
     } else if (suggestion.type === "voice actor") {
@@ -287,8 +288,13 @@ export const Main = (props) => {
   // when user click ralated anime
   const clickRelatedAnime = (animeName) => {
     console.log(animeName)
+    var tempName=animeName
     // setRelatedAnime(animeName)
-    refreshInfo(constRawData.filter(x => x[1] === relateAnime), InfoDispatch)
+    if(tempName[0]==' ')
+    {
+      tempName=tempName.slice(1)
+    }
+    refreshInfo(constRawData.filter(x => x[1] === tempName), InfoDispatch)
   }
   /******************************Filter******************************/
   //console.log(constRawData)
@@ -780,28 +786,28 @@ const filterWithSeasons=(seasonString)=>{
 
 //change the name and the poster
 export const refreshInfo = (rawData, infoDispatch) => {
-  // var data=[]
-  // if(rawData.label)
-  // {
-  //   data=rawData
-  // }
-  // else
-  // {
-  //   let dataTemp=rawData[0]
-  //   data = {
-  //       label: dataTemp[1], // anime name
-  //       description: dataTemp[11],
-  //       rating: dataTemp[8],
-  //       type: dataTemp[3],
-  //       season: dataTemp[6],
-  //       releaseYear: dataTemp[9],
-  //       studio: dataTemp[5],
-  //       rank: dataTemp[0],
-  //       voiceActor: dataTemp[15]
-  //   }
-  // }
+  var data=[]
+  if(rawData.label)
+  {
+    data=rawData
+  }
+  else
+  {
+    let dataTemp=rawData[0]
+    data = {
+        label: dataTemp[1], // anime name
+        description: dataTemp[11],
+        rating: dataTemp[8],
+        type: dataTemp[3],
+        season: dataTemp[6],
+        releaseYear: dataTemp[9],
+        studio: dataTemp[5],
+        rank: dataTemp[0],
+        staff: dataTemp[16]
+    }
+  }
 
-  let data = rawData
+  //let data = rawData
 
   let tmpStaff = []
   if (data.staff) {
@@ -831,8 +837,8 @@ export const refreshInfo = (rawData, infoDispatch) => {
   }
   console.log(tmpVA)
 
-  // const animeName = data.label?data.label:data[0][1];
-  const animeName = data.label;
+  const animeName = data.label?data.label:data[0][1];
+  //const animeName = data.label;
   var posterUrl = animeName.replace('\'', '').replace(/[^\u2018-\u2019\u4e00-\u9fa5a-zA-Z0-9]/g, '-').replaceAll("---", '-').replaceAll("--", '-').toLowerCase();
   if (posterUrl[posterUrl.length - 1] == '-') {
     posterUrl = posterUrl.slice(0, posterUrl.length - 1);
