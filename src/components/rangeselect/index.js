@@ -71,29 +71,29 @@ export const RangeSelection = (props) => {
       }
     }
   }
+
   /**
-   * when click submit, set the rangeSelect value of the parent components 
+   * when any of the selected brush data change, change the corresponding data in parent component 
    */
-  function onSubmit() {
+  useEffect(() => {
     props.setRangeSelect({
       rank: rank,
       year: year,
       episodes: episodes,
       rates: rates,
     })
-  }
+  }, [year, episodes, rank, rates])
 
 
   return (
     <div className="rangle-select h-full" style={{ padding: '1.5vh 1.5vw'}}>
       <div className="flex justify-between" style={{ fontSize: '0.7vw' }}>
         <span className="px-5 text-white font-ssp">Current number of animes displayed: <span className="text-pink">{props.activeAnime} </span>/ {props.allAnime.length}</span>
-        <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" onClick={onSubmit}>Apply Selection</button>
       </div>
       <div className="grid grid-cols-2 grid-rows-2 gap-x-10" style={{ fontSize: '0.7vw' }}>
-        <div className="m-0 col-span-1 grid grid-cols-10" ref={gridRef}>
+        <div className="m-0 col-span-1 grid grid-cols-10">
           <div className="place-self-center text-white col-span-2 justify-self-end">Rank</div>   
-          <div className="col-span-8"> { draw && <LineChart settings={settings} data={rankData} customized={['yellow', 'green', 5, 'rank']} handleEndBrush={handleEndBrush('rank')} reset={props.reset}/>}</div>
+          <div className="col-span-8" ref={gridRef}> { draw && <LineChart settings={settings} data={rankData} customized={['yellow', 'green', 5, 'rank']} handleEndBrush={handleEndBrush('rank')} reset={props.reset}/>}</div>
         </div>
         <div className="m-0 col-span-1 grid grid-cols-10">      
           <div className="place-self-center text-white col-span-2 justify-self-end">Episodes</div>   

@@ -23,7 +23,9 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
       season: item[6],
       releaseYear: item[9],
       studio: item[5],
-      rank: item[0]
+      rank: item[0],
+      voiceActors: item[15],
+      staff: item[16]
     }
   })
   //console.log(data);
@@ -57,12 +59,26 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
     let xAxis = d3.axisBottom(xScale);
     let yAxis = d3.axisLeft(yScale);
   
+
+        // Add a clipPath: everything out of this area won't be drawn.
+    var clip = svgElement.append("defs").append("SVG:clipPath")
+    .attr("id", "clip")
+    .append("SVG:rect")
+    .attr("width", drawWidth )
+    .attr("height", drawHeight )
+    .attr("x", 0)
+    .attr("y", 0);
+
+    
+
+
+
     // render the axis
-    svgElement.append('g')
+    var gx=svgElement.append('g')
         .attr('transform', 'translate(' + margin.left + ',' + (drawHeight + margin.top) + ')')
         .attr('class', 'axis-style')
         .call(xAxis);
-    svgElement.append('g')
+    var gy=svgElement.append('g')
         .attr('transform', 'translate(' + margin.left + ',' + (margin.top) + ')')
         .attr('class', 'axis-style')
         .call(yAxis);
@@ -81,7 +97,35 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
         .attr("href", colorLegend)
         .attr('transform', `translate( ${(drawWidth*0.91)},${(height - margin.bottom + window.innerHeight * 0.032)})`)
         .attr('width', drawWidth*0.16)
+    var zoom = d3.zoom()
+        .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
+        .extent([[0, 0], [width, height]])
+        .on("zoom", updateChart);
+    svgElement.append("rect")
+        .attr("width", width)
+        .attr("height", height)
+        .style("fill", "none")
+        .style("pointer-events", "all")
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+        .call(zoom);
+    function updateChart(event) {
+        //console.log(event.transform)
+        //svgElement.attr("transform",transform)
+        // recover the new scale
+        var newX = event.transform.rescaleX(xScale);
+        var newY = event.transform.rescaleY(yScale);
+        
+        // update axes with these new boundaries
+        gx.call(d3.axisBottom(newX))
+        gy.call(d3.axisLeft(newY))
+    
 
+        // update circle position
+        gElement
+            .selectAll("circle")
+            .attr('cx', function(d) {return newX(d.x)})
+            .attr('cy', function(d) {return newY(d.y)});
+    }
     
     // tool tip
     const tooltip = d3.select('#tooltip')
@@ -93,7 +137,8 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
     let gElement = svgElement.append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
         .attr('height', drawHeight)
-        .attr('width', drawWidth);
+        .attr('width', drawWidth)
+        .attr("clip-path", "url(#clip)");
     // assign data
     let circles = gElement.selectAll('circle').data(data);
 
@@ -164,6 +209,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
     circles.exit().remove();
 
   },[displayData, highlight, settings]);
+
 
 
 
