@@ -33,12 +33,12 @@ var tagsSelected = []
 var typesSelected = []
 var seasonsSelected = []
 
-const FilterSection = () => {
+const FilterSection = (props) => {
   const [isFilterActive, setIsFilterActive] = useState(false)
 
   const studioList = Filter(1).map((val, i) => {
     return {
-      value: i + 1,
+      value: val,
       label: val
     }
   })
@@ -49,6 +49,8 @@ const FilterSection = () => {
     }
   })
 
+  const studioDropdownRef = useRef()//dropdown ref for tag selection
+
   return (
     <div className="col-span-2 absolute filter-wrapper">
       <div
@@ -56,8 +58,8 @@ const FilterSection = () => {
         onClick={_ => setIsFilterActive(!isFilterActive)}
       >
         <div className='flex filter-button'>
-          <p className='self-center'>Filters</p>
-          <img className={`self-center filter-arrow ${isFilterActive ? 'active' : ''}`} src={FilterArrow}/>
+          <p className='self-center' style={{ paddingRight: '.5vw' }}>Filters</p>
+          <img className={`self-center filter-arrow ${isFilterActive ? 'active' : ''}`} style={{ paddingRight: '1vw' }} src={FilterArrow}/>
         </div>
       </div>
       <div className={`absolute text-white bg-filter-blue rounded-br font-ssp filter-section ${isFilterActive ? 'active' : ''}`} style={{ fontSize: '1vw' }}>
@@ -78,9 +80,14 @@ const FilterSection = () => {
         <Dropdown
           label="Studio"
           value="studio"
+          ref={studioDropdownRef}
+          onChange={(event) => {
+            studioDropdownRef.current.onChange(event)
+            props.studioOnChange(event)
+          }}
           style={{ height: '3vh' }}
           className="text-black"
-          options={[{ value: 0, label: 'No Selection' }, ...studioList]}
+          options={[{ value: 'All', label: 'All' }, ...studioList]}
         />
         <div className='h-full grid gap-2 grid-cols-5'>
           <p className='col-span-2'>User Stats</p>
@@ -226,8 +233,6 @@ export const Main = (props) => {
 
   );
 
-
-
   const dropDownRef = useRef()//dropdown ref for tag selection
 
   const InfoDispatch = useDispatch()
@@ -300,9 +305,6 @@ export const Main = (props) => {
 
   }
   /******************************Filter******************************/
-  //console.log(constRawData)
-  // const [xAxis, setXAxis] = useState()
-  // const [yAxis, setYAxis] = useState()
 
   const getAxisIndex = (name) => {
     if (name === "Rating") return 8
@@ -322,68 +324,6 @@ export const Main = (props) => {
     )
   }
 
-  // const [xLowRange, setXLowRange] = useState('')
-  // const [xHighRange, setXHighRange] = useState('')
-
-  // const [yLowRange, setYLowRange] = useState('')
-  // const [yHighRange, setYHighRange] = useState('')
-
-  // const handleXLowRange = (e) => {
-  //   if (!isNaN(+e.target.value)) {
-  //     setXLowRange(e.target.value)
-  //     let index
-  //     if (xAxis === "Rating") {
-  //       index = 8
-  //     }
-  //     else if (xAxis === "Release_year") {
-  //       index = 9
-  //     }
-  //     else if (xAxis === "Episodes") {
-  //       index = 4
-  //     }
-  //     setDisplayData(
-  //       constRawData.filter(item => {
-  //         if (item[index] != null && item[index] >= xLowRange) {
-  //           return true
-  //         }
-  //         return false
-  //       })
-  //     )
-  //   }
-  //   else {
-  //     e.target.value = xLowRange
-  //   }
-  //   // console.log(xLowRange)
-  // }
-
-  // const handleXHighRange = (e) => {
-  //   if (!isNaN(+e.target.value)) {
-  //     setXHighRange(e.target.value)
-  //     let index
-  //     if (xAxis === "Rating") {
-  //       index = 8
-  //     }
-  //     else if (xAxis === "Release_year") {
-  //       index = 9
-  //     }
-  //     else if (xAxis === "Episodes") {
-  //       index = 4
-  //     }
-  //     setDisplayData(
-  //       constRawData.filter(item => {
-  //         if (item[index] != null && item[index] <= xHighRange) {
-  //           return true
-  //         }
-  //         return false
-  //       })
-  //     )
-  //   }
-  //   else {
-  //     e.target.value = xHighRange
-  //   }
-  //   // console.log(xHighRange)
-  // }
-
   const handleYOnChange = (e) => {
     const index = getAxisIndex(e.target.value)
     setPlotSetting(
@@ -397,77 +337,15 @@ export const Main = (props) => {
     )
   }
 
-  // const handleYLowRange = (e) => {
-  //   if (!isNaN(+e.target.value)) {
-  //     setYLowRange(e.target.value)
-  //     let index
-  //     if (yAxis === "Rating") {
-  //       index = 8
-  //     }
-  //     else if (yAxis === "Release_year") {
-  //       index = 9
-  //     }
-  //     else if (yAxis === "Episodes") {
-  //       index = 4
-  //     }
-  //     setDisplayData(
-  //       constRawData.filter(item => {
-  //         if (item[index] != null && item[index] >= yLowRange) {
-  //           return true
-  //         }
-  //         return false
-  //       })
-  //     )
-  //   }
-  //   else {
-  //     e.target.value = yLowRange
-  //   }
-  //   console.log(yLowRange)
-  // }
-
-  // const handleYHighRange = (e) => {
-  //   if (!isNaN(+e.target.value)) {
-  //     setYHighRange(e.target.value)
-  //     let index
-  //     if (yAxis === "Rating") {
-  //       index = 8
-  //     }
-  //     else if (yAxis === "Release_year") {
-  //       index = 9
-  //     }
-  //     else if (yAxis === "Episodes") {
-  //       index = 4
-  //     }
-  //     setDisplayData(
-  //       constRawData.filter(item => {
-  //         if (item[index] != null && item[index] <= yHighRange) {
-  //           return true
-  //         }
-  //         return false
-  //       })
-  //     )
-  //   }
-  //   else {
-  //     e.target.value = yHighRange
-  //   }
-  //   console.log(yHighRange)
-  // }
-
   const handleStudioOnChange = e => {
     const value = e.target.value
-    // console.log(value)
+    console.log(e.target)
     if (value === "All") {
       setDisplayData(constRawData)
     }
     else {
-      setDisplayData(
-        constRawData.filter(item => {
-          if (item[5] === value) {
-            return true
-          }
-          return false
-        })
-      )
+      let studios = constRawData.filter(item => item[5] === value)
+      setDisplayData(studios)
     }
   }
 
@@ -593,7 +471,11 @@ export const Main = (props) => {
   }
   return (
     <>
-    <FilterSection />
+    <FilterSection
+      studioOnChange={handleStudioOnChange}
+    />
+
+
     <div className="col-start-3 col-span-full main-grid">
       {displayData && <SearchBox rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)}
         handleClickSuggestion={clickSuggestion} className="col-span-4 m-2" />}
