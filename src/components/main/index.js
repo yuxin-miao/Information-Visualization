@@ -39,17 +39,28 @@ const FilterSection = (props) => {
   const studioList = Filter(1).map((val, i) => {
     return {
       value: val,
-      label: val
+      label: val,
+      selected: false
     }
   })
-  const axisList = axis.map((val, i) => {
+  const axisXList = axis.map((val, i) => {
     return {
-      value: i,
-      label: val
+      value: val,
+      label: val,
+      selected: val === "Episodes"
+    }
+  })
+  const axisYList = axis.map((val, i) => {
+    return {
+      value: val,
+      label: val,
+      selected: val === "Rating"
     }
   })
 
   const studioDropdownRef = useRef()//dropdown ref for tag selection
+  const xAxisDropdownRef = useRef()//dropdown ref for tag selection
+  const yAxisDropdownRef = useRef()//dropdown ref for tag selection
 
   return (
     <div className="col-span-2 absolute filter-wrapper">
@@ -66,16 +77,28 @@ const FilterSection = (props) => {
         <Dropdown
           label="X - Axis"
           value="x-axis"
+          ref={xAxisDropdownRef}
+          onChange={(event) => {
+            studioDropdownRef.current.onChange(event)
+            props.xAxisOnChange(event)
+          }}
           style={{ height: '3vh' }}
+          defaultValue="Episodes"
           className="text-black"
-          options={axisList}
+          options={axisXList}
         />
         <Dropdown
           label="Y - Axis"
           value="y-axis"
+          ref={yAxisDropdownRef}
+          onChange={(event) => {
+            studioDropdownRef.current.onChange(event)
+            props.yAxisOnChange(event)
+          }}
           style={{ height: '3vh' }}
+          defaultValue="Rating"
           className="text-black"
-          options={axisList}
+          options={axisYList}
         />
         <Dropdown
           label="Studio"
@@ -87,7 +110,7 @@ const FilterSection = (props) => {
           }}
           style={{ height: '3vh' }}
           className="text-black"
-          options={[{ value: 'All', label: 'All' }, ...studioList]}
+          options={[{ value: 'All', label: 'All', selected: true }, ...studioList]}
         />
         <div className='h-full grid gap-2 grid-cols-5'>
           <p className='col-span-2'>User Stats</p>
@@ -473,6 +496,8 @@ export const Main = (props) => {
     <>
     <FilterSection
       studioOnChange={handleStudioOnChange}
+      xAxisOnChange={handleXOnChange}
+      yAxisOnChange={handleYOnChange}
     />
 
 
@@ -669,26 +694,6 @@ const filterWithSeasons = (seasonString) => {
 
 //change the name and the poster
 export const refreshInfo = (rawData, infoDispatch) => {
-  // var data=[]
-  // if(rawData.label)
-  // {
-  //   data=rawData
-  // }
-  // else
-  // {
-  //   let dataTemp=rawData[0]
-  //   data = {
-  //       label: dataTemp[1], // anime name
-  //       description: dataTemp[11],
-  //       rating: dataTemp[8],
-  //       type: dataTemp[3],
-  //       season: dataTemp[6],
-  //       releaseYear: dataTemp[9],
-  //       studio: dataTemp[5],
-  //       rank: dataTemp[0],
-  //       voiceActor: dataTemp[15]
-  //   }
-  // }
 
   let data = rawData
 
