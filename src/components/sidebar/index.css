@@ -28,6 +28,15 @@
     left: -1%;
 }
 
+.filter-arrow {
+    transform: rotate(180deg);
+    transition: all .5s;
+}
+
+.filter-arrow.active {
+    transform: rotate(0deg);
+}
+
 .filter-header {
     top: 15%;
     left: -70%;
@@ -47,4 +56,11 @@
 
 .filter-button {
     cursor: pointer;
+    padding-right: 0.25vw;
+
+    transition: all .5s;
+}
+
+.filter-button.active {
+    padding-right: 0vw;
 }

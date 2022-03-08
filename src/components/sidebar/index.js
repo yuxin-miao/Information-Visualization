@@ -28,10 +28,10 @@ export const Sidebar = (props) => {
             >
                 <div className='flex filter-button'>
                     <p className='self-center' style={{ paddingRight: '.5vw' }}>Filters</p>
-                    <img className='self-center' src={FilterArrow} style={{ height: '40%', paddingRight: '.5vw' }} />
+                    <img className={`self-center filter-arrow ${isFilterActive ? 'active' : ''}`} src={FilterArrow} style={{ height: '40%', paddingRight: '.5vw' }} />
                 </div>
             </div>
-            <div className={`absolute text-white bg-filter-blue rounded-br font-ssp filter-section ${isFilterActive ? 'active' : ''}`}>
+            <div className={`absolute text-white bg-filter-blue rounded-br font-ssp filter-section ${isFilterActive ? 'active' : ''}`} style={{ fontSize: '1vw' }}>
                 <Dropdown
                     label="X - Axis"
                     value="x-axis"
