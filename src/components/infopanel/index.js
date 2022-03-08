@@ -65,6 +65,16 @@ export const InfoPanel = (props) => {
                     })}
                 </div>
             </div>
+            <div className='row-start-7 col-span-3 text-justify '>
+                <p>
+                    {props.animeUserStat}
+                </p>
+            </div>
+            <div className='row-start-7 col-start-5 col-span-3 text-justify '>
+                <a href={props.animePosterUrl} target="_blank">
+                    Website
+                </a>
+            </div>
         </div>
     )
 }
