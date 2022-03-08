@@ -530,7 +530,7 @@ export const Main = (props) => {
     <div className="col-start-3 col-span-full main-grid">
       {displayData && <SearchBox rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)}
         handleClickSuggestion={clickSuggestion} className="col-span-4 m-2" />}
-      <ContainerBox title="Tags" className="row-start-2 col-start-1 col-span-4 m-2">
+      {/* <ContainerBox title="Tags" className="row-start-2 col-start-1 col-span-4 m-2">
 
         <ul className="tags-list h-full w-full grid grid-cols-5 grid-rows-6 gap-2 p-5">
           {tags.map(({ tagName }, index) => {
@@ -573,31 +573,12 @@ export const Main = (props) => {
             {axis.map(val => <option key={`x-axis-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
-        {/* <div className={"row-start-2 grid grid-cols-5 gap-2 font-ssp text-xs"}>
-          <p className="text-white self-center col-span-2">Range</p>
-          <form className="col-start-3 col-span-full grid gap-2 grid-cols-5">
-            <input className="rounded col-span-2 text-center" type="text" value={xLowRange} onChange={handleXLowRange}></input>
-            <span className="text-white col-start-3 justify-self-center">-</span>
-            <input className="rounded col-start-4 col-span-full text-center" type="text" value={xHighRange} onChange={handleXHighRange}></input>
-          </form>
-        </div> */}
         <div className="row-start-4 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">Y - Axis</p>
           <select onChange={handleYOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh' }} defaultValue="Rating" name="y-axis" id="select-y-axis">
-            {/* <option key="y-axis-rating" value="Rating">Rating</option>
-            <option key="y-axis-release-year" value="Release Year">Release Year</option>
-            <option key="y-axis-episodes" value="Episodes">Episodes</option> */}
             {axis.map(val => <option key={`y-axis-${val}`} value={val}>{val}</option>)}
           </select>
         </div>
-        {/* <div className={"row-start-5 grid grid-cols-5 gap-2 font-ssp text-xs"}>
-          <p className="text-white self-center col-span-2">Range</p>
-          <form className="col-start-3 col-span-full grid gap-2 grid-cols-5">
-            <input className="rounded col-span-2 text-center" type="text" value={yLowRange} onChange={handleYLowRange}></input>
-            <span className="text-white col-start-3 justify-self-center">-</span>
-            <input className="rounded col-start-4 col-span-full text-center" type="text" value={yHighRange} onChange={handleYHighRange}></input>
-          </form>
-        </div> */}
         <div className="col-start-2 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
           <p className="text-white font-ssp font-bold self-center col-span-2">Studio</p>
           <select onChange={handleStudioOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh' }} name="studio" id="select-studio">
@@ -631,12 +612,12 @@ export const Main = (props) => {
           <Checkbox name="fall" label="Fall" checked={seasonsCheckedState[2]} onChange={() => handleSeasonOnChange(2)} />
           <Checkbox name="winter" label="Winter" checked={seasonsCheckedState[3]} onChange={() => handleSeasonOnChange(3)} />
         </div>
-      </ContainerBox>
-      <div ref={plotRef} className="row-start-3 col-span-7 m-2">
+      </ContainerBox> */}
+      <div ref={plotRef} className="row-start-2 col-span-7 m-2">
         {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion} />}
       </div>
       <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" style={{ margin: '.6vh .8vw', fontSize: '1vw' }} onClick={handleClearAll}>Clear All</button>
-      <ContainerBox url={infoUrl} title="Info" className="row-start-3 col-start-8 col-span-full m-2" >
+      <ContainerBox url={infoUrl} title="Info" className="row-start-2 col-start-8 col-span-full m-2" >
         <InfoPanel
           animeTitle={infoTitle}
           animeDescription={infoDescription}
@@ -650,13 +631,13 @@ export const Main = (props) => {
           animeStaff={infoStaff}
         />
       </ContainerBox>
-      <ContainerBox title="Range" className="row-start-4 col-span-7 m-2" >
+      <ContainerBox title="Range" className="row-start-3 col-span-7 m-2" >
         {displayData && constRawData
           && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} reset={reset} />
         }
       </ContainerBox>
 
-      <ContainerBox title="Related" className="row-start-4 col-start-8 col-span-full m-2" />
+      <ContainerBox title="Related" className="row-start-3 col-start-8 col-span-full m-2" />
     </div>
     </>
 
@@ -670,7 +651,7 @@ const tagsClear = () => {
   tagsSelected = []
 }
 const filterWithTags = (tagString) => {
-  var selectMethod = document.getElementById("select-tagSelection").value;
+  var selectMethod = 0
   if (selectMethod == 0) {
     if (tagsSelected.length != 0) {
       return tagsSelected.every(function (tag) {
