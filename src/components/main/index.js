@@ -411,10 +411,20 @@ export const Main = (props) => {
     if (value === "All") {
       setDisplayData(constRawData)
     }
+    else if (value === "No") {
+      setDisplayData(
+        constRawData.filter(item => {
+          if (item[12] === null){
+            return true
+          }
+          return false
+        })
+      )
+    }
     else {
       setDisplayData(
         constRawData.filter(item => {
-          if (item[12] != null && item[12].includes(value) || value === "No" && item[12] === null){
+          if (item[12] === null || !item[12].includes(value)){
             return true
           }
           return false
