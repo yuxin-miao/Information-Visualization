@@ -1,0 +1,21 @@
+.team {
+  background-image: url("../../assets/team/back.jpeg");
+  background-size:     cover;                   
+  background-repeat:   no-repeat;
+  background-position: center center;   
+}
+
+.info-tag {
+  top: -1.5vw;
+}
+.info-tag-name{
+  top: .2vw;
+  left: 2.5vw;
+}
+.info-text {
+  padding: 3vw 2.5vw 0 2.5vw;
+}
+.info-tag-mail {
+  top: 1.5vw;
+  left: 10vw;
+}
