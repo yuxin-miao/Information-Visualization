@@ -1,7 +1,7 @@
 .info-grid {
     display: grid;
     grid-template-columns: 1fr repeat(5, .5fr) 1fr;
-    grid-template-rows: repeat(2, 5%) 10% 40% 10% 10% 20%;
+    grid-template-rows: repeat(2, 5%) 10% 37% 13% 10% 10% 10%;
 }
 
 .ttip {

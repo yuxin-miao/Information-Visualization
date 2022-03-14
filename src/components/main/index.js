@@ -8,7 +8,7 @@ import { useInterval } from '../../utils/useInterval';
 import FilterArrow from '../../assets/filterarrow.png'
 
 import { useSelector, useDispatch } from "react-redux";
-import { setUrl, setTitle, setDescription, setStudio, setSeason, setReleaseYear, setType, setRank, setRating, setVoiceActors, setStaff, setPosterUrl,setUserStat } from "../../utils/infoSlice";
+import { setUrl, setTitle, setDescription, setStudio, setSeason, setReleaseYear, setType, setRank, setRating, setVoiceActors, setTags,setStaff, setPosterUrl,setUserStat } from "../../utils/infoSlice";
 
 import { ScatterPlot } from '../../plots/scatterPlot';
 import { parseData, parseSetData } from "../../utils/fetchData";
@@ -383,6 +383,7 @@ export const Main = (props) => {
   const infoStaff = useSelector(state => state.info.staff)
   const infoUserStat=useSelector(state => state.info.userStat)
   const infoPosterUrl=useSelector(state => state.info.posterUrl)
+  const infoTags=useSelector(state => state.info.tags)
   useEffect(() => {
     let res = processData(constRawData)
     setDisplayData(res)
@@ -839,6 +840,7 @@ export const Main = (props) => {
           animeStaff={infoStaff}
           animePosterUrl={infoPosterUrl}
           animeUserStat={infoUserStat}
+          animeTags={infoTags}
         />
       </ContainerBox>
       <ContainerBox title="Range" className="row-start-3 col-span-7 m-2" >
@@ -945,7 +947,8 @@ export const refreshInfo = (rawData, infoDispatch) => {
         voiceActors: dataTemp[15],
         staff: dataTemp[16],
         posterUrl:dataTemp[17],
-        userStat:dataTemp[18]
+        userStat:dataTemp[18],
+        tags:dataTemp[7]
     }
   }
 
@@ -997,6 +1000,7 @@ export const refreshInfo = (rawData, infoDispatch) => {
   infoDispatch(setStaff(tmpStaff))
   infoDispatch(setPosterUrl("https://www.anime-planet.com/anime/"+posterUrl))
   infoDispatch(setUserStat(data.userStat))
+  infoDispatch(setTags(data.tags))
 }
 
 
