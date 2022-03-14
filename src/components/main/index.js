@@ -51,14 +51,14 @@ const FilterSection = (props) => {
     return {
       value: val,
       label: val,
-      selected: val === "Episodes"
+      selected: val === "Rating"
     }
   })
   const axisYList = axis.map((val, i) => {
     return {
       value: val,
       label: val,
-      selected: val === "Rating"
+      selected: val === "User Stats"
     }
   })
   const userStatsList = userStats.map((val, i) => {
@@ -95,7 +95,7 @@ const FilterSection = (props) => {
             props.xAxisOnChange(event)
           }}
           style={{ height: '3vh' }}
-          defaultValue="Episodes"
+          defaultValue="Rating"
           className="text-black"
           options={axisXList}
         />
@@ -108,7 +108,7 @@ const FilterSection = (props) => {
             props.yAxisOnChange(event)
           }}
           style={{ height: '3vh' }}
-          defaultValue="Rating"
+          defaultValue="User Stats"
           className="text-black"
           options={axisYList}
         />
@@ -242,13 +242,13 @@ export const Main = (props) => {
     radius: window.innerWidth * .0025,
     color: 'blue',
     xVar: {
-      idx: 4,
-      name: "Episodes"
+      idx: 8,
+      name: "Rating"
     },
     yVar: {
 
-      idx: 8,
-      name: "Rating"
+      idx: 18,
+      name: "User Stats"
     }
   })
   // boolean value for whether draw the scatterplot 
@@ -398,8 +398,8 @@ export const Main = (props) => {
     setDisplayData(constRawData)
     document.getElementById("select-studio").value = "All"
     // document.getElementById("select-contentwarning").value = "All"
-    document.getElementById("select-x-axis").value = "Episodes"
-    document.getElementById("select-y-axis").value = "Rating"
+    document.getElementById("select-x-axis").value = "Rating"
+    document.getElementById("select-y-axis").value = "User Stats"
     document.getElementById("select-userStats").value = "All"
     // setTypesCheckedState(new Array(types.length).fill(false))
     typesSelected = []
