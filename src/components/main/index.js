@@ -23,6 +23,7 @@ import { seasons } from "../filter/seasons";
 import { contentWarnings } from "../filter/contentWarnings";
 import { InfoPanel } from "../infopanel";
 import { axis } from "../filter/axis";
+import { userStats } from "../filter/userStats";
 import { Dropdown } from "../dropdown";
 import { Checkbox } from "../checkbox";
 import { ForceGraph } from "../../plots/force";
@@ -46,13 +47,6 @@ const FilterSection = (props) => {
       selected: false
     }
   })
-  // const contentWarningList = Filter(3).map((val, i) => {
-  //   return {
-  //     value: val,
-  //     label: val,
-  //     selected: false
-  //   }
-  // })
   const axisXList = axis.map((val, i) => {
     return {
       value: val,
@@ -67,10 +61,18 @@ const FilterSection = (props) => {
       selected: val === "Rating"
     }
   })
+  const userStatsList = userStats.map((val, i) => {
+    return {
+      value: val,
+      label: val,
+      selected: false
+    }
+  })
 
-  const studioDropdownRef = useRef()//dropdown ref for tag selection
-  const xAxisDropdownRef = useRef()//dropdown ref for tag selection
-  const yAxisDropdownRef = useRef()//dropdown ref for tag selection
+  const studioDropdownRef = useRef()
+  const xAxisDropdownRef = useRef()
+  const yAxisDropdownRef = useRef()
+  const userStatsDropdownRef = useRef()
 
   return (
     <div className="col-span-2 absolute filter-wrapper">
@@ -89,7 +91,7 @@ const FilterSection = (props) => {
           value="x-axis"
           ref={xAxisDropdownRef}
           onChange={(event) => {
-            studioDropdownRef.current.onChange(event)
+            xAxisDropdownRef.current.onChange(event)
             props.xAxisOnChange(event)
           }}
           style={{ height: '3vh' }}
@@ -102,7 +104,7 @@ const FilterSection = (props) => {
           value="y-axis"
           ref={yAxisDropdownRef}
           onChange={(event) => {
-            studioDropdownRef.current.onChange(event)
+            yAxisDropdownRef.current.onChange(event)
             props.yAxisOnChange(event)
           }}
           style={{ height: '3vh' }}
@@ -122,7 +124,19 @@ const FilterSection = (props) => {
           className="text-black"
           options={[{ value: 'All', label: 'All', selected: true }, ...studioList]}
         />
-        <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
+        <Dropdown
+          label="User Stats"
+          value="userStats"
+          ref={userStatsDropdownRef}
+          onChange={(event) => {
+            userStatsDropdownRef.current.onChange(event)
+            props.userStatsOnChange(event)
+          }}
+          style={{ height: '3vh' }}
+          className="text-black"
+          options={[{ value: 'All', label: 'All', selected: true }, ...userStatsList]}
+        />
+        {/* <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
           <p>User Stats</p>
           <AutoComplete
             multiple
@@ -141,7 +155,7 @@ const FilterSection = (props) => {
             )}
             sx={{ overflow: 'auto', color: 'white' }}
           />
-        </div>
+        </div> */}
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
           <p>Types</p>
           <AutoComplete
@@ -489,6 +503,34 @@ export const Main = (props) => {
     }
   }
 
+  const handleUserStatsOnChange = e => {
+    const value = e.target.value
+    console.log(e.target)
+    if (value === "All") {
+      setDisplayData(constRawData)
+    }
+    else if (value === "100,000+") {
+      let userStats = constRawData.filter(item => item[18] >= 100000)
+      setDisplayData(userStats)
+    }
+    else if (value === "50,000+") {
+      let userStats = constRawData.filter(item => item[18] >= 50000)
+      setDisplayData(userStats)
+    }
+    else if (value === "10,000+") {
+      let userStats = constRawData.filter(item => item[18] >= 10000)
+      setDisplayData(userStats)
+    }
+    else if (value === "5,000+") {
+      let userStats = constRawData.filter(item => item[18] >= 5000)
+      setDisplayData(userStats)
+    }
+    else if (value === "1,000+") {
+      let userStats = constRawData.filter(item => item[18] >= 1000)
+      setDisplayData(userStats)
+    }
+  }
+
   // const handleContentWarnOnChange = e => {
   //   const value = e.target.value
   //   setDisplayData(
@@ -629,6 +671,7 @@ export const Main = (props) => {
       studioOnChange={handleStudioOnChange}
       xAxisOnChange={handleXOnChange}
       yAxisOnChange={handleYOnChange}
+      userStatsOnChange={handleUserStatsOnChange}
       filterAutoCompleteOnChange={handleFilterOnChange}
     />
 
