@@ -288,7 +288,9 @@ export const Main = (props) => {
       }
 
       for (let i = 0; i < tmpList.length; i++) {
-        resNode.push({"name": tmpList[i], "type": "tag"})
+        if (tmpList[i].length !== 0) {
+          resNode.push({"name": tmpList[i], "type": "tag"})
+        }
       }
 
       // only related Anime no mange? 
@@ -298,7 +300,9 @@ export const Main = (props) => {
       }
 
       for (let i = 0; i < relatedList.length; i++) {
-        resNode.push({"name": relatedList[i], "type": "related"})
+        if (relatedList[i].length !== 0) {
+          resNode.push({"name": relatedList[i], "type": "related"})
+        }
       }
       setNodes(resNode)
     }
