@@ -1,0 +1,2 @@
+export const contentWarnings = [
+    {warningName:"Animal Abuse"}, {warningName:"Bullying"}, {warningName:"Cannibalism"}, {warningName:"Domestic Abuse"}, {warningName:"Drug Use"}, {warningName:"Emotional Abuse"}, {warningName:"Explicit Sex"}, {warningName:"Explicit Violence"}, {warningName:"Incest"}, {warningName:"Mature Themes"}, {warningName:"Nudity"}, {warningName:"Physical Abuse"}, {warningName:"Prostitution"}, {warningName:"Self-Harm"}, {warningName:"Sexual Abuse"}, {warningName:"Sexual Content"}, {warningName:"Suicide"}, {warningName:"Violence"}]

@@ -20,6 +20,7 @@ import { RangeSelection } from "../rangeselect";
 import { Filter } from "../filter/Filter";
 import { types } from "../filter/types";
 import { seasons } from "../filter/seasons";
+import { contentWarnings } from "../filter/contentWarnings";
 import { InfoPanel } from "../infopanel";
 import { axis } from "../filter/axis";
 import { Dropdown } from "../dropdown";
@@ -33,6 +34,7 @@ import { value } from "lodash-es";
 var tagsSelected = []
 var typesSelected = []
 var seasonsSelected = []
+var contentWarningsSelected = []
 
 const FilterSection = (props) => {
   const [isFilterActive, setIsFilterActive] = useState(false)
@@ -44,6 +46,13 @@ const FilterSection = (props) => {
       selected: false
     }
   })
+  // const contentWarningList = Filter(3).map((val, i) => {
+  //   return {
+  //     value: val,
+  //     label: val,
+  //     selected: false
+  //   }
+  // })
   const axisXList = axis.map((val, i) => {
     return {
       value: val,
@@ -179,6 +188,23 @@ const FilterSection = (props) => {
             )}
             sx={{ overflow: 'auto', color: 'white' }}
             onChange={(e,value)=>{tagsSelected=value.map(v=>{return v.tagName});props.filterAutoCompleteOnChange()}}
+          />
+        </div>
+        <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
+          <p>Content Warning</p>
+          <AutoComplete
+            multiple
+            fullWidth
+            id="size-small-outlined-multi"
+            size="small"
+            options={contentWarnings}
+            getOptionLabel={(option) => option.warningName}
+            renderInput={(params) => (
+              <TextField {...params} placeholder="Search for content warnings..." />
+            )}
+            sx={{ overflow: 'auto', color: 'white' }}
+            // onChange={(e,value)=>{contentWarningsSelected=value;props.filterAutoCompleteOnChange()}}
+            onChange={(e,value)=>{contentWarningsSelected=value.map(v=>{return v.warningName});props.filterAutoCompleteOnChange()}}
           />
         </div>
       </div>
@@ -349,16 +375,19 @@ export const Main = (props) => {
   // function executed when user click clear all, would clear all the data filters 
   const handleClearAll = () => {
     setReset(true)
-    tagsClear()
+    // tagsClear()
     setDisplayData(constRawData)
     document.getElementById("select-studio").value = "All"
-    document.getElementById("select-contentwarning").value = "All"
+    // document.getElementById("select-contentwarning").value = "All"
     document.getElementById("select-x-axis").value = "Episodes"
     document.getElementById("select-y-axis").value = "Rating"
-    setTypesCheckedState(new Array(types.length).fill(false))
+    // setTypesCheckedState(new Array(types.length).fill(false))
     typesSelected = []
-    setSeasonsCheckedState(new Array(seasons.length).fill(false))
+    // setSeasonsCheckedState(new Array(seasons.length).fill(false))
     seasonsSelected = []
+    tagsSelected = []
+    contentWarningsSelected = []
+    
     setPlotSetting(
       {
         ...plotSetting,
@@ -416,6 +445,7 @@ export const Main = (props) => {
     else if (name === "Release Year") return 9
     else if (name === "Episodes") return 4
     else if (name === "Rank") return 0
+    else if (name === "User Stats") return 18
   }
   const handleXOnChange = (e) => {
     const index = getAxisIndex(e.target.value)
@@ -455,32 +485,17 @@ export const Main = (props) => {
     }
   }
 
-  const handleContentWarnOnChange = e => {
-    const value = e.target.value
-    if (value === "All") {
-      setDisplayData(constRawData)
-    }
-    else if (value === "No") {
-      setDisplayData(
-        constRawData.filter(item => {
-          if (item[12] === null){
-            return true
-          }
-          return false
-        })
-      )
-    }
-    else {
-      setDisplayData(
-        constRawData.filter(item => {
-          if (item[12] === null || !item[12].includes(value)){
-            return true
-          }
-          return false
-        })
-      )
-    }
-  }
+  // const handleContentWarnOnChange = e => {
+  //   const value = e.target.value
+  //   setDisplayData(
+  //     constRawData.filter(item => {
+  //       if (item[12] === null || !value.some(r=> item[12].includes(r))){
+  //         return true
+  //       }
+  //       return false
+  //     })
+  //   )
+  // }
 
   const [typesCheckedState, setTypesCheckedState] = useState(
     new Array(types.length).fill(false)
@@ -588,6 +603,19 @@ export const Main = (props) => {
         }
       })
     }
+
+    // content warning filter
+    if (contentWarningsSelected.length !== 0) {
+      returnData = returnData.filter(function (row) {
+        if (row[12] !== null) {
+          return filterWithContentWarning(row[12])
+        }
+        else {
+          return true
+        }
+      })
+    }
+
     returnData = filterByRange(rangeSelect, returnData)
     return returnData;
   }
@@ -770,6 +798,16 @@ const filterWithSeasons = (seasonString) => {
   if (seasonsSelected.length != 0) {
     return seasonsSelected.some(function (season) {
       return seasonString.includes(season)
+    });
+  }
+  else {
+    return true;
+  }
+}
+const filterWithContentWarning = (contentWarningString) => {
+  if (contentWarningsSelected.length != 0) {
+    return !contentWarningsSelected.some(function (contentWarning) {
+      return contentWarningString.includes(contentWarning)
     });
   }
   else {
