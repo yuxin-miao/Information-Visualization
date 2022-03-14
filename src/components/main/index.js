@@ -118,7 +118,7 @@ const FilterSection = (props) => {
           ref={studioDropdownRef}
           onChange={(event) => {
             studioDropdownRef.current.onChange(event)
-            props.studioOnChange(event)
+            props.filterAutoCompleteOnChange()
           }}
           style={{ height: '3vh' }}
           className="text-black"
@@ -130,7 +130,7 @@ const FilterSection = (props) => {
           ref={userStatsDropdownRef}
           onChange={(event) => {
             userStatsDropdownRef.current.onChange(event)
-            props.userStatsOnChange(event)
+            props.filterAutoCompleteOnChange()
           }}
           style={{ height: '3vh' }}
           className="text-black"
@@ -613,6 +613,64 @@ export const Main = (props) => {
     // call this function whenever add new filter
     let returnData = data;
     //let returnData=data.filter(row=>true);
+
+    // studio filter
+    if (document.getElementById("select-studio").value != "All") {
+      returnData = returnData.filter(function (row) {
+        if (row[5] === document.getElementById("select-studio").value) {
+          return true
+        } else {
+          return false
+        }
+      })
+    }
+
+    // user stats filter
+    if (document.getElementById("select-userStats").value === "100,000+") {
+      returnData = returnData.filter(function (row) {
+        if (row[18] >= 100000) {
+          return true
+        } else {
+          return false
+        }
+      })
+    }
+    else if (document.getElementById("select-userStats").value === "50,000+") {
+      returnData = returnData.filter(function (row) {
+        if (row[18] >= 50000) {
+          return true
+        } else {
+          return false
+        }
+      })
+    }
+    else if (document.getElementById("select-userStats").value === "10,000+") {
+      returnData = returnData.filter(function (row) {
+        if (row[18] >= 10000) {
+          return true
+        } else {
+          return false
+        }
+      })
+    }
+    else if (document.getElementById("select-userStats").value === "5,000+") {
+      returnData = returnData.filter(function (row) {
+        if (row[18] >= 5000) {
+          return true
+        } else {
+          return false
+        }
+      })
+    }
+    else if (document.getElementById("select-userStats").value === "1,000+") {
+      returnData = returnData.filter(function (row) {
+        if (row[18] >= 1000) {
+          return true
+        } else {
+          return false
+        }
+      })
+    }
 
     //tag filter
     if (tagsSelected.length !== 0) {
