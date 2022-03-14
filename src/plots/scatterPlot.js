@@ -27,7 +27,8 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
       voiceActors: item[15],
       staff: item[16],
       posterUrl:item[17],
-      userStat:item[18]
+      userStat:item[18],
+      tags:item[7]
     }
   })
   //console.log(data);

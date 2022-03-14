@@ -15,7 +15,8 @@ export const infoSlice = createSlice({
         voiceActors: [],
         staff: [],
         posterUrl:'',
-        userStat:''
+        userStat:'',
+        tags:''
 
     },
     reducers: {
@@ -58,9 +59,12 @@ export const infoSlice = createSlice({
         setPosterUrl: (state, action) => {
             state.posterUrl = action.payload
         },
+        setTags: (state, action) => {
+            state.tags = action.payload
+        },
     }
 })
 
-export const { setUrl, setTitle, setDescription, setStudio, setSeason, setReleaseYear, setType, setRank, setRating, setVoiceActors, setStaff,setPosterUrl,setUserStat } = infoSlice.actions
+export const { setUrl, setTitle, setDescription, setStudio, setSeason, setReleaseYear, setType, setRank, setRating, setVoiceActors, setStaff,setPosterUrl,setUserStat,setTags } = infoSlice.actions
 
 export default infoSlice.reducer

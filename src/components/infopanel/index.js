@@ -2,6 +2,7 @@ import './index.css'
 import TypeIcon from '../../assets/tvicon.png'
 import CalendarIcon from '../../assets/calendaricon.png'
 import StudioIcon from '../../assets/studioicon.png'
+import linkIcon from '../../assets/link.png'
 
 export const InfoPanel = (props) => {
 
@@ -29,13 +30,13 @@ export const InfoPanel = (props) => {
                 </div>
             </div>
             <div className='row-start-3 col-start-3 col-span-3 self-center justify-self-center w-full h-full grid grid-cols-7' style={{ fontSize: '0.8vw' }}>
-                <img src={CalendarIcon} className='object-contain self-center justify-self-center col-span-2' />
+                <img src={CalendarIcon} className='object-contain self-center h-min justify-self-center col-span-2 ttip' />
                 <div className='col-start-3 col-span-full self-center ttip' style={{ marginLeft: '0.25vw', marginRight: '0.25vw', lineHeight: '1.75vh' }}>{props.animeSeason ? `${props.animeReleaseYear} ${props.animeSeason}` : props.animeReleaseYear}
                     <span className='ttiptext'>Release Season</span>
                 </div>
             </div>
             <div className='row-start-3 col-start-6 col-span-full self-center justify-self-center w-full h-full grid grid-cols-7'>
-                <img src={StudioIcon} className='object-contain self-center justify-self-center col-span-2' />
+                <img src={StudioIcon} className='object-contain self-center  h-min justify-self-center col-span-2 ttip' />
                 <div className='col-start-3 col-span-full self-center ttip' style={{ marginLeft: '0.25vw', marginRight: '0.25vw', fontSize: '0.6vw', lineHeight: '1.75vh' }}>{props.animeStudio ? props.animeStudio : ''}
                     <span className='ttiptext'>Studio</span>
                 </div>
@@ -43,7 +44,10 @@ export const InfoPanel = (props) => {
             <div className='row-start-4 col-span-full text-justify' style={{ overflowY: "scroll", fontSize: '0.8vw', paddingTop: '0.5vh', paddingRight: '0.5vw' }}>
                 <p>{props.animeDescription}</p>
             </div>
-            <div className='row-start-5 row-span-2 col-start-1 col-span-3 text-justify flex flex-col gap-4' style={{ fontSize: '0.8vw', paddingTop: '0.8vh', paddingRight: '0.5vw' }}>
+            <div className='row-start-5 col-span-full ' style={{ overflowY: "scroll", fontSize: '0.8vw', paddingTop: '0.5vh', paddingRight: '0.5vw' }}>
+                <p>Tags: {props.animeTags}</p>
+            </div>
+            <div className='row-start-6 row-span-2 col-start-1 col-span-3 text-justify flex flex-col gap-2' style={{ fontSize: '0.8vw', paddingTop: '0.8vh', paddingRight: '0.5vw' }}>
                 <p className='self-center'>Voice Actors</p>
                 <div style={{ overflowY: "scroll" }}>
                     {props.animeVoiceActors.map((v, k) => {
@@ -54,7 +58,7 @@ export const InfoPanel = (props) => {
                     })}
                 </div>
             </div>
-            <div className='row-start-5 row-span-2 col-start-5 col-span-3 text-justify flex flex-col gap-4' style={{ fontSize: '0.8vw', paddingTop: '0.8vh', paddingRight: '0.5vw' }}>
+            <div className='row-start-6 row-span-2 col-start-5 col-span-3 text-justify flex flex-col gap-2' style={{ fontSize: '0.8vw', paddingTop: '0.8vh', paddingRight: '0.5vw' }}>
                 <p className='self-center'>Staff</p>
                 <div style={{ overflowY: "scroll" }}>
                     {props.animeStaff.map((v, k) => {
@@ -65,15 +69,16 @@ export const InfoPanel = (props) => {
                     })}
                 </div>
             </div>
-            <div className='row-start-7 col-span-3 text-justify flex flex-col justify-center '>
+            <div className='row-start-8 col-span-3 text-justify flex flex-col justify-center '>
                 <p className='font-bold self-center'>Anime-Planet Followers</p>
                 <p className='self-center'>
                     {props.animeUserStat}
                 </p>
             </div>
-            <div className='row-start-7 col-start-5 col-span-3 text-justify flex justify-center'>
+            <div className='row-start-8 col-start-5 col-span-3 text-justify flex justify-center'>
+                <img src={linkIcon} className='object-contain h-min self-center justify-self-center col-span-2 ttip' />
                 <a className='self-center font-bold' href={props.animePosterUrl} target="_blank">
-                    Go to website
+                    Website
                 </a>
             </div>
         </div>
