@@ -1,3 +1,1 @@
-export const axis = ["Rating", "Release Year", "Episodes"]
-
-    // Haven't do user stats
+export const axis = ["Rating", "Release Year", "Episodes", "Rank", "User Stats"]
