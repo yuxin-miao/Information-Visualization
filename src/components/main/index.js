@@ -399,6 +399,7 @@ export const Main = (props) => {
     // document.getElementById("select-contentwarning").value = "All"
     document.getElementById("select-x-axis").value = "Episodes"
     document.getElementById("select-y-axis").value = "Rating"
+    document.getElementById("select-userStats").value = "All"
     // setTypesCheckedState(new Array(types.length).fill(false))
     typesSelected = []
     // setSeasonsCheckedState(new Array(seasons.length).fill(false))
