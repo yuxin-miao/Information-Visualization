@@ -127,7 +127,7 @@ const FilterSection = (props) => {
           <AutoComplete
             multiple
             fullWidth
-            id="size-small-outlined-multi"
+            id="select-userStats"
             size="small"
             options={[
               "100,000+",
@@ -137,17 +137,17 @@ const FilterSection = (props) => {
               "1,000+"
             ]}
             renderInput={(params) => (
-              <TextField {...params} placeholder="Search for tags..." />
+              <TextField {...params} placeholder="Search for user stats..." />
             )}
             sx={{ overflow: 'auto', color: 'white' }}
           />
         </div>
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
-          <p>Type</p>
+          <p>Types</p>
           <AutoComplete
             multiple
             fullWidth
-            id="size-small-outlined-multi"
+            id="select-type"
             size="small"
             options={types}
             getOptionLabel={(option) => option.typeName}
@@ -159,11 +159,11 @@ const FilterSection = (props) => {
           />
         </div>
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
-          <p>Released Season</p>
+          <p>Released Seasons</p>
           <AutoComplete
             multiple
             fullWidth
-            id="size-small-outlined-multi"
+            id="select-relesedSeason"
             size="small"
             options={seasons}
             getOptionLabel={(option) => option.seasonName}
@@ -179,7 +179,7 @@ const FilterSection = (props) => {
           <AutoComplete
             multiple
             fullWidth
-            id="size-small-outlined-multi"
+            id="select-tag"
             size="small"
             options={tags}
             getOptionLabel={(option) => option.tagName}
@@ -191,11 +191,11 @@ const FilterSection = (props) => {
           />
         </div>
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
-          <p>Content Warning</p>
+          <p>Content Warnings</p>
           <AutoComplete
             multiple
             fullWidth
-            id="size-small-outlined-multi"
+            id="select-contentWarning"
             size="small"
             options={contentWarnings}
             getOptionLabel={(option) => option.warningName}
@@ -391,7 +391,7 @@ export const Main = (props) => {
     seasonsSelected = []
     tagsSelected = []
     contentWarningsSelected = []
-    
+
     setPlotSetting(
       {
         ...plotSetting,
