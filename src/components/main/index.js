@@ -62,7 +62,7 @@ const FilterSection = (props) => {
     return {
       value: val,
       label: val,
-      selected: val === "User Stats"
+      selected: val === "Followers"
     }
   })
   const userStatsList = userStats.map((val, i) => {
@@ -112,7 +112,7 @@ const FilterSection = (props) => {
             props.yAxisOnChange(event)
           }}
           style={{ height: '3vh' }}
-          defaultValue="User Stats"
+          defaultValue="Followers"
           className="text-black"
           options={axisYList}
         />
@@ -129,7 +129,7 @@ const FilterSection = (props) => {
           options={[{ value: 'All', label: 'All', selected: true }, ...studioList]}
         />
         <Dropdown
-          label="User Stats"
+          label="Followers"
           value="userStats"
           ref={userStatsDropdownRef}
           onChange={(event) => {
@@ -140,26 +140,6 @@ const FilterSection = (props) => {
           className="text-black"
           options={[{ value: 'All', label: 'All', selected: true }, ...userStatsList]}
         />
-        {/* <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
-          <p>User Stats</p>
-          <AutoComplete
-            multiple
-            fullWidth
-            id="select-userStats"
-            size="small"
-            options={[
-              "100,000+",
-              "50,000+",
-              "10,000+",
-              "5,000+",
-              "1,000+"
-            ]}
-            renderInput={(params) => (
-              <TextField {...params} placeholder="Search for user stats..." />
-            )}
-            sx={{ overflow: 'auto', color: 'white' }}
-          />
-        </div> */}
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
           <p>Types</p>
           <AutoComplete
@@ -258,7 +238,7 @@ export const Main = (props) => {
     yVar: {
 
       idx: 18,
-      name: "User Stats"
+      name: "Followers"
     }
   })
   // boolean value for whether draw the scatterplot 
@@ -409,7 +389,7 @@ export const Main = (props) => {
     document.getElementById("select-studio").value = "All"
     // document.getElementById("select-contentwarning").value = "All"
     document.getElementById("select-x-axis").value = "Rating"
-    document.getElementById("select-y-axis").value = "User Stats"
+    document.getElementById("select-y-axis").value = "Followers"
     document.getElementById("select-userStats").value = "All"
     //console.log(document.getElementById("select-tag").value) 
     // setTypesCheckedState(new Array(types.length).fill(false))
@@ -475,7 +455,7 @@ export const Main = (props) => {
     else if (name === "Release Year") return 9
     else if (name === "Episodes") return 4
     else if (name === "Rank") return 0
-    else if (name === "User Stats") return 18
+    else if (name === "Followers") return 18
   }
   const handleXOnChange = (e) => {
     const index = getAxisIndex(e.target.value)

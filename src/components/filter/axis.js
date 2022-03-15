@@ -1,1 +1,1 @@
-export const axis = ["Rating", "Release Year", "Episodes", "Rank", "User Stats"]
+export const axis = ["Rating", "Release Year", "Episodes", "Rank", "Followers"]
