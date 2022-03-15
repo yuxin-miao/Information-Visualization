@@ -80,3 +80,30 @@
 .filter-button.active {
   padding-right: 0vw;
 }
+
+.ttipm {
+  position: relative;
+  display: inline-block;
+}
+
+.ttipm .ttiptextm {
+  visibility: hidden;
+  width: max-content;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 1vh 1vw;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -9.5vw;
+  font-size: 0.6vw;
+}
+
+.ttipm:hover .ttiptextm {
+  visibility: visible;
+}
