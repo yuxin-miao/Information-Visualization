@@ -6,10 +6,11 @@ import './scatterPlot.css';
 import { _interpolateColor,h2r,r2h } from "../utils/colorUtils";
 import colorLegend from "../assets/colorLegend.png"
 
-export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) => {
+export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, setRelatedAnime}) => {
   // Chart width and height - accounting for margins
   const {width, height, margin, radius, color, xVar, yVar} = settings;
-  let drawWidth = width - margin.left - margin.right;
+  let widthScale = 0.005
+  let drawWidth = width - margin.left - margin.right - (window.innerWidth * widthScale);
   let drawHeight = height - margin.top - margin.bottom;
   // Prepare data
   let data = displayData.map((item) => {
@@ -23,7 +24,12 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
       season: item[6],
       releaseYear: item[9],
       studio: item[5],
-      rank: item[0]
+      rank: item[0],
+      voiceActors: item[15],
+      staff: item[16],
+      posterUrl:item[17],
+      userStat:item[18],
+      tags:item[7]
     }
   })
   //console.log(data);
@@ -54,16 +60,34 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
         .domain([yMax, yMin]); // reverse to make the y begins at the origin
   
     // define axis 
-    let xAxis = d3.axisBottom(xScale);
-    let yAxis = d3.axisLeft(yScale);
+    let xAxis = d3.axisBottom(xScale).tickFormat(formatPower);
+    let yAxis = d3.axisLeft(yScale).tickFormat(formatPower);
   
+
+        // Add a clipPath: everything out of this area won't be drawn.
+    var clip = svgElement.append("defs").append("SVG:clipPath")
+    .attr("id", "clip")
+    .append("SVG:rect")
+    .attr("width", drawWidth )
+    .attr("height", drawHeight )
+    .attr("x", 0)
+    .attr("y", 0);
+
+    
+
+    function formatPower(x) {
+        if (x > 4999 || x < -4999) 
+            return `${x/1000}k`
+        else return x
+    }
+
     // render the axis
-    svgElement.append('g')
-        .attr('transform', 'translate(' + margin.left + ',' + (drawHeight + margin.top) + ')')
+    var gx=svgElement.append('g')
+        .attr('transform', 'translate(' + (margin.left + (window.innerWidth * widthScale)) + ',' + (drawHeight + margin.top) + ')')
         .attr('class', 'axis-style')
         .call(xAxis);
-    svgElement.append('g')
-        .attr('transform', 'translate(' + margin.left + ',' + (margin.top) + ')')
+    var gy=svgElement.append('g')
+        .attr('transform', 'translate(' + (margin.left + (window.innerWidth * widthScale)) + ',' + (margin.top) + ')')
         .attr('class', 'axis-style')
         .call(yAxis);
     // render axis label
@@ -81,7 +105,35 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
         .attr("href", colorLegend)
         .attr('transform', `translate( ${(drawWidth*0.91)},${(height - margin.bottom + window.innerHeight * 0.032)})`)
         .attr('width', drawWidth*0.16)
+    var zoom = d3.zoom()
+        .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
+        .extent([[0, 0], [width, height]])
+        .on("zoom", updateChart);
+    svgElement.append("rect")
+        .attr("width", width)
+        .attr("height", height)
+        .style("fill", "none")
+        .style("pointer-events", "all")
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+        .call(zoom);
+    function updateChart(event) {
+        //console.log(event.transform)
+        //svgElement.attr("transform",transform)
+        // recover the new scale
+        var newX = event.transform.rescaleX(xScale);
+        var newY = event.transform.rescaleY(yScale);
+        
+        // update axes with these new boundaries
+        gx.call(d3.axisBottom(newX).tickFormat(formatPower))
+        gy.call(d3.axisLeft(newY).tickFormat(formatPower))
+    
 
+        // update circle position
+        gElement
+            .selectAll("circle")
+            .attr('cx', function(d) {return newX(d.x)})
+            .attr('cy', function(d) {return newY(d.y)});
+    }
     
     // tool tip
     const tooltip = d3.select('#tooltip')
@@ -91,9 +143,10 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
      * Draw the circles 
      */
     let gElement = svgElement.append('g')
-        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+        .attr('transform', 'translate(' + (margin.left + (window.innerWidth * widthScale)) + ',' + margin.top + ')')
         .attr('height', drawHeight)
-        .attr('width', drawWidth);
+        .attr('width', drawWidth)
+        .attr("clip-path", "url(#clip)");
     // assign data
     let circles = gElement.selectAll('circle').data(data);
 
@@ -142,7 +195,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
             refreshInfo(d.srcElement.__data__, infoDispatch)
             d3.select(this).attr("stroke","white").attr("stroke-width",2)
 
-
+            setRelatedAnime(d3.select(this).attr("label"))
 
 
         //Main.refreshInfo(d3.select(this).attr("label"));
@@ -164,6 +217,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight}) =>
     circles.exit().remove();
 
   },[displayData, highlight, settings]);
+
 
 
 

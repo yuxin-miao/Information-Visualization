@@ -59,11 +59,11 @@ export const SearchBox = ({ className, rawSetData, animeData, handleClickSuggest
   const renderSuggestionList = () => {
     if (query === undefined || query === '' || submitSearch) return null;
     return (
-      <ul className="suggestions bg-main absolute inline-block z-10" style={{ width: '31%' }}>
+      <ul className="suggestions bg-white absolute inline-block z-10" style={{ width: '31%' }}>
         {filteredSuggestions && filteredSuggestions.length > 0 ?
           (filteredSuggestions.map((suggestion, index) => {
             return (
-              <li className="flex justify-between py-2 px-4 text-sm text-gray-100 hover:text-main hover:bg-gray-50" 
+              <li className="listItem flex justify-between py-2 px-4 mx-1 my-1 text-sm text-main hover:text-white hover:bg-main" 
                   style={{ fontSize: '.7vw', height: '3vh' }}
                   key={index} 
                   onClick={() => handleClick(suggestion)}>
@@ -72,7 +72,7 @@ export const SearchBox = ({ className, rawSetData, animeData, handleClickSuggest
               </li>
             );
           })) : 
-            <li className="py-2 px-4 text-sm text-gray-100">
+            <li className="py-2 px-4 text-sm text-main">
               there are not related things
             </li>
         }
@@ -108,7 +108,7 @@ export const SearchBox = ({ className, rawSetData, animeData, handleClickSuggest
             value={query}
             onChange={handleChange}
           />
-          <img onClick={handleOnRefresh} className="w-auto h-full self-center ml-1" src={RefreshIcon}/>     
+          <img onClick={handleOnRefresh} className="w-7 h-7 self-center ml-1" src={RefreshIcon}/>     
         </form>
 
         {renderSuggestionList()}

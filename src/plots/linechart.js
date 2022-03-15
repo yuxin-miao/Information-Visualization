@@ -34,7 +34,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush, reset}) =
     // render the axis
     const xAxis = d3.axisBottom(x).ticks(customized[2])
     svgElement.append('g')
-        .attr('transform', 'translate(' + margin.left + ',' +  (drawHeight + margin.top) + ')')
+        .attr('transform', 'translate(' + margin.left + ',' +  (drawHeight + margin.top +10) + ')')
         .attr('class', 'axisStyle')
         .call(xAxis);
     
@@ -98,13 +98,12 @@ export const LineChart = ({settings, data, customized, handleEndBrush, reset}) =
     }
 
     function convertToXVal(number) {
-      const xMax = d3.max(data, d => d.xVal)
-      return number / drawWidth * xMax
+      const [xMin, xMax] = d3.extent(data, d => d.xVal);
+      let res = number / drawWidth * (xMax - xMin) + xMin
+      return Number(res)
     }
 
-
   }, [])
-  //TODO use remove instead of opacity 
   const handleOnRefresh = () => {
     d3.select("#".concat(rangeId)).style("opacity", 0)
     d3.select(".brush".concat(rangeId)).style("opacity", 0)
@@ -118,7 +117,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush, reset}) =
       <div id={rangeId}></div>
       <div className="flex">
         <svg ref = {ref}/>
-        <img onClick={handleOnRefresh} className="h-full self-center ml-1" src={RefreshIcon} style={{ width: '8%' }} />     
+        <img onClick={handleOnRefresh} className="h-full self-center ml-1 pt-3" src={RefreshIcon} style={{ width: '6%' }} />     
       </div>
     </>
 

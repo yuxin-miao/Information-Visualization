@@ -1,17 +1,20 @@
-input:focus, textarea:focus, select:focus{
+input:focus,
+textarea:focus,
+select:focus {
     outline: none;
 }
 
 .search-icon {
     width: 4vh;
     height: 4vh
-
 }
+
 .icon {
     display: block;
     margin: auto;
     width: 80%;
 }
+
 .input-box {
     display: absolute;
     top: 0;
@@ -30,4 +33,18 @@ input:focus, textarea:focus, select:focus{
 .circle-text-tmp {
     border-radius: 50%;
     background-color: #00BEDB;
+}
+
+.suggestions {
+    border: white;
+    border-width: 1px;
+    border-radius: 5px;
+    opacity: 0.9;
+}
+
+.listItem:hover {
+
+    border-radius: 5px;
+    background-color: #0A0935;
+    transition: 0.1s;
 }

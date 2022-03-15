@@ -1,0 +1,79 @@
+.title2 {
+  top: -3vw;
+  left: 1.5vw;
+  color: transparent;
+  text-shadow: 0 0 5px rgba(40,150,242,0.5);
+}
+
+.title1 {
+  top: -3vw;
+  left: 1.5vw;
+  color: transparent;
+  text-shadow: 0 0 5px rgba(238,40,242,0.5);
+}
+
+.title3 {
+  top: -3vw;
+  left: 1.5vw;
+  color: transparent;
+  text-shadow: 0 0 5px rgba(132,40,242,0.5);
+}
+
+
+.content {
+  padding: 2vw 3vw;
+}
+
+.circle1 {
+  top: -1.2vw;
+  right: 10vw;
+  width: 3vw;
+  height: 3vw;
+  border-radius: 50%
+}
+  
+.circle2 {
+  bottom: -1.2vw;
+  right: 1vw;
+  width: 3vw;
+  height: 3vw;
+  border-radius: 50%
+}
+.circle3 {
+  bottom: -1.2vw;
+  right: 6vw;
+  width: 3vw;
+  height: 3vw;
+  border-radius: 50%
+}
+.container1 {
+
+  animation: slidein 1s forwards;
+
+}
+.container2 {
+  opacity: 0;
+  animation: slidein 1s forwards;
+  animation-delay: 0.5s;
+}
+.container3 {
+  opacity: 0;
+  animation: slidein 1s forwards;
+  animation-delay: 1s;
+}
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 100%;
+  }
+
+  to {
+    opacity: 1;
+    margin-left: 0%;
+    width: 100%;
+  }
+}
+.about-expand-button{
+  bottom: 0;
+  right: 0;
+}
