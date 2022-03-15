@@ -15,8 +15,8 @@ export const About = (props) => {
       <div className="container2 flex dotted relative">
         <div className="title2 absolute" style={{ fontSize: '4vw' }}>Data</div>
         <div className="circle2 absolute bg-gradient-to-b from-circle2-top to-circle2-bottom"></div>
-        <div className="content bg-gradient-to-b from-blue-start to-blue-end text-white w-full h-full" style={{ fontSize: '1vw' }}>
-          Sreach for the anime, studio or Vioce actor。Sreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actor
+        <div className="content bg-gradient-to-b from-blue-start to-blue-end text-white w-full h-full" style={{ fontSize: '1.3vw' }}>
+        The data is from Kaggle dataset: https://www.kaggle.com/vishalmane10/anime-dataset-2022, that scrapes anime data from the anime planet website: https://www.anime-planet.com. It contains 18494 anime. We scraped the anime poster and followers’ data from the website by ourselves and did data cleansing to come up with the final dataset. The data won’t be profitable and is only used for learning purpose.
         </div>
       </div>
 
