@@ -9,7 +9,7 @@ import colorLegend from "../assets/colorLegend.png"
 export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, setRelatedAnime}) => {
   // Chart width and height - accounting for margins
   const {width, height, margin, radius, color, xVar, yVar} = settings;
-  let widthScale = 0.015
+  let widthScale = 0.005
   let drawWidth = width - margin.left - margin.right - (window.innerWidth * widthScale);
   let drawHeight = height - margin.top - margin.bottom;
   // Prepare data
@@ -60,8 +60,8 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
         .domain([yMax, yMin]); // reverse to make the y begins at the origin
   
     // define axis 
-    let xAxis = d3.axisBottom(xScale);
-    let yAxis = d3.axisLeft(yScale);
+    let xAxis = d3.axisBottom(xScale).tickFormat(formatPower);
+    let yAxis = d3.axisLeft(yScale).tickFormat(formatPower);
   
 
         // Add a clipPath: everything out of this area won't be drawn.
@@ -75,7 +75,11 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
 
     
 
-
+    function formatPower(x) {
+        if (x > 4999) 
+            return `${x/1000}k`
+        else return x
+    }
 
     // render the axis
     var gx=svgElement.append('g')
@@ -120,8 +124,8 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
         var newY = event.transform.rescaleY(yScale);
         
         // update axes with these new boundaries
-        gx.call(d3.axisBottom(newX))
-        gy.call(d3.axisLeft(newY))
+        gx.call(d3.axisBottom(newX).tickFormat(formatPower))
+        gy.call(d3.axisLeft(newY).tickFormat(formatPower))
     
 
         // update circle position
