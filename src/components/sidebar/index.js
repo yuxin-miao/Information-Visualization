@@ -37,9 +37,9 @@ export const Sidebar = (props) => {
 
     return (
         <div className={`${props.className ? props.className : ''} dotted-spaced right side-grid relative pt-4`}>
-            <a href='#' className="justify-self-center h-min">
-                <img src={Logo} />
-            </a>
+            <div className="justify-self-center h-min">
+                <img className="side-logo" src={Logo} />
+            </div>
             {/* <div
                 className={`absolute text-white bg-filter-blue font-ssp font-bold flex justify-end filter-header ${isFilterActive ? 'active' : ''}`}
                 onClick={_ => setIsFilterActive(!isFilterActive)}
