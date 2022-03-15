@@ -112,6 +112,13 @@ export const ForceGraph = ({nodes, settings, clicked}) => {
       .attr('opacity', 0.7)
 
     let elementGroup = svgElement.selectAll(".elementGroup").data(nodes).join('g')
+    var container = svgElement.append("g");
+    svgElement.call(
+      d3.zoom()
+          .scaleExtent([.1, 4])
+          .on("zoom", function(event) { lines.attr("transform", event.transform);circles.attr("transform", event.transform);text.attr("transform", event.transform); })
+    );
+
 
     var ur = '#gradient1'
     let circles = elementGroup.append('circle')
