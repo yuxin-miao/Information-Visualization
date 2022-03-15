@@ -84,7 +84,7 @@ const Info = (props) => {
     {
       'name': 'Kwan Mei Wong (Jenny)',
       'mail': 'kmwong@kth.se',
-      'distribution': 'React - Testing',
+      'distribution': 'React and Testing',
       'anime': 'School Babysitters',
       'intro': 'Jenny is responsible for frontend development. She mainly works with React.js to build different anime filters, e.g. x and y axis, studio, types and content warnings filters. She learnt how to use React.js from this project.'
     },
@@ -105,9 +105,9 @@ const Info = (props) => {
     {
       'name': 'Xinmiao Yu',
       'mail': 'xinmiao@kth.se',
-      'distribution': 'React — D3.JS',
+      'distribution': 'React and D3.js',
       'anime': 'Fairy Tail',
-      'intro': 'fifth intro Sreach for the anime, studio or Vioce actor。Sreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce'
+      'intro': 'Having some experience about web development using React. Created the initial version of the scatterplot by D3.js. Implemented the Range selection component and built line charts by D3.js. Implemented the search box component with auto-complete function. Developed the pages About, Team and Demo. '
     },
   ]
   return (
@@ -117,11 +117,11 @@ const Info = (props) => {
         <span className="info-tag-name absolute" style={{ fontSize: '1.6vw' }}>{memberInfos[props.displayOne].name}</span>  
       </div>
       <div className="info-text">
-        <div className="flex flex-row mb-5"  style={{ fontSize: '1.4vw' }}>       
+        <div className="flex flex-row mb-4"  style={{ fontSize: '1.4vw' }}>       
           <span className="w-1/2"> Work Distribution: {memberInfos[props.displayOne].distribution}</span>
           <span className="w-1/2"> Favorite Anime: {memberInfos[props.displayOne].anime}</span>
         </div>
-        <div  style={{ fontSize: '1.2vw' }}> {memberInfos[props.displayOne].intro}</div>
+        <div style={{ fontSize: '1.2vw' }}> {memberInfos[props.displayOne].intro}</div>
         <span className="info-tag-mail absolute" style={{ fontSize: '1.2vw' }}>{memberInfos[props.displayOne].mail}</span>  
       </div>
     </div>

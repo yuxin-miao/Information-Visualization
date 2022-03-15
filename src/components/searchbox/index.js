@@ -63,7 +63,7 @@ export const SearchBox = ({ className, rawSetData, animeData, handleClickSuggest
         {filteredSuggestions && filteredSuggestions.length > 0 ?
           (filteredSuggestions.map((suggestion, index) => {
             return (
-              <li className="flex justify-between py-2 px-4 text-sm text-gray-100 hover:text-main hover:bg-gray-50" 
+              <li className="flex justify-between py-2 px-4 text-sm text-gray-100 hover:text-white hover:bg-gray-50" 
                   style={{ fontSize: '.7vw', height: '3vh' }}
                   key={index} 
                   onClick={() => handleClick(suggestion)}>
