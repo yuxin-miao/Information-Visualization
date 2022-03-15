@@ -815,7 +815,7 @@ export const Main = (props) => {
         <div ref={plotRef} className="row-start-2 col-span-7 m-2">
           {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion} setRelatedAnime={setRelatedAnime} />}
         </div>
-        <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" style={{ margin: '.6vh .8vw', fontSize: '1vw' }} onClick={handleClearAll}>Clear All</button>
+        {/*<button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" style={{ margin: '.6vh .8vw', fontSize: '1vw' }} onClick={handleClearAll}>Clear All</button>*/}
         <ContainerBox url={infoUrl} title="Info" className="row-start-2 col-start-8 col-span-full m-2" >
           <InfoPanel
             animeTitle={infoTitle}
