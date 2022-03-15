@@ -34,7 +34,7 @@ import { value } from "lodash-es";
 import { size } from "lodash-es";
 import { fontSize } from "@mui/system";
 
-import InfoButton from '../../assets/infobutton.png'
+import InfoButton from '../../assets/infoIconWhite3.png'
 
 var tagsSelected = []
 var typesSelected = []
