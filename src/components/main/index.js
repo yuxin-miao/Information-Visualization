@@ -403,6 +403,7 @@ export const Main = (props) => {
     document.getElementById("select-x-axis").value = "Rating"
     document.getElementById("select-y-axis").value = "User Stats"
     document.getElementById("select-userStats").value = "All"
+    //console.log(document.getElementById("select-tag").value) 
     // setTypesCheckedState(new Array(types.length).fill(false))
     typesSelected = []
     // setSeasonsCheckedState(new Array(seasons.length).fill(false))
@@ -410,7 +411,7 @@ export const Main = (props) => {
     tagsSelected = []
     contentWarningsSelected = []
 
-    setPlotSetting(
+    /*setPlotSetting(
       {
         ...plotSetting,
         xVar: {
@@ -423,7 +424,7 @@ export const Main = (props) => {
           name: "Rating"
         }
       }
-    )
+    )*/
 
   }
 
