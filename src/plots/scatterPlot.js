@@ -9,7 +9,8 @@ import colorLegend from "../assets/colorLegend.png"
 export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, setRelatedAnime}) => {
   // Chart width and height - accounting for margins
   const {width, height, margin, radius, color, xVar, yVar} = settings;
-  let drawWidth = width - margin.left - margin.right;
+  let widthScale = 0.03
+  let drawWidth = width - margin.left - margin.right - (window.innerWidth * widthScale);
   let drawHeight = height - margin.top - margin.bottom;
   // Prepare data
   let data = displayData.map((item) => {
@@ -78,11 +79,11 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
 
     // render the axis
     var gx=svgElement.append('g')
-        .attr('transform', 'translate(' + margin.left + ',' + (drawHeight + margin.top) + ')')
+        .attr('transform', 'translate(' + (margin.left + (window.innerWidth * widthScale)) + ',' + (drawHeight + margin.top) + ')')
         .attr('class', 'axis-style')
         .call(xAxis);
     var gy=svgElement.append('g')
-        .attr('transform', 'translate(' + margin.left + ',' + (margin.top) + ')')
+        .attr('transform', 'translate(' + (margin.left + (window.innerWidth * widthScale)) + ',' + (margin.top) + ')')
         .attr('class', 'axis-style')
         .call(yAxis);
     // render axis label
@@ -138,7 +139,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
      * Draw the circles 
      */
     let gElement = svgElement.append('g')
-        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+        .attr('transform', 'translate(' + (margin.left + (window.innerWidth * widthScale)) + ',' + margin.top + ')')
         .attr('height', drawHeight)
         .attr('width', drawWidth)
         .attr("clip-path", "url(#clip)");
