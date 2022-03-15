@@ -30,7 +30,7 @@
 
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(8, 1fr);
+  grid-template-rows: repeat(4, 5%) repeat(4, 12%);
   gap: 2vh;
 
   overflow-y: scroll;
