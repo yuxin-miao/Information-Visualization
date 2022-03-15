@@ -73,3 +73,7 @@
     width: 100%;
   }
 }
+.about-expand-button{
+  bottom: 0;
+  right: 0;
+}
