@@ -49,12 +49,7 @@ export const Sidebar = (props) => {
             }
         }
     }, [location])
-    function getPath(path) {
-        if (path.charAt(0) !== "/") {
-            return  "/" + path;
-        }
-        return path;
-    }
+
     return (
         <div className={`${props.className ? props.className : ''} dotted-spaced right side-grid relative pt-4`}>
             <div className="justify-self-center h-min">
