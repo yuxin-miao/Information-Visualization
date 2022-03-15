@@ -1,12 +1,12 @@
-axisStyle line{
+axisStyle line {
   stroke: white;
 }
 
-.axisStyle path{
+.axisStyle path {
   stroke: #d0d0d0;
 }
 
-.axisStyle text{
+.axisStyle text {
   fill: white;
   font-size: .8vw;
 }
@@ -20,21 +20,20 @@ axisStyle line{
   padding-left: 3px;
   padding-right: 3px;
   margin-left: 5px;
-  pointer-events: none;
   font-size: .8vw;
-  font-weight: 600;
+  font-weight: 400;
   color: white;
   border-radius: 5px;
 }
-
 
 .rangetip ::after {
   content: " ";
   position: absolute;
   top: 50%;
   right: 100%;
-  margin-top: -5px;
+  margin-top: -50px;
   border-width: 5px;
   border-style: solid;
   border-color: transparent #59C173 transparent transparent;
+
 }

@@ -34,7 +34,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush, reset}) =
     // render the axis
     const xAxis = d3.axisBottom(x).ticks(customized[2])
     svgElement.append('g')
-        .attr('transform', 'translate(' + margin.left + ',' +  (drawHeight + margin.top) + ')')
+        .attr('transform', 'translate(' + margin.left + ',' +  (drawHeight + margin.top +10) + ')')
         .attr('class', 'axisStyle')
         .call(xAxis);
     
@@ -117,7 +117,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush, reset}) =
       <div id={rangeId}></div>
       <div className="flex">
         <svg ref = {ref}/>
-        <img onClick={handleOnRefresh} className="h-full self-center ml-1" src={RefreshIcon} style={{ width: '8%' }} />     
+        <img onClick={handleOnRefresh} className="h-full self-center ml-1 pt-3" src={RefreshIcon} style={{ width: '6%' }} />     
       </div>
     </>
 

@@ -31,6 +31,8 @@ import { ForceGraph } from "../../plots/force";
 import AutoComplete, { createFilterOptions } from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField';
 import { value } from "lodash-es";
+import { size } from "lodash-es";
+import { fontSize } from "@mui/system";
 
 import InfoButton from '../../assets/infobutton.png'
 
@@ -83,8 +85,8 @@ const FilterSection = (props) => {
         onClick={_ => setIsFilterActive(!isFilterActive)}
       >
         <div className='flex filter-button'>
-          <p className='self-center' style={{ paddingRight: '.5vw' }}>Filters</p>
-          <img className={`self-center filter-arrow ${isFilterActive ? 'active' : ''}`} style={{ paddingRight: '1vw' }} src={FilterArrow} />
+          <p className='self-center' style={{ paddingRight: '.5vw' , fontSize:'0.9vw' }}>Filters</p>
+          <img className={`self-center filter-arrow ${isFilterActive ? 'active' : ''}`} style={{ paddingRight: '1vw' }} src={FilterArrow}/>
         </div>
       </div>
       <div className={`absolute text-white bg-filter-blue rounded-br font-ssp filter-section ${isFilterActive ? 'active' : ''}`} style={{ fontSize: '1vw' }}>
@@ -242,9 +244,9 @@ export const Main = (props) => {
     width: window.innerWidth * 0.5,
     height: window.innerHeight * 0.5,
     margin: {
-      top: window.innerWidth * 0.02,
-      right: window.innerWidth * 0.02,
-      bottom: window.innerWidth * 0.04,
+      top: window.innerWidth * 0.003,
+      right: window.innerWidth * 0.003,
+      bottom: window.innerWidth * 0.035,
       left: window.innerWidth * 0.04
     },
     radius: window.innerWidth * .0025,
@@ -409,6 +411,7 @@ export const Main = (props) => {
     document.getElementById("select-x-axis").value = "Rating"
     document.getElementById("select-y-axis").value = "User Stats"
     document.getElementById("select-userStats").value = "All"
+    //console.log(document.getElementById("select-tag").value) 
     // setTypesCheckedState(new Array(types.length).fill(false))
     typesSelected = []
     // setSeasonsCheckedState(new Array(seasons.length).fill(false))
@@ -416,7 +419,7 @@ export const Main = (props) => {
     tagsSelected = []
     contentWarningsSelected = []
 
-    setPlotSetting(
+    /*setPlotSetting(
       {
         ...plotSetting,
         xVar: {
@@ -429,7 +432,7 @@ export const Main = (props) => {
           name: "Rating"
         }
       }
-    )
+    )*/
 
   }
 
@@ -862,8 +865,35 @@ export const Main = (props) => {
           </div>
         </ContainerBox>
       </div>
-    </>
+      {/* <ContainerBox url={infoUrl} title="Info" className="row-start-2 col-start-8 col-span-full m-4" >
+        <InfoPanel
+          animeTitle={infoTitle}
+          animeDescription={infoDescription}
+          animeStudio={infoStudio}
+          animeReleaseYear={infoReleaseYear}
+          animeType={infoType}
+          animeSeason={infoSeason}
+          animeRank={infoRank}
+          animeRating={infoRating}
+          animeVoiceActors={infoVoiceActors}
+          animeStaff={infoStaff}
+          animePosterUrl={infoPosterUrl}
+          animeUserStat={infoUserStat}
+          animeTags={infoTags}
+        />
+      </ContainerBox>
+      <ContainerBox title="Range" className="row-start-3 col-span-7 m-2" >
+        {displayData && constRawData
+          && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} reset={reset} />
+        }
+      </ContainerBox>
 
+      <ContainerBox title="Related" className="row-start-3 col-start-8 col-span-full m-2" >
+        <div className="w-full h-full" ref={forceRef}>
+            { drawForce && <ForceGraph settings={forceSetting} nodes={nodes} clicked={clickRelatedAnime} />  }
+          </div> 
+      </ContainerBox> */}
+    </>
   )
 }
 

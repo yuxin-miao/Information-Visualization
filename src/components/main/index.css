@@ -30,7 +30,7 @@
 
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(4, 5%) repeat(4, 12%);
+  grid-template-rows: repeat(4, 5%) repeat(3, 12%) 20%;
   gap: 2vh;
 
   overflow-y: scroll;
@@ -106,4 +106,16 @@
 
 .ttipm:hover .ttiptextm {
   visibility: visible;
+}
+
+.clear {
+  height: 3vh;
+  border-width: 1px;
+  border-color: cyan;
+  border-radius: 20px;
+  background-color: #0A0935;
+  color: rgb(255, 255, 255);
+  margin: .9vh .8vw;
+  margin-top: 1.2vh;
+  font-size: 1vw;
 }
