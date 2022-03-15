@@ -43,7 +43,6 @@ export const Sidebar = (props) => {
         //Get an item with the same 'route' as the one provided by react router (the current route)
         // changeActiveIndex(activeItem);
         if (sidebarItem[activeIdx] !== location.pathname) {
-            console.log(location.pathname)
             for (let i = 0; i < sidebarItem.length; i++) {
                 if (sidebarItem[i].to === location.pathname) setActiveIdx(i)
             }
