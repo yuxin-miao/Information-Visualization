@@ -828,7 +828,6 @@ export const Main = (props) => {
       <div ref={plotRef} className="row-start-2 col-span-7 m-2">
         {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion} setRelatedAnime={setRelatedAnime}/>}
       </div>
-      <button className="font-ssp z-10  clear " onClick={handleClearAll}>Clear All</button>
       <ContainerBox url={infoUrl} title="Info" className="row-start-2 col-start-8 col-span-full m-4" >
         <InfoPanel
           animeTitle={infoTitle}
