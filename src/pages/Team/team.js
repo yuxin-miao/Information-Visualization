@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import './team.css';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import TeamLogo from '../../assets/team/teamtitle.png';
 import NameTitle from '../../assets/team/nametitle.png';
 import Harits from '../../assets/team/harits.png';
@@ -50,19 +49,13 @@ export const Team = (props) => {
           <img alt='' src={TeamLogo} style={{ height: '6.5vw' }} />
         </div>
         <div className="team-member absolute">
-          <TransitionGroup >
           {photos.map((item, index) => {
-              return (
-                <CSSTransition classNames="alert" timeout={500} key={index}> 
-                  <div className={`team-member-${index} absolute h-full`}  key={index} onClick={() => onClickPhoto(index)}>         
-                    <img alt='' className="h-full" src={item.name} />
-                  </div>
-                </CSSTransition>
+            return (
+                <div className={`team-member-${index} absolute h-full`}  key={index} onClick={() => onClickPhoto(index)}>         
+                  <img alt='' className="h-full" src={item.name} />
+                </div>
               )
-            })}
-          </TransitionGroup>
-
-
+          })}
         </div>
         <div className="member-info absolute">
           <Info displayOne={displayInfo}/>
@@ -76,10 +69,10 @@ const Info = (props) => {
   const memberInfos = [
     {
       'name': 'Harits Nur Fauzan',
-      'mail': 'xxxxxxx@kth.se',
-      'distribution': 'React — D3.JS — CI/CD',
-      'anime': 'One Piece',
-      'intro': 'first intro Sreach for the anime, studio or Vioce actor。Sreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce'
+      'mail': 'mhnf@kth.se',
+      'distribution': 'React, D3.js, and CI/CD',
+      'anime': 'Monogatari Series and Nichijou',
+      'intro': 'I am responsible for the styling and implementing the design of the website, and I also helped with deploying the application. My background is in computer science and I have work experience as a software engineer. My interest is in game development and computer graphics.'
     },
     {
       'name': 'Kwan Mei Wong (Jenny)',
@@ -90,10 +83,10 @@ const Info = (props) => {
     },
     {
       'name': 'Qinbai',
-      'mail': 'xxxxxxx@kth.se',
-      'distribution': 'React — D3.JS — CI/CD',
-      'anime': 'Ranking of Kings',
-      'intro': 'third intro Sreach for the anime, studio or Vioce actor。Sreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce actorSreach for the anime, studio or Vioce'
+      'mail': 'baiq@kth.se',
+      'distribution': 'React, Data Scraping, and D3.js',
+      'anime': 'Attack on Titan',
+      'intro': 'I like anime, movies and gaming. I have a software engineering background and made several games with Unity before. This is my first time getting into web development. I dealt with data by scraping the poster url and follower stats, and completed the tags filter, zoom and pan function. I certainly learnt a lot about react and d3 during the process.'
     },
     {
       'name': 'Yuanyang Ren',
