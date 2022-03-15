@@ -122,7 +122,7 @@ export const Sidebar = (props) => {
                     />
                 </div>
             </div> */}
-            <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1.2vw' }}>
+            <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1vw' }}>
                 <Link to="/" className='col-start-2 self-center justify-self-center'>
                     <img src={VisualIcon} />
                 </Link>
@@ -130,7 +130,7 @@ export const Sidebar = (props) => {
                     <Link to="/" className='text-white font-ssp h-max'>Visual</Link>
                 </div>
             </div>
-            <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1.2vw' }}>
+            <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1vw' }}>
                 <Link to="/about" className='col-start-2 self-center justify-self-center'>
                     <img src={AboutIcon} />
                 </Link>
@@ -138,7 +138,7 @@ export const Sidebar = (props) => {
                     <Link to="/about" className='text-white font-ssp h-max'>About</Link>
                 </div>
             </div>
-            <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1.2vw' }}>
+            <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1vw' }}>
                 <Link to="/team" className='col-start-2 self-center justify-self-center'>
                     <img src={TeamIcon} />
                 </Link>
@@ -146,7 +146,7 @@ export const Sidebar = (props) => {
                     <Link to="/team" className='text-white font-ssp h-max'>Team</Link>
                 </div>
             </div>
-            <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1.2vw' }}>
+            <div className='grid grid-cols-5 gap-4' style={{ fontSize: '1vw' }}>
                 <Link to="/demo" className='col-start-2 self-center justify-self-center'>
                     <img src={DemoIcon} />
                 </Link>

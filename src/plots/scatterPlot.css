@@ -1,12 +1,12 @@
-axis-style line{
+axis-style line {
   stroke: white;
 }
 
-.axis-style path{
+.axis-style path {
   stroke: #d0d0d0;
 }
 
-.axis-style text{
+.axis-style text {
   fill: white;
   font-size: .8vw;
 }
@@ -29,13 +29,13 @@ axis-style line{
   padding: 1px;
   padding-left: 3px;
   padding-right: 3px;
-  margin-left: 20px;
-  margin-top: -13px;
+  margin-left: -1.5vw;
+  margin-top: -2.5vh;
   pointer-events: none;
   font-size: .8vw;
   font-weight: 400;
   color: white;
-  border-radius: 5px;
+  border-radius: 4px;
   opacity: 0;
   transition: opacity 0.2s;
 

@@ -31,6 +31,8 @@ import { ForceGraph } from "../../plots/force";
 import AutoComplete, { createFilterOptions } from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField';
 import { value } from "lodash-es";
+import { size } from "lodash-es";
+import { fontSize } from "@mui/system";
 
 var tagsSelected = []
 var typesSelected = []
@@ -81,7 +83,7 @@ const FilterSection = (props) => {
         onClick={_ => setIsFilterActive(!isFilterActive)}
       >
         <div className='flex filter-button'>
-          <p className='self-center' style={{ paddingRight: '.5vw' }}>Filters</p>
+          <p className='self-center' style={{ paddingRight: '.5vw' , fontSize:'0.9vw' }}>Filters</p>
           <img className={`self-center filter-arrow ${isFilterActive ? 'active' : ''}`} style={{ paddingRight: '1vw' }} src={FilterArrow}/>
         </div>
       </div>
@@ -234,9 +236,9 @@ export const Main = (props) => {
     width: window.innerWidth * 0.5,
     height: window.innerHeight * 0.5,
     margin: {
-      top: window.innerWidth * 0.02,
-      right: window.innerWidth * 0.02,
-      bottom: window.innerWidth * 0.04,
+      top: window.innerWidth * 0.003,
+      right: window.innerWidth * 0.003,
+      bottom: window.innerWidth * 0.035,
       left: window.innerWidth * 0.04
     },
     radius: window.innerWidth * .0025,
@@ -825,8 +827,8 @@ export const Main = (props) => {
       <div ref={plotRef} className="row-start-2 col-span-7 m-2">
         {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion} setRelatedAnime={setRelatedAnime}/>}
       </div>
-      <button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" style={{ margin: '.6vh .8vw', fontSize: '1vw' }} onClick={handleClearAll}>Clear All</button>
-      <ContainerBox url={infoUrl} title="Info" className="row-start-2 col-start-8 col-span-full m-2" >
+      <button className="font-ssp z-10  clear " onClick={handleClearAll}>Clear All</button>
+      <ContainerBox url={infoUrl} title="Info" className="row-start-2 col-start-8 col-span-full m-4" >
         <InfoPanel
           animeTitle={infoTitle}
           animeDescription={infoDescription}

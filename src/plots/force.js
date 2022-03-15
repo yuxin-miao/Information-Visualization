@@ -46,7 +46,7 @@ export const ForceGraph = ({nodes, settings, clicked}) => {
             .attr('cy', d => d.y)
   
         text.attr('x', d => d.x)
-            .attr('y', d => d.y)
+            .attr('y', d => d.y+2)
     }
     const svgElement = d3.select(ref.current)
         .attr('width', width)
@@ -132,7 +132,7 @@ export const ForceGraph = ({nodes, settings, clicked}) => {
     let text = svgElement.selectAll(".textGroup").data(nodes).enter()
         .append('text')
         .attr('class', 'text1')
-        .attr('font-size', function(d) { if(d.type === 'main')return '0.7em'; else if(d.type === 'related') return '0.4em'; else return '0.5em'})
+        .attr('font-size', function(d) { if(d.type === 'main')return '0.8vw'; else if(d.type === 'related') return '0.4vw'; else return '0.6vw'})
         .attr('text-anchor', 'middle') 
         .text(d=>d.name)
         .style('opacity',function(d) { if(d.type === 'main')return 1; else if(d.type === 'related') return 0.7; else return 1})
