@@ -9,7 +9,7 @@ import colorLegend from "../assets/colorLegend.png"
 export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, setRelatedAnime}) => {
   // Chart width and height - accounting for margins
   const {width, height, margin, radius, color, xVar, yVar} = settings;
-  let widthScale = 0.03
+  let widthScale = 0.015
   let drawWidth = width - margin.left - margin.right - (window.innerWidth * widthScale);
   let drawHeight = height - margin.top - margin.bottom;
   // Prepare data

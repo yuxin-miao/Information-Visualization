@@ -227,7 +227,7 @@ export const Main = (props) => {
       top: window.innerWidth * 0.003,
       right: window.innerWidth * 0.003,
       bottom: window.innerWidth * 0.035,
-      left: window.innerWidth * 0.04
+      left: window.innerWidth * 0.035
     },
     radius: window.innerWidth * .0025,
     color: 'blue',
