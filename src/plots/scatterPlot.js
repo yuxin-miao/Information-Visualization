@@ -76,7 +76,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
     
 
     function formatPower(x) {
-        if (x > 4999) 
+        if (x > 4999 || x < -4999) 
             return `${x/1000}k`
         else return x
     }
