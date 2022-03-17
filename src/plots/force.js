@@ -51,6 +51,8 @@ export const ForceGraph = ({nodes, settings, clicked}) => {
     const svgElement = d3.select(ref.current)
         .attr('width', width)
         .attr('height', height)
+        .attr('transform', 'translate(' + (width * 0.03) + ',' + (height * 0.03) + ')')
+
     svgElement.selectAll("*").remove();
 
     const simulation = d3.forceSimulation(nodes)
@@ -94,8 +96,16 @@ export const ForceGraph = ({nodes, settings, clicked}) => {
     }
 
     function dragged(event, d) {
+      if (event.x >= 0 ) {
         d.fx = event.x;
+      } else {
+        d.fx = 0;
+      }
+      if (event.y >= 0) {
         d.fy = event.y;
+      } else {
+        d.fy = 0;
+      }
     }
 
     function dragEnded(event, d) {

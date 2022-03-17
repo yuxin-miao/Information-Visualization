@@ -272,8 +272,8 @@ export const Main = (props) => {
   useEffect(() => {
     if (forceRef && forceRef.current) {
       setForceSetting({
-        width: forceRef.current.offsetWidth,
-        height: forceRef.current.offsetHeight,
+        width: forceRef.current.offsetWidth * 0.94,
+        height: forceRef.current.offsetHeight * 0.94,
       })
       console.log(forceRef.current.offsetHeight, forceRef.current.offsetWidth)
       setDrawForce(true)
