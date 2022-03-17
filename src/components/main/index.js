@@ -30,9 +30,10 @@ import { ForceGraph } from "../../plots/force";
 
 import AutoComplete, { createFilterOptions } from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField';
-import { value } from "lodash-es";
-import { size } from "lodash-es";
-import { fontSize } from "@mui/system";
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
 import InfoButton from '../../assets/infoIconWhite3.png'
 
@@ -261,21 +262,50 @@ export const Main = (props) => {
   const [selectSuggestion, setSelectSuggestion] = useState([])
 
   /****** setup for the force directed graph ******/
-  // ref for the wrapper of forceGraph 
+  // ref for the wrapper of forceGraph in the original related component 
   const forceRef = useRef()
   const [forceSetting, setForceSetting] = useState({
     width: 650,
     height: 300,
+    fontSize: {
+      main: '0.8vw',
+      related: '0.4vw',
+      tag: '0.6vw',
+    },
+    linkDistance: 80,
+    collisionRaiuds: 30,
+    radiusSetting: {
+      main: 15+20,
+      related: 15+8,
+      tag: 5,
+    }
+  })
+    // ref for the wrapper of forceGraph in the original related component 
+  const modalForceSetting =({
+    width: window.innerWidth * 0.6,
+    height: window.innerHeight * 0.8,
+    fontSize: {
+      main: '1.6vw',
+      related: '1.2vw',
+      tag: '0.8vw',
+    },
+    linkDistance: 180,
+    collisionRaiuds: 60,
+    radiusSetting: {
+      main: 35+20,
+      related:35+8,
+      tag: 10,
+    }
   })
   // boolean value for whether draw the graph 
   const [drawForce, setDrawForce] = useState(false)
   useEffect(() => {
     if (forceRef && forceRef.current) {
       setForceSetting({
+        ...forceSetting,
         width: forceRef.current.offsetWidth * 0.94,
         height: forceRef.current.offsetHeight * 0.94,
       })
-      console.log(forceRef.current.offsetHeight, forceRef.current.offsetWidth)
       setDrawForce(true)
     }
   }, [forceRef])
@@ -416,7 +446,18 @@ export const Main = (props) => {
     )*/
 
   }
-
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    border: '2px solid #000',
+    boxShadow: 24,
+  };
+  
   // When user click one suggestion from the search box suggestion
   // should also clear all current selection 
   const clickSuggestion = (suggestion) => {
@@ -842,8 +883,19 @@ export const Main = (props) => {
 
         <ContainerBox title="Related" className="row-start-3 col-start-8 col-span-full m-2" >
           <div className="w-full h-full" ref={forceRef}>
-            {drawForce && <ForceGraph settings={forceSetting} nodes={nodes} clicked={clickRelatedAnime} />}
+            {drawForce && !open && <ForceGraph settings={forceSetting} nodes={nodes} clicked={clickRelatedAnime} inModal={false} />}
           </div>
+          { nodes.length !== 0 && <div className="popup-button" onClick={handleOpen}>Open in modal</div>}
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <div className="popup-modal">
+              {drawForce && <ForceGraph settings={modalForceSetting} nodes={nodes} clicked={clickRelatedAnime} inModal={true} />}
+            </div>
+          </Modal>
         </ContainerBox>
       </div>
       {/* <ContainerBox url={infoUrl} title="Info" className="row-start-2 col-start-8 col-span-full m-4" >

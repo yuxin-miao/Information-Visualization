@@ -1,12 +1,13 @@
 import * as d3 from "d3";
+import { pointer } from "d3";
 import React from "react";
 import { useRef, useEffect } from "react";
 
 
-export const ForceGraph = ({nodes, settings, clicked}) => {
+export const ForceGraph = ({nodes, settings, clicked, inModal}) => {
 
   const ref = useRef()
-  const {width, height} = settings;
+  const {width, height, fontSize, linkDistance, collisionRaiuds, radiusSetting} = settings;
   // color defined for the graph 
   const color = {
     "0": "#FF60D2",
@@ -51,16 +52,17 @@ export const ForceGraph = ({nodes, settings, clicked}) => {
     const svgElement = d3.select(ref.current)
         .attr('width', width)
         .attr('height', height)
-        .attr('transform', 'translate(' + (width * 0.03) + ',' + (height * 0.03) + ')')
-
+    if (!inModal) {
+      svgElement.attr('transform', 'translate(' + (width * 0.03) + ',' + (height * 0.03) + ')')
+    }
     svgElement.selectAll("*").remove();
 
-    const simulation = d3.forceSimulation(nodes)
-        .force('manyBody', d3.forceManyBody())
-        .force('center', d3.forceCenter(width / 2, height / 2))
-        .force("link", d3.forceLink(links).strength(1).distance(80))
-        .force("collision", d3.forceCollide().radius(30))
-        .on('tick', ticked)
+    let simulation = d3.forceSimulation(nodes)
+      .force('manyBody', d3.forceManyBody())
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force("link", d3.forceLink(links).strength(1).distance(linkDistance))
+      .force("collision", d3.forceCollide().radius(collisionRaiuds))
+      .on('tick', ticked)
 
     const defs = svgElement.append("defs")
     for (var nodeNum = 0; nodeNum < nodes.length; nodeNum++){
@@ -122,21 +124,31 @@ export const ForceGraph = ({nodes, settings, clicked}) => {
       .attr('opacity', 0.7)
 
     let elementGroup = svgElement.selectAll(".elementGroup").data(nodes).join('g')
-    var container = svgElement.append("g");
     svgElement.call(
       d3.zoom()
           .scaleExtent([.1, 4])
           .on("zoom", function(event) { lines.attr("transform", event.transform);circles.attr("transform", event.transform);text.attr("transform", event.transform); })
     );
 
-
-    var ur = '#gradient1'
     let circles = elementGroup.append('circle')
         .attr("r", function(d) { 
-          
-          if(d.type === 'main')return 15+20; else if(d.type === 'related') return 15+8; else return 5;})
-        .style("fill", d=> {return "url(#gradient" + Math.floor(Math.random() * 10) + ")"})
-        .style("opacity",function(d) { if(d.type === 'main')return 1; else if(d.type === 'related') return 1; else return 0})
+          if (d.type === 'main')
+            return radiusSetting.main; 
+          else if (d.type === 'related') 
+            return radiusSetting.related; 
+          else return radiusSetting.tag;
+        })
+        .style("fill", d=> {
+          return "url(#gradient" + Math.floor(Math.random() * 10) + ")"
+        })
+        .style("opacity",function(d) { 
+          if (d.type === 'main') return 1; 
+          else if (d.type === 'related') return 1; 
+          else return 0
+        })
+        .style("cursor", function(d) {
+          if (d.type === 'related') return "pointer"
+        })
         .on("click", function(event, d) {
           if (event.defaultPrevented) return;
           if(d.type === 'related') {
@@ -146,18 +158,35 @@ export const ForceGraph = ({nodes, settings, clicked}) => {
 
     circles.call(drag)
         
-    let text = svgElement.selectAll(".textGroup").data(nodes).enter()
-        .append('text')
+    // add text
+    let text = svgElement.selectAll(".textGroup").data(nodes).enter().append('text')
         .attr('class', 'text1')
-        .attr('font-size', function(d) { if(d.type === 'main')return '0.8vw'; else if(d.type === 'related') return '0.4vw'; else return '0.6vw'})
+        .attr('font-size', function(d) { 
+          if (d.type === 'main') return fontSize.main; 
+          else if (d.type === 'related') return fontSize.related; 
+          else return fontSize.tag
+        })
+        .attr('text-anchor', 'middle') 
+        .attr('text-anchor', 'middle') 
         .attr('text-anchor', 'middle') 
         .text(d=>d.name)
         .style('opacity',function(d) { if(d.type === 'main')return 1; else if(d.type === 'related') return 0.7; else return 1})
+        .style('cursor', function(d) {
+          if (d.type === 'related') return 'pointer';
+          else return 'default'
+        })
         .attr('fill',function(d) { if(d.type === 'tag') return color[Math.floor(Math.random() * 16)] ; else return 'white'})
+        .on("click", function(event, d) {
+          if (event.defaultPrevented) return;
+          if(d.type === 'related') {
+            clicked(d.name)
+          }
+        })
         .call(drag)
 
-  }, [nodes])
+  }, [nodes, inModal])
   return (
     <svg ref={ref}></svg>
   )
 }
+
