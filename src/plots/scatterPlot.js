@@ -65,7 +65,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
     let yAxis = d3.axisLeft(yScale).tickFormat(formatPower);
   
 
-        // Add a clipPath: everything out of this area won't be drawn.
+    // Add a clipPath: everything out of this area won't be drawn.
     var clip = svgElement.append("defs").append("SVG:clipPath")
     .attr("id", "clip")
     .append("SVG:rect")
@@ -118,8 +118,6 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
         .call(zoom);
     function updateChart(event) {
-        //console.log(event.transform)
-        //svgElement.attr("transform",transform)
         // recover the new scale
         var newX = event.transform.rescaleX(xScale);
         var newY = event.transform.rescaleY(yScale);
@@ -168,26 +166,12 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
     circles.enter().append('circle')
         .attr('r', (d) => radius)
         .attr('fill', function(d){//color interpolation
-           //console.log(_interpolateColor([0.5,1,0],[1,1,0],0.5))
            var interpolationFactor=(d.rating-1)<0?0:(d.rating-1)/4;
-
            var color2 = d3.scaleLinear()
            .domain([0, 0.5, 1])
            .range(['#40e0d0', '#ff8c00', '#ff0080'])
            .interpolate(d3.interpolateHcl);
-
-
-           //console.log(color2(interpolationFactor))
-           return color2(interpolationFactor)
-           /*if(interpolationFactor<=0.5)
-           {
-            return r2h(_interpolateColor(h2r("#40e0d0"),h2r("#ff8c00"),interpolationFactor))
-           }
-           else
-           {
-            return r2h(_interpolateColor(h2r("#ff8c00"),h2r("#ff0080"),interpolationFactor))
-           }*/
-            
+           return color2(interpolationFactor)            
         })
         .attr('label', (d)=>d.label)
         .style('opacity', 0.4)
@@ -195,28 +179,18 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
         .attr('cx', (d) => xScale(d.x))
         .attr('cy', (d) => yScale(d.y))
         .attr("class", function(d) {
-
             for (let idx = 0; idx < highlight.length; idx++) {
                 if (d.label === highlight[idx]) {
                     return "highlight-attr"
-
                 }
               }
             return ''
 
         })
         .on("click", function(d) {
-        //alert("on click get data" + d3.select(this).attr("label"));
             refreshInfo(d.srcElement.__data__, infoDispatch)
             d3.select(this).attr("stroke","white").attr("stroke-width",2)
-
             setRelatedAnime(d3.select(this).attr("label"))
-
-
-        //Main.refreshInfo(d3.select(this).attr("label"));
-        //console.log(Main);
-        
-        //console.log(d3.select(this).attr("label"));
         })        
         .on("mouseover", function(event, d){
             const posX = d3.select(this).attr("cx")

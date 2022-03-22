@@ -31,7 +31,6 @@ export const RangeSelection = (props) => {
   /**
    * set the draw options of the line chart 
    */
-  //TODO: set the height 
   useEffect(() => {
     if (gridRef && gridRef.current) {
       setSettings({
