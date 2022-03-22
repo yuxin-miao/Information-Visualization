@@ -54,8 +54,10 @@ const StyledAutocomplete = styled(AutoComplete)({
   },
   "& .MuiAutocomplete-tag": {
     color: "white",
-    backgroundColor:"orange",
-  }
+    fontWeight:"bold",
+    backgroundColor:"#00BEDB",
+  },
+
 });
 
 const FilterSection = (props) => {
@@ -169,7 +171,7 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for types..." />
             )}
-            sx={{ color: 'white', maxHeight: '12vh' }}
+            sx={{ color: 'white' }}
             onChange={(e, value) => { typesSelected = value.map(v => { return v.typeName }); props.filterAutoCompleteOnChange() }}
           />
         </div>
@@ -185,7 +187,7 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for released season..." />
             )}
-            sx={{ color: 'white', maxHeight: '12vh' }}
+            sx={{ color: 'white' }}
             onChange={(e, value) => { seasonsSelected = value.map(v => { return v.seasonName }); props.filterAutoCompleteOnChange() }}
           />
         </div>
@@ -201,7 +203,7 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for tags..." />
             )}
-            sx={{ color: 'white', maxHeight: '12vh' }}
+            sx={{ color: 'white'}}
             onChange={(e, value) => { tagsSelected = value.map(v => { return v.tagName }); props.filterAutoCompleteOnChange() }}
           />
         </div>
@@ -223,7 +225,7 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for content warnings..." />
             )}
-            sx={{ color: 'white', maxHeight: '12vh' }}
+            sx={{ color: 'white' }}
             // onChange={(e,value)=>{contentWarningsSelected=value;props.filterAutoCompleteOnChange()}}
             onChange={(e, value) => { contentWarningsSelected = value.map(v => { return v.warningName }); props.filterAutoCompleteOnChange() }}
           />
