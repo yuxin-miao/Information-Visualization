@@ -108,7 +108,7 @@ export const SearchBox = ({ className, rawSetData, animeData, handleClickSuggest
             value={query}
             onChange={handleChange}
           />
-          <img onClick={handleOnRefresh} className="w-7 h-7 self-center ml-1" src={RefreshIcon}/>     
+          <img onClick={handleOnRefresh} className="w-7 h-7 self-center ml-1" src={RefreshIcon} style={{ cursor: "pointer" }}/>     
         </form>
 
         {renderSuggestionList()}

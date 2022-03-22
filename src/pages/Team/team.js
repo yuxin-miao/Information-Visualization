@@ -52,7 +52,7 @@ export const Team = (props) => {
           {photos.map((item, index) => {
             return (
                 <div className={`team-member-${index} absolute h-full`}  key={index} onClick={() => onClickPhoto(index)}>         
-                  <img alt='' className="h-full" src={item.name} />
+                  <img alt='' className="h-full" src={item.name} style={{ cursor: "pointer" }}/>
                 </div>
               )
           })}
