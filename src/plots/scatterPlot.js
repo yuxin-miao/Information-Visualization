@@ -4,7 +4,8 @@ import { useRef, useEffect } from "react";
 import { Main,refreshInfo } from "../components/main";
 import './scatterPlot.css';
 import { _interpolateColor,h2r,r2h } from "../utils/colorUtils";
-import colorLegend from "../assets/colorLegend.png"
+import colorLegend from "../assets/colorLegend.png";
+import refreshIcon from "../assets/refresh.png";
 
 export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, setRelatedAnime}) => {
   // Chart width and height - accounting for margins
@@ -134,6 +135,20 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
             .attr('cx', function(d) {return newX(d.x)})
             .attr('cy', function(d) {return newY(d.y)});
     }
+    // tool tip
+    const zoomResetBtn = d3.select('#zoom-reset-button')
+
+    zoomResetBtn.on('click', function(d) {
+        svgElement.transition()
+            .duration(750)
+            .call(zoom.transform, d3.zoomIdentity);
+    })
+    .on("mouseover", function(event, d){
+        tooltip.style('transform', `translate(${drawWidth - margin.right}px, ${margin.top - window.innerHeight * 0.01}px)`).style("opacity", 1).text("Reset zoom scale")
+    }).on("mouseout", function(d){
+        tooltip.style('opacity', 0)
+    });
+
     
     // tool tip
     const tooltip = d3.select('#tooltip')
@@ -223,6 +238,7 @@ export const ScatterPlot = ({settings, displayData, infoDispatch, highlight, set
 
   return (
     <>    
+        <div id="zoom-reset-button" className="absolute zoom-reset-button"><img src={refreshIcon} alt='' style={{ width: '1.2vw'}}></img></div>
         <div id="tooltip"></div>
         <svg ref = {ref}/>
     </>
