@@ -30,6 +30,7 @@ import { ForceGraph } from "../../plots/force";
 
 import AutoComplete, { createFilterOptions } from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField';
+import { styled } from "@mui/styles";
 import { value } from "lodash-es";
 import { size } from "lodash-es";
 import { fontSize } from "@mui/system";
@@ -40,6 +41,16 @@ var tagsSelected = []
 var typesSelected = []
 var seasonsSelected = []
 var contentWarningsSelected = []
+
+const StyledAutocomplete = styled(AutoComplete)({
+  "& .MuiAutocomplete-input": {
+    color: "white",
+  },
+  "& .MuiAutocomplete-tag": {
+    color: "white",
+    backgroundColor:"orange",
+  }
+});
 
 const FilterSection = (props) => {
   const [isFilterActive, setIsFilterActive] = useState(false)
@@ -89,7 +100,7 @@ const FilterSection = (props) => {
           <img className={`self-center filter-arrow ${isFilterActive ? 'active' : ''}`} style={{ paddingRight: '1vw' }} src={FilterArrow}/>
         </div>
       </div>
-      <div className={`absolute text-white bg-filter-blue rounded-br font-ssp filter-section ${isFilterActive ? 'active' : ''}`} style={{ fontSize: '1vw' }}>
+      <div className={`absolute text-white bg-filter-blue rounded-br flex font-ssp filter-section ${isFilterActive ? 'active' : ''}`} style={{ fontSize: '1vw' }}>
         <Dropdown
           label="X - Axis"
           value="x-axis"
@@ -142,9 +153,9 @@ const FilterSection = (props) => {
         />
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
           <p>Types</p>
-          <AutoComplete
+          <StyledAutocomplete
             multiple
-            fullWidth
+            fullWidth            
             id="select-type"
             size="small"
             options={types}
@@ -152,13 +163,13 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for types..." />
             )}
-            sx={{ overflow: 'auto', color: 'white' }}
+            sx={{ overflow: 'auto', color: 'white', maxHeight: '12vh' }}
             onChange={(e, value) => { typesSelected = value.map(v => { return v.typeName }); props.filterAutoCompleteOnChange() }}
           />
         </div>
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
           <p>Released Seasons</p>
-          <AutoComplete
+          <StyledAutocomplete
             multiple
             fullWidth
             id="select-relesedSeason"
@@ -168,13 +179,13 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for released season..." />
             )}
-            sx={{ overflow: 'auto', color: 'white' }}
+            sx={{ overflow: 'auto', color: 'white', maxHeight: '12vh' }}
             onChange={(e, value) => { seasonsSelected = value.map(v => { return v.seasonName }); props.filterAutoCompleteOnChange() }}
           />
         </div>
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
           <p>Tags</p>
-          <AutoComplete
+          <StyledAutocomplete
             multiple
             fullWidth
             id="select-tag"
@@ -184,7 +195,7 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for tags..." />
             )}
-            sx={{ overflow: 'auto', color: 'white' }}
+            sx={{ overflow: 'auto', color: 'white', maxHeight: '12vh' }}
             onChange={(e, value) => { tagsSelected = value.map(v => { return v.tagName }); props.filterAutoCompleteOnChange() }}
           />
         </div>
@@ -196,7 +207,7 @@ const FilterSection = (props) => {
               <span className="ttiptextm">Filter anime without selected content warnings</span>
             </div>
           </div>
-          <AutoComplete
+          <StyledAutocomplete
             multiple
             fullWidth
             id="select-contentWarning"
@@ -206,7 +217,7 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for content warnings..." />
             )}
-            sx={{ overflow: 'auto', color: 'white' }}
+            sx={{ overflow: 'auto', color: 'white', maxHeight: '12vh' }}
             // onChange={(e,value)=>{contentWarningsSelected=value;props.filterAutoCompleteOnChange()}}
             onChange={(e, value) => { contentWarningsSelected = value.map(v => { return v.warningName }); props.filterAutoCompleteOnChange() }}
           />
