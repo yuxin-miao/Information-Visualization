@@ -169,7 +169,7 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for types..." />
             )}
-            sx={{ overflow: 'auto', color: 'white', maxHeight: '12vh' }}
+            sx={{ color: 'white', maxHeight: '12vh' }}
             onChange={(e, value) => { typesSelected = value.map(v => { return v.typeName }); props.filterAutoCompleteOnChange() }}
           />
         </div>
@@ -185,7 +185,7 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for released season..." />
             )}
-            sx={{ overflow: 'auto', color: 'white', maxHeight: '12vh' }}
+            sx={{ color: 'white', maxHeight: '12vh' }}
             onChange={(e, value) => { seasonsSelected = value.map(v => { return v.seasonName }); props.filterAutoCompleteOnChange() }}
           />
         </div>
@@ -201,7 +201,7 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for tags..." />
             )}
-            sx={{ overflow: 'auto', color: 'white', maxHeight: '12vh' }}
+            sx={{ color: 'white', maxHeight: '12vh' }}
             onChange={(e, value) => { tagsSelected = value.map(v => { return v.tagName }); props.filterAutoCompleteOnChange() }}
           />
         </div>
@@ -223,7 +223,7 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for content warnings..." />
             )}
-            sx={{ overflow: 'auto', color: 'white', maxHeight: '12vh' }}
+            sx={{ color: 'white', maxHeight: '12vh' }}
             // onChange={(e,value)=>{contentWarningsSelected=value;props.filterAutoCompleteOnChange()}}
             onChange={(e, value) => { contentWarningsSelected = value.map(v => { return v.warningName }); props.filterAutoCompleteOnChange() }}
           />
