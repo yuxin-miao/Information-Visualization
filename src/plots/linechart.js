@@ -117,7 +117,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush, reset}) =
       <div id={rangeId}></div>
       <div className="flex">
         <svg ref = {ref}/>
-        <img onClick={handleOnRefresh} className="h-full self-center ml-1 pt-3" src={RefreshIcon} style={{ width: '6%' }} />     
+        <img onClick={handleOnRefresh} className="h-full self-center ml-1 pt-3" src={RefreshIcon} style={{ width: '6%', cursor: "pointer" }} />     
       </div>
     </>
 

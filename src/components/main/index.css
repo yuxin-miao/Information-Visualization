@@ -28,9 +28,13 @@
   height: 100%;
   padding: .5vh 1vw;
 
-  display: grid;
+  /* display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(4, 5%) repeat(3, 12%) 20%;
+  gap: 2vh; */
+
+  display: flex;
+  flex-direction: column;
   gap: 2vh;
 
   overflow-y: scroll;
@@ -122,6 +126,31 @@
   font-size: 1vw;
 }
 
-.bg-1 {
-  background-color: #00427C;
+.popup-button {
+  cursor: grab;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-width: 1px;
+  border-color: cyan;
+  border-radius: 20px;
+  background-color: #0A0935;
+  color: rgb(255, 255, 255);
+  padding: 0.4vh 0.8vw;
+  font-size: 1vw;
+}
+
+.popup-button:hover {
+  background-color: #1A1961;
+
+}
+
+.popup-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px cyan solid;
+  background-color: #0A0935;
+  border-radius: 10px;
 }
