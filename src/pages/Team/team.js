@@ -75,11 +75,11 @@ const Info = (props) => {
       'intro': 'I am responsible for the styling and implementing the design of the website, and I also helped with deploying the application. My background is in computer science and I have work experience as a software engineer. My interest is in game development and computer graphics.'
     },
     {
-      'name': 'Kwan Mei Wong (Jenny)',
+      'name': 'Kwan Mei Wong',
       'mail': 'kmwong@kth.se',
       'distribution': 'React and Testing',
       'anime': 'School Babysitters',
-      'intro': 'Jenny is responsible for frontend development. She mainly works with React.js to build different anime filters, e.g. x and y axis, studio, types and content warnings filters. She learnt how to use React.js from this project.'
+      'intro': 'I am responsible for frontend development. I mainly work with React.js to build different anime filters, e.g. x and y axis, studio, types and content warnings filters. I learnt how to use React.js from this project.'
     },
     {
       'name': 'Qinbai',

@@ -24,7 +24,7 @@ export const About = (props) => {
         <a href="https://www.anime-planet.com" style={{color:"#FFD93D",textDecoration:"underline"}} target="_blank">
         https://www.anime-planet.com
         </a>        
-        . It contains 18494 anime. We scraped the anime poster and followers’ data from the website by ourselves and did data cleansing to come up with the final dataset. The data won’t be profitable and is only used for learning purpose.
+        . It contains 18494 anime. We scraped the anime poster and followers’ data from the website by ourselves and did data cleansing to come up with the final dataset. The data won’t be profitable and is only used for learning purpose. The data is last updated on 2022-01-16.
         </div>
       </div>
 
