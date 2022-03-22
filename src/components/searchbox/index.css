@@ -43,7 +43,6 @@ select:focus {
 }
 
 .listItem:hover {
-
     border-radius: 5px;
     background-color: #0A0935;
     transition: 0.1s;

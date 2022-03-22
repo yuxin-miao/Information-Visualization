@@ -91,8 +91,8 @@ const Info = (props) => {
     {
       'name': 'Yuanyang Ren',
       'mail': 'yren@kth.se',
-      'distribution': 'UX / Visual Style design and D3.js',
-      'anime': 'Pokemon and Fairy Tail',
+      'distribution': 'UX , Visual Style design and D3.js',
+      'anime': 'Pokemon',
       'intro': 'Having a background in interaction and web design, explored the visual structure and conducted the design process of the Animeet web (from ideation to prototype).  Contribute visual scheme design and visualization graphs design and their interaction and operation module design. Made lo-fi and hi-fi prototypes and UX instructions for supporting the development phase. Co-operated with the team for web development using react. Mainly, developed the force-directed graph by D3.js.'
     },
     {

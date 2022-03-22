@@ -5,6 +5,11 @@
     grid-column-gap: 0px;
     grid-row-gap: 1rem;
 }
+
 .side-logo {
     width: 10vw;
+}
+
+.background1 {
+    background-color: #000326;
 }

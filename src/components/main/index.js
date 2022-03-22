@@ -81,7 +81,7 @@ const FilterSection = (props) => {
   return (
     <div className="col-span-2 absolute filter-wrapper">
       <div
-        className={`absolute text-white bg-filter-blue font-ssp font-bold flex justify-end filter-header ${isFilterActive ? 'active' : ''}`}
+        className={`absolute text-white bg-1 font-ssp font-bold flex justify-end filter-header ${isFilterActive ? 'active' : ''}`}
         onClick={_ => setIsFilterActive(!isFilterActive)}
       >
         <div className='flex filter-button'>
@@ -89,7 +89,7 @@ const FilterSection = (props) => {
           <img className={`self-center filter-arrow ${isFilterActive ? 'active' : ''}`} style={{ paddingRight: '1vw' }} src={FilterArrow}/>
         </div>
       </div>
-      <div className={`absolute text-white bg-filter-blue rounded-br font-ssp filter-section ${isFilterActive ? 'active' : ''}`} style={{ fontSize: '1vw' }}>
+      <div className={`absolute text-white bg-gradient-to-b from-bl-start to-bl-end rounded-br font-ssp filter-section ${isFilterActive ? 'active' : ''}`} style={{ fontSize: '1vw' }}>
         <Dropdown
           label="X - Axis"
           value="x-axis"
@@ -816,7 +816,7 @@ export const Main = (props) => {
           {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion} setRelatedAnime={setRelatedAnime} />}
         </div>
         {/*<button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" style={{ margin: '.6vh .8vw', fontSize: '1vw' }} onClick={handleClearAll}>Clear All</button>*/}
-        <ContainerBox url={infoUrl} title="Info" className="row-start-2 col-start-8 col-span-full m-2" >
+        <ContainerBox url={infoUrl} title="Info" className="row-start-2 col-start-8 col-span-full m-2 mb-4 " >
           <InfoPanel
             animeTitle={infoTitle}
             animeDescription={infoDescription}

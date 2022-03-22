@@ -44,7 +44,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush, reset}) =
     var bounds = d3.extent(data, d => d.xVal);
     var interval = bounds[1] - bounds[0];
     var gradientColor = (p) => {
-      return d3.interpolateHslLong(customized[0], customized[1])((p[0].xVal-bounds[0])/interval);
+      return d3.interpolateRgb(customized[0],customized[1])((p[0].xVal-bounds[0])/interval);
     };
     // draw the line 
     var newline = d3.line()

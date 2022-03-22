@@ -46,6 +46,8 @@
 .filter-arrow {
   transform: rotate(180deg);
   transition: all .5s;
+  width: 2vw;
+  margin-right: 0.5vw;
 }
 
 .filter-arrow.active {
@@ -73,8 +75,8 @@
 .filter-button {
   cursor: pointer;
   padding-right: 0.25vw;
-
   transition: all .5s;
+
 }
 
 .filter-button.active {
@@ -94,7 +96,7 @@
   text-align: center;
   border-radius: 6px;
   padding: 1vh 1vw;
-  
+
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
@@ -118,4 +120,8 @@
   margin: .9vh .8vw;
   margin-top: 1.2vh;
   font-size: 1vw;
+}
+
+.bg-1 {
+  background-color: #00427C;
 }
