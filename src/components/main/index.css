@@ -60,14 +60,14 @@
 
 .filter-header {
   pointer-events: fill;
-  top: -3vh;
+  top: -4vh;
   left: -8vw;
   font-size: 1vw;
   height: 8%;
   width: 100%;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-
+  background-color: #1B4688;
   transition: all .5s;
 }
 

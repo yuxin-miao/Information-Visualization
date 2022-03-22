@@ -30,6 +30,11 @@
   bottom: 1vw;
   right: 1vw;
 }
+.info-objective {
+  bottom: 1vw;
+  left: 2vw;
+}
+
 
 .team-member {
   top: 30vh;
