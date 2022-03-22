@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import './linechart.css'; 
-import React, { useState } from "react";
+import React from "react";
 import { useRef, useEffect } from "react";
 import RefreshIcon from "../assets/refresh.png";
 
@@ -109,15 +109,12 @@ export const LineChart = ({settings, data, customized, handleEndBrush, reset}) =
     d3.select(".brush".concat(rangeId)).style("opacity", 0)
     handleEndBrush(-1,-1)
   }
-  useEffect(() => {
-    if (reset) handleOnRefresh()
-  }, [reset]) 
   return (
     <>    
       <div id={rangeId}></div>
       <div className="flex">
         <svg ref = {ref}/>
-        <img onClick={handleOnRefresh} className="h-full self-center ml-1 pt-3" src={RefreshIcon} style={{ width: '6%', cursor: "pointer" }} />     
+        <img alt='' onClick={handleOnRefresh} className="h-full self-center ml-1 pt-3" src={RefreshIcon} style={{ width: '6%', cursor: "pointer" }} />     
       </div>
     </>
 

@@ -92,19 +92,19 @@ export const RangeSelection = (props) => {
       <div className="grid grid-cols-2 grid-rows-2 gap-x-10" style={{ fontSize: '0.7vw' }}>
         <div className="m-0 col-span-1 grid grid-cols-10">
           <div className="place-self-center text-white col-span-2 justify-self-end">Rank</div>   
-          <div className="col-span-8" ref={gridRef}> { draw && <LineChart settings={settings} data={rankData} customized={['white', '#329EFF', 5, 'rank']} handleEndBrush={handleEndBrush('rank')} reset={props.reset}/>}</div>
+          <div className="col-span-8" ref={gridRef}> { draw && <LineChart settings={settings} data={rankData} customized={['white', '#329EFF', 5, 'rank']} handleEndBrush={handleEndBrush('rank')} />}</div>
         </div>
         <div className="m-0 col-span-1 grid grid-cols-10">      
           <div className="place-self-center text-white col-span-2 justify-self-end">Episodes</div>   
-          <div className="col-span-8"> { draw &&<LineChart settings={settings} data={eposideData} customized={['#8E2D96', '#2A5CFF', 6, 'episodes']} handleEndBrush={handleEndBrush('episodes')} reset={props.reset}/> }</div>
+          <div className="col-span-8"> { draw &&<LineChart settings={settings} data={eposideData} customized={['#8E2D96', '#2A5CFF', 6, 'episodes']} handleEndBrush={handleEndBrush('episodes')}/> }</div>
         </div>
         <div className="m-0 col-span-1 grid grid-cols-10">  
           <div className="place-self-center text-white col-span-2 justify-self-end">Year</div>  
-          <div className=" col-span-8"> { draw &&<LineChart settings={settings} data={yearData} customized={['#921FFF', '#667BA5', 5, 'year']} handleEndBrush={handleEndBrush('year')} reset={props.reset}/>}</div>
+          <div className=" col-span-8"> { draw &&<LineChart settings={settings} data={yearData} customized={['#921FFF', '#667BA5', 5, 'year']} handleEndBrush={handleEndBrush('year')}/>}</div>
         </div>
         <div className="m-0 col-span-1 grid grid-cols-10">   
           <div className="place-self-center text-white col-span-2 justify-self-end">Rating</div>   
-          <div className=" col-span-8"> { draw &&<LineChart settings={settings} data={rateData} customized={['#14FFAE','#FF1A1A', 8, 'rates']} handleEndBrush={handleEndBrush('rates')} reset={props.reset}/>}</div>
+          <div className=" col-span-8"> { draw &&<LineChart settings={settings} data={rateData} customized={['#14FFAE','#FF1A1A', 8, 'rates']} handleEndBrush={handleEndBrush('rates')}/>}</div>
         </div>
       </div>
     </div>

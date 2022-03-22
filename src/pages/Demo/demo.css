@@ -1,5 +1,5 @@
 .circle01 {
-  top: 8vw;
+  top: 3vw;
   left: 32vw;
   width: 5vw;
   height: 5vw;
@@ -9,8 +9,8 @@
 }
   
 .circle02 {
-  top: 12vw;
-  left: 50vw;
+  top:2vh;
+  right: 20vw;
   width: 8vw;
   height: 8vw;
   border-radius: 50%;
@@ -18,7 +18,7 @@
   animation: float 8s ease-in-out infinite;
 }
 .circle03 {
-  bottom: 10vw;
+  bottom: 10vh;
   left: 30vw;
   width: 9vw;
   height: 9vw;
@@ -27,8 +27,8 @@
   animation: float 10s ease-in-out infinite;
 }
 .circle04 {
-  top: 10vw;
-  left: 80vw;
+  top: 6vh;
+  right: 5vw;
   width: 6vw;
   height: 6vw;
   border-radius: 50%;
@@ -36,7 +36,7 @@
   animation: float 6s ease-in-out infinite;
 }
 .circle05 {
-  bottom: 5vw;
+  bottom: 10vh;
   right: 10vw;
   width: 8vw;
   height: 8vw;
@@ -55,4 +55,12 @@
 	100% {
 		transform: translatey(0px);
 	}
+}
+
+.demo-player {
+  position: absolute;
+  z-index: 10;
+  top: 10vh;
+  left: 15vw;
+  padding: 0;
 }

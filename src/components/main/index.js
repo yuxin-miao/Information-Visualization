@@ -1,9 +1,7 @@
-import React, { forwardRef, useImperativeHandle } from "react";
+import React from "react";
 import './index.css';
 import '../../index.css'
-import * as d3 from "d3";
-import { useRef, useEffect, useSpring, useState, useMemo } from "react";
-import { useInterval } from '../../utils/useInterval';
+import { useRef, useEffect, useState } from "react";
 
 import FilterArrow from '../../assets/filterarrow.png'
 
@@ -25,21 +23,16 @@ import { InfoPanel } from "../infopanel";
 import { axis } from "../filter/axis";
 import { userStats } from "../filter/userStats";
 import { Dropdown } from "../dropdown";
-import { Checkbox } from "../checkbox";
 import { ForceGraph } from "../../plots/force";
 
-import AutoComplete, { createFilterOptions } from '@mui/material/Autocomplete'
+import AutoComplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField';
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+
 import Modal from '@mui/material/Modal';
 
 import { styled } from "@mui/styles";
-import { value } from "lodash-es";
-import { size } from "lodash-es";
-import { fontSize } from "@mui/system";
+
 
 import InfoButton from '../../assets/infoIconWhite3.png'
 
@@ -105,7 +98,7 @@ const FilterSection = (props) => {
       >
         <div className='flex filter-button'>
           <p className='self-center' style={{ paddingRight: '.5vw' , fontSize:'0.9vw' }}>Filters</p>
-          <img className={`self-center filter-arrow ${isFilterActive ? 'active' : ''}`} style={{ paddingRight: '1vw' }} src={FilterArrow}/>
+          <img alt='' className={`self-center filter-arrow ${isFilterActive ? 'active' : ''}`} style={{ paddingRight: '1vw' }} src={FilterArrow}/>
         </div>
       </div>
       <div className={`absolute text-white bg-filter-blue rounded-br flex font-ssp filter-section ${isFilterActive ? 'active' : ''}`} style={{ fontSize: '1vw' }}>
@@ -211,7 +204,7 @@ const FilterSection = (props) => {
           <div className="flex" style={{ gap: '1vw' }}>
             <p>Content Warnings</p>
             <div className="ttipm self-center">
-              <img style={{ width: `${window.innerWidth * 0.01}px`, height: `${window.innerWidth * 0.01}px` }} src={InfoButton} />
+              <img alt='' style={{ width: `${window.innerWidth * 0.01}px`, height: `${window.innerWidth * 0.01}px` }} src={InfoButton} />
               <span className="ttiptextm">Filter anime without selected content warnings</span>
             </div>
           </div>
@@ -399,12 +392,7 @@ export const Main = (props) => {
     rates: [],
   })
 
-  let [tagsCheckedState, setTagsCheckedState] = useState(
-    new Array(tags.length).fill(false)
 
-  );
-
-  const dropDownRef = useRef()//dropdown ref for tag selection
 
   const InfoDispatch = useDispatch()
   const infoUrl = useSelector(state => state.info.url)
@@ -427,21 +415,6 @@ export const Main = (props) => {
   }, [rangeSelect])
 
   // global reset indicator 
-  const [reset, setReset] = useState(false)
-  // function executed when user click clear all, would clear all the data filters 
-  const handleClearAll = () => {
-    setReset(true)
-    setDisplayData(constRawData)
-    document.getElementById("select-studio").value = "All"
-    document.getElementById("select-x-axis").value = "Rating"
-    document.getElementById("select-y-axis").value = "Followers"
-    document.getElementById("select-userStats").value = "All"
-    typesSelected = []
-    seasonsSelected = []
-    tagsSelected = []
-    contentWarningsSelected = []
-
-  }
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -546,62 +519,18 @@ export const Main = (props) => {
     }
   }
 
-  const [typesCheckedState, setTypesCheckedState] = useState(
-    new Array(types.length).fill(false)
-  );
 
-  const handleTypeOnChange = position => {
-
-    const updatedCheckedState = typesCheckedState.map((item, index) =>
-      index === position ? !item : item
-    )
-    setTypesCheckedState(updatedCheckedState)
-    if (updatedCheckedState[position] === true) {
-      typesSelected.push(types[position].typeName)
-      // Here the input is set to be the original data, not the current display data 
-      setDisplayData(processData(constRawData))
-    }
-    else {
-      typesSelected = typesSelected.filter(item => item !== types[position].typeName)
-      setDisplayData(processData(constRawData))
-    }
-  }
-  const [seasonsCheckedState, setSeasonsCheckedState] = useState(new Array(seasons.length).fill(false));
-
-  const handleSeasonOnChange = position => {
-    const updatedCheckedState = seasonsCheckedState.map((item, index) =>
-      index === position ? !item : item
-    )
-    setSeasonsCheckedState(updatedCheckedState)
-    if (updatedCheckedState[position] === true) {
-      seasonsSelected.push(seasons[position].seasonName)
-      // Here the input is set to be the original data, not the current display data 
-      setDisplayData(processData(constRawData))
-    }
-    else {
-      seasonsSelected = seasonsSelected.filter(item => item !== seasons[position].seasonName)
-      setDisplayData(processData(constRawData))
-    }
-  }
-  const handleTagsOnChange = () => {
-    setDisplayData(processData(constRawData))
-  }
   const handleFilterOnChange = () => {
     setDisplayData(processData(constRawData))
   }
-  const tagsClear = () => {
-    tags.forEach(element => {
-      document.getElementById("checkbox-" + element.tagName).checked = false;
-    })
-    tagsSelected = []
-  }
+
   const processData = (data) => {
     // Here maybe add other filters 
     // call this function whenever add new filter
     let returnData = data;
 
     // studio filter
-    if (document.getElementById("select-studio").value != "All") {
+    if (document.getElementById("select-studio").value !== "All") {
       returnData = returnData.filter(function (row) {
         if (row[5] === document.getElementById("select-studio").value) {
           return true
@@ -746,7 +675,7 @@ export const Main = (props) => {
         </ContainerBox>
         <ContainerBox title="Range" className="row-start-3 col-span-7 m-2" >
           {displayData && constRawData
-            && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} reset={reset} />
+            && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} />
           }
         </ContainerBox>
 
@@ -771,16 +700,10 @@ export const Main = (props) => {
   )
 }
 
-const tagsClear = () => {
-  tags.forEach(element => {
-    document.getElementById("checkbox-" + element.tagName).checked = false;
-  })
-  tagsSelected = []
-}
 const filterWithTags = (tagString) => {
   var selectMethod = 0
-  if (selectMethod == 0) {
-    if (tagsSelected.length != 0) {
+  if (selectMethod === 0) {
+    if (tagsSelected.length !== 0) {
       return tagsSelected.every(function (tag) {
         return tagString.includes(tag)
       });
@@ -789,8 +712,8 @@ const filterWithTags = (tagString) => {
       return true;
     }
   }
-  else if (selectMethod == 1) {
-    if (tagsSelected.length != 0) {
+  else if (selectMethod === 1) {
+    if (tagsSelected.length !== 0) {
       return tagsSelected.some(function (tag) {
         return tagString.includes(tag)
       });
@@ -803,7 +726,7 @@ const filterWithTags = (tagString) => {
   }
 }
 const filterWithTypes = (typeString) => {
-  if (typesSelected.length != 0) {
+  if (typesSelected.length !== 0) {
     return typesSelected.some(function (type) {
       return typeString.includes(type)
     });
@@ -813,7 +736,7 @@ const filterWithTypes = (typeString) => {
   }
 }
 const filterWithSeasons = (seasonString) => {
-  if (seasonsSelected.length != 0) {
+  if (seasonsSelected.length !== 0) {
     return seasonsSelected.some(function (season) {
       return seasonString.includes(season)
     });
@@ -823,7 +746,7 @@ const filterWithSeasons = (seasonString) => {
   }
 }
 const filterWithContentWarning = (contentWarningString) => {
-  if (contentWarningsSelected.length != 0) {
+  if (contentWarningsSelected.length !== 0) {
     return !contentWarningsSelected.some(function (contentWarning) {
       return contentWarningString.includes(contentWarning)
     });

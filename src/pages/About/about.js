@@ -22,10 +22,10 @@ export const About = (props) => {
         <div className="title2 absolute" style={{ fontSize: '4vw' }}>Data</div>
         <div className="circle2 absolute bg-gradient-to-b from-circle2-top to-circle2-bottom"></div>
         <div className="content bg-gradient-to-b from-blue-start to-blue-end text-white transform2" style={{ fontSize: '1.3vw' }}>
-        The data is from <a href="https://www.kaggle.com/vishalmane10/anime-dataset-2022" style={{color:"#FFD93D",textDecoration:"underline"}} target="_blank" >
+        The data is from <a href="https://www.kaggle.com/vishalmane10/anime-dataset-2022" style={{color:"#FFD93D",textDecoration:"underline"}}>
         Kaggle dataset
         </a>
-        , that scrapes anime data from the <a href="https://www.anime-planet.com" style={{color:"#FFD93D",textDecoration:"underline"}} target="_blank">
+        , that scrapes anime data from the <a href="https://www.anime-planet.com" style={{color:"#FFD93D",textDecoration:"underline"}}>
          anime planet website
         </a>        
         . It contains 18494 anime. We scraped the anime poster and followers’ data from the website by ourselves and did data cleansing to come up with the final dataset. The data won’t be profitable and is only used for learning purpose. The data is last updated on 2022-01-16.
