@@ -1,30 +1,40 @@
 .team {
   background-image: url("../../assets/team/back.jpeg");
-  background-size:     cover;                   
-  background-repeat:   no-repeat;
-  background-position: center center;   
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .info-tag {
   top: -1.5vw;
 }
-.info-tag-name{
+
+.info-tag-name {
   top: .2vw;
   left: 2.5vw;
 }
+
 .info-text {
   padding: 3vw 2.5vw 0 2.5vw;
 }
+
 .team-logo {
   margin-top: 8vh
 }
+
 .member-info {
   top: 60vh;
 }
+
 .info-tag-mail {
   bottom: 1vw;
   right: 1vw;
 }
+.info-objective {
+  bottom: 1vw;
+  left: 2vw;
+}
+
 
 .team-member {
   top: 30vh;
@@ -36,24 +46,27 @@
   margin-top: auto;
   bottom: 0;
   left: 5vw;
-  
+
   height: 22vh;
   opacity: 0.4;
 }
+
 .team-member-1 {
   bottom: 0;
   left: 16vw;
-  
+
   height: 26vh;
   opacity: 0.4;
 
 }
+
 .team-member-2 {
   bottom: 0;
   left: 30vw;
   height: 33vh;
 
 }
+
 .team-member-3 {
   bottom: 0;
   left: 49vw;
@@ -61,6 +74,7 @@
   opacity: 0.4;
 
 }
+
 .team-member-4 {
   bottom: 0;
   left: 63vw;
@@ -68,19 +82,22 @@
   opacity: 0.4;
 
 }
+
 .left-leave {
   opacity: 1;
 }
 
 .left-leave.left-leave-active {
-  left:  20vw;
+  left: 20vw;
   opacity: 0;
 
   transition: left 1s, opacity 1s;
 }
+
 .alert-exit {
   opacity: 1;
 }
+
 .alert-exit-active {
   opacity: 0;
   transform: scale(0.9);

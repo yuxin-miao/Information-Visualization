@@ -36,7 +36,6 @@ axis-style line {
   font-weight: 400;
   color: white;
   border-radius: 4px;
-  opacity: 0;
   transition: opacity 0.2s;
 
 }
@@ -50,4 +49,8 @@ axis-style line {
   border-width: 5px;
   border-style: solid;
   border-color: #ffffff transparent transparent transparent;
+}
+.zoom-reset-button {
+  top: 6vh;
+  right: 26vw;
 }

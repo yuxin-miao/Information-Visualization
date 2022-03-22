@@ -1,9 +1,7 @@
-import React, { forwardRef, useImperativeHandle } from "react";
+import React from "react";
 import './index.css';
 import '../../index.css'
-import * as d3 from "d3";
-import { useRef, useEffect, useSpring, useState, useMemo } from "react";
-import { useInterval } from '../../utils/useInterval';
+import { useRef, useEffect, useState } from "react";
 
 import FilterArrow from '../../assets/filterarrow.png'
 
@@ -25,14 +23,16 @@ import { InfoPanel } from "../infopanel";
 import { axis } from "../filter/axis";
 import { userStats } from "../filter/userStats";
 import { Dropdown } from "../dropdown";
-import { Checkbox } from "../checkbox";
 import { ForceGraph } from "../../plots/force";
 
-import AutoComplete, { createFilterOptions } from '@mui/material/Autocomplete'
+import AutoComplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField';
-import { value } from "lodash-es";
-import { size } from "lodash-es";
-import { fontSize } from "@mui/system";
+
+
+import Modal from '@mui/material/Modal';
+
+import { styled } from "@mui/styles";
+
 
 import InfoButton from '../../assets/infoIconWhite3.png'
 
@@ -40,6 +40,18 @@ var tagsSelected = []
 var typesSelected = []
 var seasonsSelected = []
 var contentWarningsSelected = []
+
+const StyledAutocomplete = styled(AutoComplete)({
+  "& .MuiAutocomplete-input": {
+    color: "white",
+  },
+  "& .MuiAutocomplete-tag": {
+    color: "white",
+    fontWeight:"bold",
+    backgroundColor:"#00BEDB",
+  },
+
+});
 
 const FilterSection = (props) => {
   const [isFilterActive, setIsFilterActive] = useState(false)
@@ -81,15 +93,15 @@ const FilterSection = (props) => {
   return (
     <div className="col-span-2 absolute filter-wrapper">
       <div
-        className={`absolute text-white bg-filter-blue font-ssp font-bold flex justify-end filter-header ${isFilterActive ? 'active' : ''}`}
+        className={`absolute text-white bg-1 font-ssp font-bold flex justify-end filter-header ${isFilterActive ? 'active' : ''}`}
         onClick={_ => setIsFilterActive(!isFilterActive)}
       >
         <div className='flex filter-button'>
           <p className='self-center' style={{ paddingRight: '.5vw' , fontSize:'0.9vw' }}>Filters</p>
-          <img className={`self-center filter-arrow ${isFilterActive ? 'active' : ''}`} style={{ paddingRight: '1vw' }} src={FilterArrow}/>
+          <img alt='' className={`self-center filter-arrow ${isFilterActive ? 'active' : ''}`} style={{ paddingRight: '1vw' }} src={FilterArrow}/>
         </div>
       </div>
-      <div className={`absolute text-white bg-filter-blue rounded-br font-ssp filter-section ${isFilterActive ? 'active' : ''}`} style={{ fontSize: '1vw' }}>
+      <div className={`absolute text-white bg-filter-blue rounded-br flex font-ssp filter-section ${isFilterActive ? 'active' : ''}`} style={{ fontSize: '1vw' }}>
         <Dropdown
           label="X - Axis"
           value="x-axis"
@@ -142,9 +154,9 @@ const FilterSection = (props) => {
         />
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
           <p>Types</p>
-          <AutoComplete
+          <StyledAutocomplete
             multiple
-            fullWidth
+            fullWidth            
             id="select-type"
             size="small"
             options={types}
@@ -152,13 +164,13 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for types..." />
             )}
-            sx={{ overflow: 'auto', color: 'white' }}
+            sx={{ color: 'white' }}
             onChange={(e, value) => { typesSelected = value.map(v => { return v.typeName }); props.filterAutoCompleteOnChange() }}
           />
         </div>
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
           <p>Released Seasons</p>
-          <AutoComplete
+          <StyledAutocomplete
             multiple
             fullWidth
             id="select-relesedSeason"
@@ -168,13 +180,13 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for released season..." />
             )}
-            sx={{ overflow: 'auto', color: 'white' }}
+            sx={{ color: 'white' }}
             onChange={(e, value) => { seasonsSelected = value.map(v => { return v.seasonName }); props.filterAutoCompleteOnChange() }}
           />
         </div>
         <div className='w-full flex flex-col' style={{ gap: '1vh' }}>
           <p>Tags</p>
-          <AutoComplete
+          <StyledAutocomplete
             multiple
             fullWidth
             id="select-tag"
@@ -184,7 +196,7 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for tags..." />
             )}
-            sx={{ overflow: 'auto', color: 'white' }}
+            sx={{ color: 'white'}}
             onChange={(e, value) => { tagsSelected = value.map(v => { return v.tagName }); props.filterAutoCompleteOnChange() }}
           />
         </div>
@@ -192,11 +204,11 @@ const FilterSection = (props) => {
           <div className="flex" style={{ gap: '1vw' }}>
             <p>Content Warnings</p>
             <div className="ttipm self-center">
-              <img style={{ width: `${window.innerWidth * 0.01}px`, height: `${window.innerWidth * 0.01}px` }} src={InfoButton} />
+              <img alt='' style={{ width: `${window.innerWidth * 0.01}px`, height: `${window.innerWidth * 0.01}px` }} src={InfoButton} />
               <span className="ttiptextm">Filter anime without selected content warnings</span>
             </div>
           </div>
-          <AutoComplete
+          <StyledAutocomplete
             multiple
             fullWidth
             id="select-contentWarning"
@@ -206,7 +218,7 @@ const FilterSection = (props) => {
             renderInput={(params) => (
               <TextField {...params} placeholder="Search for content warnings..." />
             )}
-            sx={{ overflow: 'auto', color: 'white' }}
+            sx={{ color: 'white' }}
             // onChange={(e,value)=>{contentWarningsSelected=value;props.filterAutoCompleteOnChange()}}
             onChange={(e, value) => { contentWarningsSelected = value.map(v => { return v.warningName }); props.filterAutoCompleteOnChange() }}
           />
@@ -257,24 +269,54 @@ export const Main = (props) => {
     }
   }, [plotRef]);
 
+  /****** setup for the searchbox search result ******/
   const [selectSuggestion, setSelectSuggestion] = useState([])
 
   /****** setup for the force directed graph ******/
-  // ref for the wrapper of forceGraph 
+  // ref for the wrapper of forceGraph in the original related component 
   const forceRef = useRef()
   const [forceSetting, setForceSetting] = useState({
     width: 650,
     height: 300,
+    fontSize: {
+      main: '0.8vw',
+      related: '0.4vw',
+      tag: '0.6vw',
+    },
+    linkDistance: 80,
+    collisionRaiuds: 30,
+    radiusSetting: {
+      main: 15+20,
+      related: 15+8,
+      tag: 5,
+    }
+  })
+    // ref for the wrapper of forceGraph in the original related component 
+  const modalForceSetting =({
+    width: window.innerWidth * 0.6,
+    height: window.innerHeight * 0.8,
+    fontSize: {
+      main: '1.6vw',
+      related: '1.2vw',
+      tag: '0.8vw',
+    },
+    linkDistance: 180,
+    collisionRaiuds: 60,
+    radiusSetting: {
+      main: 35+20,
+      related:35+8,
+      tag: 10,
+    }
   })
   // boolean value for whether draw the graph 
   const [drawForce, setDrawForce] = useState(false)
   useEffect(() => {
     if (forceRef && forceRef.current) {
       setForceSetting({
-        width: forceRef.current.offsetWidth,
-        height: forceRef.current.offsetHeight,
+        ...forceSetting,
+        width: forceRef.current.offsetWidth * 0.94,
+        height: forceRef.current.offsetHeight * 0.94,
       })
-      console.log(forceRef.current.offsetHeight, forceRef.current.offsetWidth)
       setDrawForce(true)
     }
   }, [forceRef])
@@ -297,7 +339,7 @@ export const Main = (props) => {
         }
       }
 
-      // only related Anime no mange? 
+      // only related Anime no mange
       let relatedList = []
       if (animeInfo[14]) {
         relatedList = animeInfo[14].split(",");
@@ -329,11 +371,9 @@ export const Main = (props) => {
     })
   }, []);
 
-  // console.log(displayData)
 
   // When other components need data, import it 
   // So no need to papaparse everytime
-  // Test
   let [rawSetData, setRawSetData] = useState();
   useEffect(() => {
     parseSetData((result) => {
@@ -352,12 +392,7 @@ export const Main = (props) => {
     rates: [],
   })
 
-  let [tagsCheckedState, setTagsCheckedState] = useState(
-    new Array(tags.length).fill(false)
 
-  );
-
-  const dropDownRef = useRef()//dropdown ref for tag selection
 
   const InfoDispatch = useDispatch()
   const infoUrl = useSelector(state => state.info.url)
@@ -380,51 +415,16 @@ export const Main = (props) => {
   }, [rangeSelect])
 
   // global reset indicator 
-  const [reset, setReset] = useState(false)
-  // function executed when user click clear all, would clear all the data filters 
-  const handleClearAll = () => {
-    setReset(true)
-    // tagsClear()
-    setDisplayData(constRawData)
-    document.getElementById("select-studio").value = "All"
-    // document.getElementById("select-contentwarning").value = "All"
-    document.getElementById("select-x-axis").value = "Rating"
-    document.getElementById("select-y-axis").value = "Followers"
-    document.getElementById("select-userStats").value = "All"
-    //console.log(document.getElementById("select-tag").value) 
-    // setTypesCheckedState(new Array(types.length).fill(false))
-    typesSelected = []
-    // setSeasonsCheckedState(new Array(seasons.length).fill(false))
-    seasonsSelected = []
-    tagsSelected = []
-    contentWarningsSelected = []
-
-    /*setPlotSetting(
-      {
-        ...plotSetting,
-        xVar: {
-          idx: 4,
-          name: "Episodes"
-        },
-        yVar: {
-
-          idx: 8,
-          name: "Rating"
-        }
-      }
-    )*/
-
-  }
-
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  
   // When user click one suggestion from the search box suggestion
   // should also clear all current selection 
   const clickSuggestion = (suggestion) => {
-    // setDisplayData(constRawData)
-    // handleClearAll()
     const suggestionArray = []
     if (suggestion.type === "anime") {
       suggestionArray.push(String(suggestion.val))
-      //console.log(constRawData.filter(row=>row[1]===suggestion.val))
       refreshInfo(constRawData.filter(row => row[1] === suggestion.val), InfoDispatch)
       setRelatedAnime(String(suggestion.val))
     } else if (suggestion.type === "voice actor") {
@@ -440,10 +440,8 @@ export const Main = (props) => {
 
   // when user click ralated anime
   const clickRelatedAnime = (animeName) => {
-    console.log(animeName)
     var tempName = animeName
-    // setRelatedAnime(animeName)
-    if (tempName[0] == ' ') {
+    if (tempName[0] === ' ') {
       tempName = tempName.slice(1)
     }
     refreshInfo(constRawData.filter(x => x[1] === tempName), InfoDispatch)
@@ -485,7 +483,6 @@ export const Main = (props) => {
 
   const handleStudioOnChange = e => {
     const value = e.target.value
-    console.log(e.target)
     if (value === "All") {
       setDisplayData(constRawData)
     }
@@ -497,7 +494,6 @@ export const Main = (props) => {
 
   const handleUserStatsOnChange = e => {
     const value = e.target.value
-    console.log(e.target)
     if (value === "All") {
       setDisplayData(constRawData)
     }
@@ -523,91 +519,18 @@ export const Main = (props) => {
     }
   }
 
-  // const handleContentWarnOnChange = e => {
-  //   const value = e.target.value
-  //   setDisplayData(
-  //     constRawData.filter(item => {
-  //       if (item[12] === null || !value.some(r=> item[12].includes(r))){
-  //         return true
-  //       }
-  //       return false
-  //     })
-  //   )
-  // }
 
-  const [typesCheckedState, setTypesCheckedState] = useState(
-    new Array(types.length).fill(false)
-  );
-
-  const handleTypeOnChange = position => {
-
-    const updatedCheckedState = typesCheckedState.map((item, index) =>
-      index === position ? !item : item
-    )
-    setTypesCheckedState(updatedCheckedState)
-    if (updatedCheckedState[position] === true) {
-      typesSelected.push(types[position].typeName)
-      // Here the input is set to be the original data, not the current display data 
-      setDisplayData(processData(constRawData))
-    }
-    else {
-      typesSelected = typesSelected.filter(item => item !== types[position].typeName)
-      setDisplayData(processData(constRawData))
-    }
-  }
-  const [seasonsCheckedState, setSeasonsCheckedState] = useState(new Array(seasons.length).fill(false));
-
-  const handleSeasonOnChange = position => {
-    const updatedCheckedState = seasonsCheckedState.map((item, index) =>
-      index === position ? !item : item
-    )
-    setSeasonsCheckedState(updatedCheckedState)
-    if (updatedCheckedState[position] === true) {
-      seasonsSelected.push(seasons[position].seasonName)
-      // Here the input is set to be the original data, not the current display data 
-      setDisplayData(processData(constRawData))
-    }
-    else {
-      seasonsSelected = seasonsSelected.filter(item => item !== seasons[position].seasonName)
-      setDisplayData(processData(constRawData))
-    }
-  }
-  /*const handleTagsOnChange = (position) => {
-    const updatedCheckedState = tagsCheckedState.map((item, index) =>
-      index === position ? !item : item
-    )
-    setTagsCheckedState(updatedCheckedState)
-    if (updatedCheckedState[position] === true) {
-      tagsSelected.push(tags[position].tagName)
-      // Here the input is set to be the original data, not the current display data 
-      setDisplayData(processData(constRawData))
-    }
-    else {
-      tagsSelected = tagsSelected.filter(item => item !== tags[position].tagName)
-      setDisplayData(processData(constRawData))
-    }
-
-  }*/
-  const handleTagsOnChange = () => {
-    setDisplayData(processData(constRawData))
-  }
   const handleFilterOnChange = () => {
     setDisplayData(processData(constRawData))
   }
-  const tagsClear = () => {
-    tags.forEach(element => {
-      document.getElementById("checkbox-" + element.tagName).checked = false;
-    })
-    tagsSelected = []
-  }
+
   const processData = (data) => {
     // Here maybe add other filters 
     // call this function whenever add new filter
     let returnData = data;
-    //let returnData=data.filter(row=>true);
 
     // studio filter
-    if (document.getElementById("select-studio").value != "All") {
+    if (document.getElementById("select-studio").value !== "All") {
       returnData = returnData.filter(function (row) {
         if (row[5] === document.getElementById("select-studio").value) {
           return true
@@ -729,93 +652,10 @@ export const Main = (props) => {
       <div className="col-start-3 col-span-full main-grid">
         {displayData && <SearchBox rawSetData={rawSetData} animeData={extractColumn(constRawData, 1)}
           handleClickSuggestion={clickSuggestion} className="col-span-4 m-2" />}
-        {/* <ContainerBox title="Tags" className="row-start-2 col-start-1 col-span-4 m-2">
 
-        <ul className="tags-list h-full w-full grid grid-cols-5 grid-rows-6 gap-2 p-5">
-          {tags.map(({ tagName }, index) => {
-
-            return (
-              <li key={index} className={`text-white font-ssp self-center col-start-${index % 5 + 1} row-start-${Math.floor(index / 5) + 1}`}>
-                <Checkbox name={tagName} label={tagName} onChange={() => handleTagsOnChange(index)} />
-              </li>
-            );
-          })}
-          <button type="button"
-            className="text-white col-start-3 row-start-6 self-center font-ssp bg-gray-900 rounded-lg outline outline-offset-2 outline-highlight-blue"
-            onClick={
-              function () {
-                tagsClear()
-                setDisplayData(processData(constRawData))
-              }
-            }
-            style={{ fontSize: '.7vw' }}
-          >Clear</button>
-          <Dropdown
-            ref={dropDownRef}
-            onChange={function (event) {
-              dropDownRef.current.onChange(event)
-              setDisplayData(processData(constRawData))
-              console.log(event.target[event.target.value].text)
-            }}
-            label="Tag Selection"
-            value="tagSelection"
-            className="col-start-4 col-span-2 row-start-6 font-ssp self-center px-2"
-            options={[{ value: 0, label: 'Intersection' }, { value: 1, label: 'Union' }]}>
-          </Dropdown>
-        </ul>
-
-      </ContainerBox>
-      <ContainerBox title="Filters" className="row-start-2 col-start-5 col-span-full filter-grid m-2 p-5">
-        <div className="grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
-          <p className="text-white font-ssp font-bold self-center col-span-2">X - Axis</p>
-          <select onChange={handleXOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh' }} defaultValue="Episodes" name="x-axis" id="select-x-axis">
-            {axis.map(val => <option key={`x-axis-${val}`} value={val}>{val}</option>)}
-          </select>
-        </div>
-        <div className="row-start-4 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
-          <p className="text-white font-ssp font-bold self-center col-span-2">Y - Axis</p>
-          <select onChange={handleYOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh' }} defaultValue="Rating" name="y-axis" id="select-y-axis">
-            {axis.map(val => <option key={`y-axis-${val}`} value={val}>{val}</option>)}
-          </select>
-        </div>
-        <div className="col-start-2 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
-          <p className="text-white font-ssp font-bold self-center col-span-2">Studio</p>
-          <select onChange={handleStudioOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh' }} name="studio" id="select-studio">
-            <option key="studio-All" value="All">All</option>
-            {Filter(1).map(val => <option key={`studio-${val}`} value={val}>{val}</option>)}
-          </select>
-        </div>
-        <div className="col-start-2 row-start-4 grid grid-cols-5 gap-2" style={{ fontSize: '.9vw' }} >
-          <p className="text-white font-ssp font-bold self-center col-span-2">Content Warn</p>
-          <select onChange={handleContentWarnOnChange} className="col-start-3 col-span-full rounded text-center bg-gray-200 self-center" style={{ height: '3vh' }} name="contentwarning" id="select-contentwarning">
-            <option key="contentwarning-All" value="All">All</option>
-            <option key="contentwarning-No" value="No">No Warning</option>
-            {Filter(3).map(val => <option key={`contentwarning-${val}`} value={val}>{val}</option>)}
-          </select>
-        </div>
-        <div className="col-start-3 col-span-full row-span-3 grid grid-cols-6 grid-rows-2 gap-2 font-ssp text-white">
-          <p className="text-xs self-center justify-self-center text-center font-bold" style={{ fontSize: '.8vw' }}>Type</p>
-          <Checkbox name="movie" label="Movie" checked={typesCheckedState[1]} onChange={() => handleTypeOnChange(1)} />
-          <Checkbox name="music" label="Music" checked={typesCheckedState[2]} onChange={() => handleTypeOnChange(2)} />
-          <Checkbox name="dvd-special" label="DVD Special" checked={typesCheckedState[0]} onChange={() => handleTypeOnChange(0)} />
-          <Checkbox name="ova" label="OVA" checked={typesCheckedState[4]} onChange={() => handleTypeOnChange(4)} />
-          <Checkbox className="row-start-2 col-start-2" name="tv" label="TV" checked={typesCheckedState[5]} onChange={() => handleTypeOnChange(5)} />
-          <Checkbox className="row-start-2 col-start-3" name="tv-special" label="TV Special" checked={typesCheckedState[6]} onChange={() => handleTypeOnChange(6)} />
-          <Checkbox className="row-start-2 col-start-4" name="web" label="Web" checked={typesCheckedState[7]} onChange={() => handleTypeOnChange(7)} />
-          <Checkbox className="row-start-2 col-start-5" name="other" label="Other" checked={typesCheckedState[3]} onChange={() => handleTypeOnChange(3)} />
-        </div>
-        <div className="col-start-3 row-start-4 row-span-2 grid grid-cols-6 grid-rows-1 gap-2 font-ssp text-white">
-          <p className="text-xs self-center justify-self-center text-center font-bold leading-8" style={{ fontSize: '.8vw' }}>Released Season</p>
-          <Checkbox name="spring" label="Spring" checked={seasonsCheckedState[0]} onChange={() => handleSeasonOnChange(0)} />
-          <Checkbox name="summer" label="Summer" checked={seasonsCheckedState[1]} onChange={() => handleSeasonOnChange(1)} />
-          <Checkbox name="fall" label="Fall" checked={seasonsCheckedState[2]} onChange={() => handleSeasonOnChange(2)} />
-          <Checkbox name="winter" label="Winter" checked={seasonsCheckedState[3]} onChange={() => handleSeasonOnChange(3)} />
-        </div>
-      </ContainerBox> */}
         <div ref={plotRef} className="row-start-2 col-span-7 m-2">
-          {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion} setRelatedAnime={setRelatedAnime} />}
+          {displayData && drawPlot && <ScatterPlot settings={plotSetting} displayData={displayData} infoDispatch={InfoDispatch} highlight={selectSuggestion} setRelatedAnime={setRelatedAnime}/>}
         </div>
-        {/*<button className="font-ssp z-10 bg-white hover:bg-gray-100 text-gray-800 py-0.5 px-2 border border-gray-400 rounded shadow" style={{ margin: '.6vh .8vw', fontSize: '1vw' }} onClick={handleClearAll}>Clear All</button>*/}
         <ContainerBox url={infoUrl} title="Info" className="row-start-2 col-start-8 col-span-full m-2" >
           <InfoPanel
             animeTitle={infoTitle}
@@ -835,58 +675,35 @@ export const Main = (props) => {
         </ContainerBox>
         <ContainerBox title="Range" className="row-start-3 col-span-7 m-2" >
           {displayData && constRawData
-            && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} reset={reset} />
+            && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} />
           }
         </ContainerBox>
 
         <ContainerBox title="Related" className="row-start-3 col-start-8 col-span-full m-2" >
           <div className="w-full h-full" ref={forceRef}>
-            {drawForce && <ForceGraph settings={forceSetting} nodes={nodes} clicked={clickRelatedAnime} />}
+            {drawForce && !open && <ForceGraph settings={forceSetting} nodes={nodes} clicked={clickRelatedAnime} inModal={false} />}
           </div>
+          { nodes.length !== 0 && <div className="popup-button" onClick={handleOpen}>Open in modal</div>}
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <div className="popup-modal">
+              {drawForce && <ForceGraph settings={modalForceSetting} nodes={nodes} clicked={clickRelatedAnime} inModal={true} />}
+            </div>
+          </Modal>
         </ContainerBox>
       </div>
-      {/* <ContainerBox url={infoUrl} title="Info" className="row-start-2 col-start-8 col-span-full m-4" >
-        <InfoPanel
-          animeTitle={infoTitle}
-          animeDescription={infoDescription}
-          animeStudio={infoStudio}
-          animeReleaseYear={infoReleaseYear}
-          animeType={infoType}
-          animeSeason={infoSeason}
-          animeRank={infoRank}
-          animeRating={infoRating}
-          animeVoiceActors={infoVoiceActors}
-          animeStaff={infoStaff}
-          animePosterUrl={infoPosterUrl}
-          animeUserStat={infoUserStat}
-          animeTags={infoTags}
-        />
-      </ContainerBox>
-      <ContainerBox title="Range" className="row-start-3 col-span-7 m-2" >
-        {displayData && constRawData
-          && <RangeSelection activeAnime={displayData.length} allAnime={constRawData} setRangeSelect={setRangeSelect} reset={reset} />
-        }
-      </ContainerBox>
-
-      <ContainerBox title="Related" className="row-start-3 col-start-8 col-span-full m-2" >
-        <div className="w-full h-full" ref={forceRef}>
-            { drawForce && <ForceGraph settings={forceSetting} nodes={nodes} clicked={clickRelatedAnime} />  }
-          </div> 
-      </ContainerBox> */}
     </>
   )
 }
 
-const tagsClear = () => {
-  tags.forEach(element => {
-    document.getElementById("checkbox-" + element.tagName).checked = false;
-  })
-  tagsSelected = []
-}
 const filterWithTags = (tagString) => {
   var selectMethod = 0
-  if (selectMethod == 0) {
-    if (tagsSelected.length != 0) {
+  if (selectMethod === 0) {
+    if (tagsSelected.length !== 0) {
       return tagsSelected.every(function (tag) {
         return tagString.includes(tag)
       });
@@ -895,8 +712,8 @@ const filterWithTags = (tagString) => {
       return true;
     }
   }
-  else if (selectMethod == 1) {
-    if (tagsSelected.length != 0) {
+  else if (selectMethod === 1) {
+    if (tagsSelected.length !== 0) {
       return tagsSelected.some(function (tag) {
         return tagString.includes(tag)
       });
@@ -906,11 +723,10 @@ const filterWithTags = (tagString) => {
     }
   }
   else {
-    console.log("wrong entry");
   }
 }
 const filterWithTypes = (typeString) => {
-  if (typesSelected.length != 0) {
+  if (typesSelected.length !== 0) {
     return typesSelected.some(function (type) {
       return typeString.includes(type)
     });
@@ -920,7 +736,7 @@ const filterWithTypes = (typeString) => {
   }
 }
 const filterWithSeasons = (seasonString) => {
-  if (seasonsSelected.length != 0) {
+  if (seasonsSelected.length !== 0) {
     return seasonsSelected.some(function (season) {
       return seasonString.includes(season)
     });
@@ -930,7 +746,7 @@ const filterWithSeasons = (seasonString) => {
   }
 }
 const filterWithContentWarning = (contentWarningString) => {
-  if (contentWarningsSelected.length != 0) {
+  if (contentWarningsSelected.length !== 0) {
     return !contentWarningsSelected.some(function (contentWarning) {
       return contentWarningString.includes(contentWarning)
     });
@@ -993,12 +809,8 @@ export const refreshInfo = (rawData, infoDispatch) => {
       }
     })
   }
-  // console.log(data.userStat)
   const animeName = data.label ? data.label : data[0][1];
-  /*var posterUrl = animeName.replace('\'', '').replace(/[^\u2018-\u2019\u4e00-\u9fa5a-zA-Z0-9]/g, '-').replaceAll("---", '-').replaceAll("--", '-').toLowerCase();
-  if (posterUrl[posterUrl.length - 1] == '-') {
-    posterUrl = posterUrl.slice(0, posterUrl.length - 1);
-  }*/
+
   var posterUrl = data.posterUrl
 
   var descriptionCleansed = data.description.replaceAll("\\xa0", ' ')

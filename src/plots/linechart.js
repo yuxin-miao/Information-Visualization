@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import './linechart.css'; 
-import React, { useState } from "react";
+import React from "react";
 import { useRef, useEffect } from "react";
 import RefreshIcon from "../assets/refresh.png";
 
@@ -44,7 +44,7 @@ export const LineChart = ({settings, data, customized, handleEndBrush, reset}) =
     var bounds = d3.extent(data, d => d.xVal);
     var interval = bounds[1] - bounds[0];
     var gradientColor = (p) => {
-      return d3.interpolateHslLong(customized[0], customized[1])((p[0].xVal-bounds[0])/interval);
+      return d3.interpolateRgb(customized[0],customized[1])((p[0].xVal-bounds[0])/interval);
     };
     // draw the line 
     var newline = d3.line()
@@ -109,15 +109,12 @@ export const LineChart = ({settings, data, customized, handleEndBrush, reset}) =
     d3.select(".brush".concat(rangeId)).style("opacity", 0)
     handleEndBrush(-1,-1)
   }
-  useEffect(() => {
-    if (reset) handleOnRefresh()
-  }, [reset]) 
   return (
     <>    
       <div id={rangeId}></div>
       <div className="flex">
         <svg ref = {ref}/>
-        <img onClick={handleOnRefresh} className="h-full self-center ml-1 pt-3" src={RefreshIcon} style={{ width: '6%' }} />     
+        <img alt='' onClick={handleOnRefresh} className="h-full self-center ml-1 pt-3" src={RefreshIcon} style={{ width: '6%', cursor: "pointer" }} />     
       </div>
     </>
 

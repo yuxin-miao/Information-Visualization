@@ -52,7 +52,7 @@ export const Team = (props) => {
           {photos.map((item, index) => {
             return (
                 <div className={`team-member-${index} absolute h-full`}  key={index} onClick={() => onClickPhoto(index)}>         
-                  <img alt='' className="h-full" src={item.name} />
+                  <img alt='' className="h-full" src={item.name} style={{ cursor: "pointer" }}/>
                 </div>
               )
           })}
@@ -72,39 +72,46 @@ const Info = (props) => {
       'mail': 'mhnf@kth.se',
       'distribution': 'React, D3.js, and CI/CD',
       'anime': 'Monogatari Series and Nichijou',
-      'intro': 'I am responsible for the styling and implementing the design of the website, and I also helped with deploying the application. My background is in computer science and I have work experience as a software engineer. My interest is in game development and computer graphics.'
+      'intro': 'I am responsible for the styling and implementing the design of the website, and I also helped with deploying the application. My background is in computer science and I have work experience as a software engineer. My interest is in game development and computer graphics.',
+      'objective': 'Learning about interaction programming and improve communication skills'
     },
     {
-      'name': 'Kwan Mei Wong (Jenny)',
+      'name': 'Kwan Mei Wong',
       'mail': 'kmwong@kth.se',
       'distribution': 'React and Testing',
       'anime': 'School Babysitters',
-      'intro': 'Jenny is responsible for frontend development. She mainly works with React.js to build different anime filters, e.g. x and y axis, studio, types and content warnings filters. She learnt how to use React.js from this project.'
+      'intro': 'I am responsible for frontend development. I mainly work with React.js to build different anime filters, e.g. x and y axis, studio, types and content warnings filters. I learnt how to use React.js from this project.',
+      'objective': 'Learning some basic visualization concepts and how to use React.js'
     },
     {
       'name': 'Qinbai',
       'mail': 'baiq@kth.se',
       'distribution': 'React, Data Scraping, and D3.js',
       'anime': 'Attack on Titan',
-      'intro': 'I like anime, movies and gaming. I have a software engineering background and made several games with Unity before. This is my first time getting into web development. I dealt with data by scraping the poster url and follower stats, and completed the tags filter, zoom and pan function. I certainly learnt a lot about react and d3 during the process.'
+      'intro': 'I like anime, movies and gaming. I have a software engineering background and made several games with Unity before. This is my first time getting into web development. I dealt with data by scraping the poster url and follower stats, and completed the tags filter, zoom and pan function.',
+      'objective': 'Learning about the web development process, React and D3.js'
     },
     {
       'name': 'Yuanyang Ren',
       'mail': 'yren@kth.se',
-      'distribution': 'UX / Visual Style design and D3.js',
-      'anime': 'Pokemon and Fairy Tail',
-      'intro': 'Having a background in interaction and web design, explored the visual structure and conducted the design process of the Animeet web (from ideation to prototype).  Contribute visual scheme design and visualization graphs design and their interaction and operation module design. Made lo-fi and hi-fi prototypes and UX instructions for supporting the development phase. Co-operated with the team for web development using react. Mainly, developed the force-directed graph by D3.js.'
+      'distribution': 'UX , Visual Style design and D3.js',
+      'anime': 'Pokemon',
+      'intro': 'Having a background in interaction and web design, explored the visual structure and conducted the design process of the Animeet web (from ideation to prototype).  Contribute visual scheme design and visualization graphs design and their interaction and operation module design. Made lo-fi and hi-fi prototypes and UX instructions for supporting the development phase. Co-operated with the team for web development using react. Mainly, developed the force-directed graph by D3.js.',
+      'objective': 'Learning about React and D3.js'
+
     },
     {
       'name': 'Xinmiao Yu',
       'mail': 'xinmiao@kth.se',
       'distribution': 'React and D3.js',
       'anime': 'Fairy Tail',
-      'intro': 'Having some experience about web development using React. Created the initial version of the scatterplot by D3.js. Implemented the Range selection component and built line charts by D3.js. Implemented the search box component with auto-complete function. Developed the pages About, Team and Demo. '
+      'intro': 'Having some experience about web development using React. Created the initial version of the scatterplot by D3.js. Implemented the Range selection component and built line charts by D3.js. Implemented the search box component with auto-complete function. Developed the pages About, Team and Demo. ',
+      'objective': 'Learning about visualization pipeline and developing a web-based visualization tool'
+
     },
   ]
   return (
-    <div className="info rounded bg-gradient-to-b from-teaminfo-start to-teaminfo-end mx-10 font-ssp text-white relative" style={{ height: '15vw' }}>
+    <div className="info rounded bg-gradient-to-b from-teaminfo-start to-teaminfo-end mx-10 font-ssp text-white relative" style={{ height: '16vw' }}>
       <div className="info-tag absolute">
         <img alt='' src={NameTitle} style={{ height: '3vw' }} />
         <span className="info-tag-name absolute" style={{ fontSize: '1.6vw' }}>{memberInfos[props.displayOne].name}</span>  
@@ -115,6 +122,7 @@ const Info = (props) => {
           <span className="w-1/2"> Favorite Anime: {memberInfos[props.displayOne].anime}</span>
         </div>
         <div style={{ fontSize: '1.2vw' }}> {memberInfos[props.displayOne].intro}</div>
+        <span className="info-objective absolute" style={{ fontSize: '1.2vw' }}> Learning Objective: {memberInfos[props.displayOne].objective}</span>  
         <span className="info-tag-mail absolute" style={{ fontSize: '1.2vw' }}>{memberInfos[props.displayOne].mail}</span>  
       </div>
     </div>

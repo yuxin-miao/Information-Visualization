@@ -28,9 +28,13 @@
   height: 100%;
   padding: .5vh 1vw;
 
-  display: grid;
+  /* display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(4, 5%) repeat(3, 12%) 20%;
+  gap: 2vh; */
+
+  display: flex;
+  flex-direction: column;
   gap: 2vh;
 
   overflow-y: scroll;
@@ -46,6 +50,8 @@
 .filter-arrow {
   transform: rotate(180deg);
   transition: all .5s;
+  width: 2vw;
+  margin-right: 0.5vw;
 }
 
 .filter-arrow.active {
@@ -54,14 +60,14 @@
 
 .filter-header {
   pointer-events: fill;
-  top: -3vh;
+  top: -4vh;
   left: -8vw;
   font-size: 1vw;
   height: 8%;
   width: 100%;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-
+  background-color: #1B4688;
   transition: all .5s;
 }
 
@@ -73,8 +79,8 @@
 .filter-button {
   cursor: pointer;
   padding-right: 0.25vw;
-
   transition: all .5s;
+
 }
 
 .filter-button.active {
@@ -94,7 +100,7 @@
   text-align: center;
   border-radius: 6px;
   padding: 1vh 1vw;
-  
+
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
@@ -118,4 +124,33 @@
   margin: .9vh .8vw;
   margin-top: 1.2vh;
   font-size: 1vw;
+}
+
+.popup-button {
+  cursor: grab;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-width: 1px;
+  border-color: cyan;
+  border-radius: 20px;
+  background-color: #0A0935;
+  color: rgb(255, 255, 255);
+  padding: 0.4vh 0.8vw;
+  font-size: 1vw;
+}
+
+.popup-button:hover {
+  background-color: #1A1961;
+
+}
+
+.popup-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px cyan solid;
+  background-color: #0A0935;
+  border-radius: 10px;
 }

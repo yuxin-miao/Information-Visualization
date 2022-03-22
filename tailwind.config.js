@@ -26,6 +26,8 @@ module.exports = {
         'circle5-bottom': '#382B62',
         'teaminfo-start': 'rgba(66, 76, 109, 0.9)',
         'teaminfo-end': 'rgba(11, 27, 97, 0.9)',
+        'bl-end': '#147AD4',
+        'bl-start': '#00427C',
       }
     },
   },

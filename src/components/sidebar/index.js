@@ -50,7 +50,7 @@ export const Sidebar = (props) => {
     }, [location])
 
     return (
-        <div className={`${props.className ? props.className : ''} dotted-spaced right side-grid relative pt-4`}>
+        <div className={`${props.className ? props.className : ''} dotted-spaced right side-grid relative pt-4 background1`}>
             <div className="justify-self-center h-min">
                 <img className="side-logo" src={Logo} />
             </div>

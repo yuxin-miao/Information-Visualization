@@ -14,7 +14,7 @@ axisStyle line {
 .rangetip {
   opacity: 0;
   position: absolute;
-  background-image: linear-gradient(to right, #59C173, #a17fe0, #5D26C1);
+  background-color: rgb(3, 173, 173);
   z-index: 100;
   padding: 1px;
   padding-left: 3px;
